@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drew Segovia — Math & Physics Tutoring</title>
+<meta name="description" content="Private math and physics tutoring for K-12 students, plus SAT prep, in Falmouth & Cape Cod, MA and online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F6F3EA;
+    --paper-raised: #FBF9F3;
+    --ink: #1E2B3C;
+    --ink-soft: #4A5568;
+    --ink-faint: #7A8496;
+    --ocean: #2C6E75;
+    --ocean-deep: #1F4E54;
+    --amber: #C98A2B;
+    --amber-soft: #E8D9BC;
+    --line: #D8D2C0;
+    --line-soft: #E8E3D5;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  img, svg { display: block; max-width: 100%; }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- Focus ---------- */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--ocean);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Nav ---------- */
+  header.site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(246, 243, 234, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .brand-text span {
+    display: block;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-faint);
+    margin-top: 2px;
+  }
+
+  nav.primary-links {
+    display: flex;
+    gap: 30px;
+  }
+
+  nav.primary-links a {
+    text-decoration: none;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: color 0.15s ease;
+  }
+
+  nav.primary-links a:hover { color: var(--ink); }
+
+  .nav-cta {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper) !important;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14.5px;
+    font-weight: 600;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .nav-cta:hover { background: var(--ocean-deep); }
+
+  .menu-toggle { display: none; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 34px 34px;
+    background-position: -1px -1px;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 55% at 78% 30%, rgba(246,243,234,0) 0%, var(--paper) 72%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 96px 32px 110px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    font-size: 15px;
+    color: var(--ocean-deep);
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  h1.hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(34px, 4.4vw, 52px);
+    line-height: 1.12;
+    font-weight: 600;
+    color: var(--ink);
+    max-width: 15ch;
+  }
+
+  .hero-sub {
+    margin-top: 22px;
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    margin-top: 34px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary, .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    padding: 13px 24px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn-primary:hover { background: var(--ocean-deep); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .hero-meta {
+    margin-top: 28px;
+    font-size: 14px;
+    color: var(--ink-faint);
+  }
+
+  .hero-figure {
+    position: relative;
+    height: 320px;
+  }
+
+  .hero-figure svg { width: 100%; height: 100%; }
+
+  .curve-path {
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    animation: draw 1.8s ease-out 0.3s forwards;
+  }
+
+  .curve-dot {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 1.9s forwards;
+  }
+
+  .curve-label {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out 2.1s forwards;
+  }
+
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .curve-path, .curve-dot, .curve-label {
+      animation: none !important;
+      opacity: 1 !important;
+      stroke-dashoffset: 0 !important;
+    }
+  }
+
+  /* ---------- Section shell ---------- */
+  section {
+    padding: 92px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-head {
+    max-width: 62ch;
+    margin-bottom: 52px;
+  }
+
+  .section-kicker {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ocean-deep);
+    margin-bottom: 12px;
+  }
+
+  h2.section-title {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.2vw, 36px);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+
+  .section-desc {
+    margin-top: 14px;
+    font-size: 16.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  /* ---------- About ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .avatar {
+    width: 176px;
+    height: 176px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 56px;
+    font-weight: 600;
+    border: 6px solid var(--paper-raised);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+
+  .about-text p {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    margin-bottom: 18px;
+    max-width: 62ch;
+  }
+
+  .credentials {
+    margin-top: 28px;
+    border-top: 1px solid var(--line);
+    padding-top: 26px;
+  }
+
+  .credential-row {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .credential-row:last-child { border-bottom: none; }
+
+  .credential-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    padding-top: 2px;
+  }
+
+  .credential-value {
+    font-size: 15.5px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  .credential-value strong { font-weight: 600; }
+
+  /* ---------- Subjects ---------- */
+  .subject-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .subject-item {
+    display: grid;
+    grid-template-columns: 200px 1fr 150px;
+    gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+
+  .subject-name {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .subject-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transform: translateY(-1px);
+  }
+
+  .subject-desc {
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    max-width: 52ch;
+  }
+
+  .subject-grades {
+    font-size: 14px;
+    color: var(--ink-faint);
+    text-align: right;
+    padding-top: 2px;
+  }
+
+  /* ---------- Process ---------- */
+  .process-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+  }
+
+  .process-item {
+    position: relative;
+    padding-top: 8px;
+  }
+
+  .process-num {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--amber);
+    border: 1.5px solid var(--amber);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .process-title {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .process-desc {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* ---------- Pricing ---------- */
+  .pricing-note {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--ocean);
+    padding: 18px 22px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  table.pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15.5px;
+  }
+
+  .pricing-table th {
+    text-align: left;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 15.5px;
+    color: var(--ink);
+    padding: 14px 18px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .pricing-table td {
+    padding: 18px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+
+  .pricing-table tr:last-child td { border-bottom: 1px solid var(--ink); }
+
+  .pricing-table td.tier-name {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .pricing-table td.tier-name span {
+    display: block;
+    font-weight: 400;
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    margin-top: 3px;
+  }
+
+  .price-figure {
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--ink);
+  }
+
+  .best-value {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ocean-deep);
+    background: #E4EEEE;
+    padding: 3px 9px;
+    border-radius: 3px;
+    margin-left: 10px;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-section {
+    border-bottom: none;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .contact-section .section-kicker { color: var(--amber); }
+
+  .contact-section h2.section-title { color: var(--paper); }
+
+  .contact-section .section-desc { color: #C7CDD8; }
+
+  .contact-methods {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #37455A;
+    text-decoration: none;
+    color: var(--paper);
+  }
+
+  .contact-link:first-child { padding-top: 0; }
+
+  .contact-link-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8894A8;
+    width: 60px;
+    flex-shrink: 0;
+  }
+
+  .contact-link-value {
+    font-family: var(--serif);
+    font-size: 20px;
+  }
+
+  .contact-side {
+    background: #263349;
+    border: 1px solid #37455A;
+    border-radius: 4px;
+    padding: 30px;
+  }
+
+  .contact-side h3 {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .contact-side p {
+    font-size: 14.5px;
+    color: #C7CDD8;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+
+  .contact-side ul {
+    list-style: none;
+    margin-top: 16px;
+  }
+
+  .contact-side li {
+    font-size: 14.5px;
+    color: #C7CDD8;
+    padding: 8px 0;
+    border-top: 1px solid #37455A;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--ink);
+    color: #8894A8;
+    padding: 26px 0 34px;
+    font-size: 13.5px;
+  }
+
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    nav.primary-links { display: none; }
+
+    .hero-inner {
+      grid-template-columns: 1fr;
+      padding: 56px 24px 60px;
+    }
+    .hero-figure { height: 220px; order: -1; }
+    h1.hero-headline { max-width: none; }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .avatar { width: 120px; height: 120px; font-size: 40px; }
+    .credential-row { grid-template-columns: 1fr; gap: 4px; }
+
+    .subject-item {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .subject-grades { text-align: left; }
+
+    .process-list { grid-template-columns: 1fr; gap: 30px; }
+
+    .pricing-table { font-size: 14px; }
+    .pricing-table th, .pricing-table td { padding: 12px 10px; }
+
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    .wrap, .nav-inner { padding-left: 20px; padding-right: 20px; }
+    section { padding: 64px 0; }
+
+    footer .wrap { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">DS</span>
+      <span class="brand-text">Drew Segovia<span>Math &amp; Physics Tutoring</span></span>
+    </a>
+    <nav class="primary-links">
+      <a href="#about">About</a>
+      <a href="#subjects">Subjects</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Falmouth &amp; Cape Cod, MA — and online</div>
+        <h1 class="hero-headline">Math and physics, explained the way they should be.</h1>
+        <p class="hero-sub">
+          Private tutoring for K-12 students in math and physics, plus focused SAT prep — from a
+          graduate researcher who has spent eight years helping students go from confused to confident.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Book a session</a>
+          <a href="sat-diagnostic.html" class="btn-secondary">Take the free SAT diagnostic</a>
+        </div>
+        <div class="hero-meta">Currently accepting new students for the fall semester.</div>
+      </div>
+      <div class="hero-figure" aria-hidden="true">
+        <svg viewBox="0 0 320 320" fill="none">
+          <path class="curve-path" d="M 30 260 Q 160 -20 290 260" stroke="#2C6E75" stroke-width="2.5" />
+          <circle class="curve-dot" cx="160" cy="82" r="5" fill="#C98A2B" />
+          <line class="curve-label" x1="160" y1="82" x2="215" y2="60" stroke="#C7C1AD" stroke-width="1" />
+          <text class="curve-label" x="220" y="56" font-family="Source Serif 4, serif" font-size="15" fill="#4A5568">f(x) = ax² + bx + c</text>
+          <line x1="20" y1="270" x2="300" y2="270" stroke="#D8D2C0" stroke-width="1" />
+          <line x1="30" y1="285" x2="30" y2="30" stroke="#D8D2C0" stroke-width="1" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" aria-label="About Drew">
+    <div class="wrap">
+      <div class="about-grid">
+        <div>
+          <div class="avatar">DS</div>
+        </div>
+        <div class="about-text">
+          <p>
+            I'm a graduate student in Physical Oceanography at MIT-WHOI, and I've been tutoring math
+            and physics for eight years — long enough to have taught nearly every way a student can
+            get stuck on a quadratic equation or a free-body diagram, and to have found what actually
+            unsticks them.
+          </p>
+          <p>
+            My own path ran through the same subjects I teach: a B.S. in Physics and Mathematics
+            from Boston College, where I graduated with departmental honors, followed by graduate
+            research applying that math to the physics of the ocean. I tutor because I like watching
+            that same shift happen in someone else — the moment a subject stops feeling like a wall
+            and starts feeling like a tool.
+          </p>
+          <div class="credentials">
+            <div class="credential-row">
+              <div class="credential-label">Currently</div>
+              <div class="credential-value"><strong>M.S., Physical Oceanography</strong> — MIT-WHOI Joint Program</div>
+            </div>
+            <div class="credential-row">
+              <div class="credential-label">Education</div>
+              <div class="credential-value"><strong>B.S., Physics &amp; Mathematics</strong> — Boston College, 2022, departmental honors</div>
+            </div>
+            <div class="credential-row">
+              <div class="credential-label">Experience</div>
+              <div class="credential-value">8 years tutoring, including dedicated SAT test prep courses</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="subjects" aria-label="Subjects tutored">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-kicker">Subjects</div>
+        <h2 class="section-title">Tutoring for every stage from elementary math to test day.</h2>
+        <p class="section-desc">
+          Sessions are one-on-one and built around your student's actual coursework or test
+          timeline — not a fixed curriculum.
+        </p>
+      </div>
+      <div class="subject-list">
+        <div class="subject-item">
+          <div class="subject-name"><span class="subject-dot" style="background:#2C6E75"></span>K-12 Math</div>
+          <div class="subject-desc">
+            From elementary arithmetic through Algebra I &amp; II, Geometry, Precalculus, and Calculus.
+            Homework help, exam prep, or steady support through a tough unit.
+          </div>
+          <div class="subject-grades">Grades K–12</div>
+        </div>
+        <div class="subject-item">
+          <div class="subject-name"><span class="subject-dot" style="background:#C98A2B"></span>K-12 Physics</div>
+          <div class="subject-desc">
+            Conceptual and AP Physics — mechanics, waves, electricity &amp; magnetism — taught by
+            someone who uses this material in active research.
+          </div>
+          <div class="subject-grades">Grades 9–12</div>
+        </div>
+        <div class="subject-item">
+          <div class="subject-name"><span class="subject-dot" style="background:#8A6BAF"></span>SAT Prep</div>
+          <div class="subject-desc">
+            Full Math and Reading &amp; Writing preparation, built from a diagnostic of your student's
+            actual strengths and gaps rather than a generic course outline.
+            <a href="sat-diagnostic.html" style="color: var(--ocean-deep); font-weight: 600; text-decoration: underline; display: inline-block; margin-top: 6px;">Take the free 8-question diagnostic</a>
+          </div>
+          <div class="subject-grades">Grades 9–12</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works" aria-label="How sessions work">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-kicker">Getting started</div>
+        <h2 class="section-title">What the first few weeks look like.</h2>
+      </div>
+      <div class="process-list">
+        <div class="process-item">
+          <div class="process-num">1</div>
+          <div class="process-title">Intro call</div>
+          <div class="process-desc">
+            A short, free conversation about where your student stands, what's due or coming up,
+            and whether we're a good fit.
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">2</div>
+          <div class="process-title">First session</div>
+          <div class="process-desc">
+            I get a real read on strengths and gaps — through coursework, a practice set, or a
+            diagnostic for SAT prep — and sketch a plan for the sessions ahead.
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">3</div>
+          <div class="process-title">Ongoing sessions</div>
+          <div class="process-desc">
+            Regular weekly sessions, in person around Falmouth &amp; Cape Cod or over video call,
+            adjusted as your student's coursework or test date approaches.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" aria-label="Pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-kicker">Pricing</div>
+        <h2 class="section-title">Session packages.</h2>
+        <p class="section-desc">
+          Sessions run 60 minutes. Packages are prepaid and used at your own pace — most families
+          book weekly.
+        </p>
+      </div>
+
+      <div class="pricing-note">
+        Rates below are a starting point — happy to discuss what makes sense for your student's
+        subject, grade level, and schedule on the intro call.
+      </div>
+
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Package</th>
+            <th>K-12 Math &amp; Physics</th>
+            <th>SAT Prep</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tier-name">Single session<span>Pay as you go</span></td>
+            <td class="price-figure">$65 / session</td>
+            <td class="price-figure">$75 / session</td>
+          </tr>
+          <tr>
+            <td class="tier-name">5-session bundle<span>Save 8%</span></td>
+            <td class="price-figure">$300 <span style="color:var(--ink-faint); font-size:14px;">($60/session)</span></td>
+            <td class="price-figure">$345 <span style="color:var(--ink-faint); font-size:14px;">($69/session)</span></td>
+          </tr>
+          <tr>
+            <td class="tier-name">10-session bundle<span>Save 15%<span class="best-value">Most popular</span></span></td>
+            <td class="price-figure">$550 <span style="color:var(--ink-faint); font-size:14px;">($55/session)</span></td>
+            <td class="price-figure">$640 <span style="color:var(--ink-faint); font-size:14px;">($64/session)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section" aria-label="Contact">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div>
+          <div class="section-kicker">Contact</div>
+          <h2 class="section-title">Let's find a time that works.</h2>
+          <p class="section-desc">
+            Reach out by phone or email — I'll usually get back to you within a day. New students
+            start with a free, no-pressure intro call.
+          </p>
+          <div class="contact-methods">
+            <a href="mailto:drewsegovia6@gmail.com" class="contact-link">
+              <span class="contact-link-label">Email</span>
+              <span class="contact-link-value">drewsegovia6@gmail.com</span>
+            </a>
+            <a href="tel:+17325400177" class="contact-link">
+              <span class="contact-link-label">Phone</span>
+              <span class="contact-link-value">(732) 540-0177</span>
+            </a>
+          </div>
+        </div>
+        <div class="contact-side">
+          <h3>Good to know</h3>
+          <p>Sessions are available in person around Falmouth &amp; Cape Cod, or by video call anywhere.</p>
+          <ul>
+            <li>Evening &amp; weekend availability</li>
+            <li>Free intro call before you commit</li>
+            <li>Materials &amp; practice sets included</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Drew Segovia — Math &amp; Physics Tutoring</div>
+    <div>drewsegovia6@gmail.com · (732) 540-0177</div>
+  </div>
+</footer>
+
+</body>
+</html>
