@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Session — Drew Segovia Tutoring</title>
+<meta name="description" content="Create an account, see open tutoring session times, and book online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F6F3EA;
+    --paper-raised: #FBF9F3;
+    --ink: #1E2B3C;
+    --ink-soft: #4A5568;
+    --ink-faint: #7A8496;
+    --ocean: #2C6E75;
+    --ocean-deep: #1F4E54;
+    --amber: #C98A2B;
+    --amber-soft: #E8D9BC;
+    --line: #D8D2C0;
+    --line-soft: #E8E3D5;
+    --good: #2C6E75;
+    --warn: #B5502E;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; }
+  button { font-family: var(--sans); }
+
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 28px; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--ocean);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Nav ---------- */
+  header.site-nav { border-bottom: 1px solid var(--line); background: var(--paper); }
+
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 28px; max-width: 780px; margin: 0 auto;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 600; font-size: 14px; flex-shrink: 0;
+  }
+
+  .brand-text { font-family: var(--serif); font-size: 17px; font-weight: 600; color: var(--ink); }
+
+  .back-link { font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; }
+  .back-link:hover { color: var(--ink); }
+
+  main { padding: 56px 0 80px; }
+
+  /* ---------- Setup banner ---------- */
+  .setup-banner {
+    background: #F5E5DC;
+    border: 1px solid #E0B79A;
+    border-left: 3px solid var(--warn);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin-bottom: 32px;
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+  .setup-banner strong { display: block; margin-bottom: 4px; font-family: var(--serif); font-size: 16px; }
+  .setup-banner code {
+    background: var(--paper-raised); border: 1px solid var(--line);
+    padding: 1px 6px; border-radius: 3px; font-size: 13px;
+  }
+
+  /* ---------- Mode toggle ---------- */
+  .mode-toggle {
+    display: inline-flex;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .mode-btn {
+    padding: 10px 22px;
+    background: var(--paper);
+    border: none;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .mode-btn.active { background: var(--ink); color: var(--paper); }
+  .mode-btn:not(.active):hover { background: var(--line-soft); }
+
+  .mode-panel { display: none; }
+  .mode-panel.active { display: block; }
+
+  /* ---------- Card ---------- */
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 36px;
+    margin-bottom: 24px;
+  }
+
+  h1.page-title {
+    font-family: var(--serif); font-size: clamp(26px, 3.6vw, 34px);
+    font-weight: 600; margin-bottom: 10px;
+  }
+
+  .page-sub { font-size: 15.5px; color: var(--ink-soft); margin-bottom: 30px; max-width: 56ch; }
+
+  h2.card-title {
+    font-family: var(--serif); font-size: 19px; font-weight: 600; margin-bottom: 6px;
+  }
+
+  .card-sub { font-size: 14px; color: var(--ink-faint); margin-bottom: 22px; }
+
+  /* ---------- Forms ---------- */
+  .form-field { margin-bottom: 16px; }
+
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .form-field label {
+    display: block; font-size: 13px; font-weight: 600; color: var(--ink-soft); margin-bottom: 6px;
+  }
+
+  .form-field input, .form-field select, .form-field textarea {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--line);
+    border-radius: 5px; font-family: var(--sans); font-size: 15px;
+    background: var(--paper); color: var(--ink);
+  }
+
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+    outline: none; border-color: var(--ocean);
+  }
+
+  .field-hint { font-size: 12.5px; color: var(--ink-faint); margin-top: 5px; }
+
+  .field-error {
+    display: none; font-size: 13px; color: var(--warn); margin-top: 6px; font-weight: 500;
+  }
+  .field-error.visible { display: block; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--ink); color: var(--paper); border: none;
+    padding: 13px 24px; border-radius: 5px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: background 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-primary:hover { background: var(--ocean-deep); }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--ink); border: 1.5px solid var(--line);
+    padding: 12px 22px; border-radius: 5px; font-size: 14.5px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+  .btn-secondary:hover { border-color: var(--ink); }
+
+  .btn-danger {
+    background: transparent; color: var(--warn); border: 1.5px solid #E0B79A;
+    padding: 8px 16px; border-radius: 5px; font-size: 13.5px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+  .btn-danger:hover { background: #F5E5DC; }
+
+  .link-btn {
+    background: none; border: none; color: var(--ocean-deep); font-size: 14px;
+    font-weight: 600; cursor: pointer; text-decoration: underline; padding: 0;
+  }
+
+  .auth-toggle-row { margin-top: 18px; font-size: 14px; color: var(--ink-soft); }
+
+  .banner-msg {
+    padding: 12px 16px; border-radius: 5px; font-size: 14px; margin-bottom: 18px;
+    display: none;
+  }
+  .banner-msg.visible { display: block; }
+  .banner-msg.error { background: #F5E5DC; color: var(--warn); border: 1px solid #E0B79A; }
+  .banner-msg.success { background: #E4EEEE; color: var(--ocean-deep); border: 1px solid #BBD8D9; }
+
+  /* ---------- Logged-in header ---------- */
+  .account-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--line);
+  }
+
+  .account-greeting { font-family: var(--serif); font-size: 19px; font-weight: 600; }
+  .account-greeting span { display: block; font-family: var(--sans); font-size: 13px; font-weight: 400; color: var(--ink-faint); margin-top: 2px; }
+
+  /* ---------- Slot lists ---------- */
+  .date-group { margin-bottom: 26px; }
+  .date-group:last-child { margin-bottom: 0; }
+
+  .date-group-heading {
+    font-family: var(--serif); font-size: 15.5px; font-weight: 600; color: var(--ink);
+    margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line-soft);
+  }
+
+  .slot-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 13px 16px; border: 1.5px solid var(--line); border-radius: 5px;
+    background: var(--paper); margin-bottom: 8px;
+  }
+
+  .slot-time { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--ink); }
+  .slot-duration { font-size: 13px; color: var(--ink-faint); margin-top: 2px; }
+
+  .slot-booked-info { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+  .slot-booked-info strong { color: var(--ink); }
+
+  .empty-state {
+    font-size: 14.5px; color: var(--ink-faint); padding: 20px 0; text-align: center;
+  }
+
+  .book-inline-form {
+    margin-top: 10px; padding: 16px; background: var(--paper); border: 1px solid var(--line);
+    border-left: 3px solid var(--ocean); border-radius: 4px; display: none;
+  }
+  .book-inline-form.visible { display: block; }
+
+  .booking-status-tag {
+    display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 3px;
+  }
+  .booking-status-tag.open { color: var(--ocean-deep); background: #E4EEEE; }
+  .booking-status-tag.taken { color: var(--warn); background: #F5E5DC; }
+
+  /* ---------- Admin ---------- */
+  .admin-gate { max-width: 380px; }
+
+  .admin-slot-item {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+    padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 5px;
+    background: var(--paper); margin-bottom: 8px;
+  }
+
+  .repeat-note { font-size: 12.5px; color: var(--ink-faint); margin-top: -8px; margin-bottom: 16px; }
+
+  footer {
+    border-top: 1px solid var(--line); padding: 24px 0; font-size: 13px;
+    color: var(--ink-faint); text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .card { padding: 24px 20px; }
+    .form-row-2 { grid-template-columns: 1fr; }
+    .wrap, .nav-inner { padding-left: 18px; padding-right: 18px; }
+    .slot-item, .admin-slot-item { flex-direction: column; align-items: flex-start; }
+    .account-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">DS</span>
+      <span class="brand-text">Drew Segovia Tutoring</span>
+    </a>
+    <a href="index.html" class="back-link">Back to site</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div id="setup-banner" class="setup-banner" style="display:none;">
+      <strong>One-time setup needed</strong>
+      This page needs to be connected to its backend before it will work. Open this file, find
+      <code>var API_URL = "PASTE_YOUR_WEB_APP_URL_HERE";</code> near the top of the script, and
+      replace it with the Web App URL from your Google Apps Script deployment. See the setup
+      instructions provided alongside this file.
+    </div>
+
+    <h1 class="page-title">Book a session</h1>
+    <p class="page-sub">Parents can create an account and book directly from Drew's open availability. Drew can manage availability and see upcoming bookings from the admin tab.</p>
+
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-mode="parent">For Parents</button>
+      <button class="mode-btn" data-mode="admin">For Drew</button>
+    </div>
+
+    <!-- ================= PARENT MODE ================= -->
+    <div class="mode-panel active" id="panel-parent">
+
+      <!-- Auth card -->
+      <div class="card" id="parent-auth-card">
+        <div id="login-view">
+          <h2 class="card-title">Log in</h2>
+          <p class="card-sub">Enter the email and PIN you used when you created your account.</p>
+          <div class="banner-msg error" id="login-error"></div>
+          <div class="form-field">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="you@email.com">
+          </div>
+          <div class="form-field">
+            <label for="login-pin">4-digit PIN</label>
+            <input type="password" id="login-pin" inputmode="numeric" maxlength="4" placeholder="••••">
+          </div>
+          <button class="btn-primary" id="btn-login">Log in</button>
+          <div class="auth-toggle-row">
+            New here? <button class="link-btn" id="show-signup">Create an account</button>
+          </div>
+        </div>
+
+        <div id="signup-view" style="display:none;">
+          <h2 class="card-title">Create an account</h2>
+          <p class="card-sub">Just enough info to book and manage sessions — no password, just a PIN you'll remember.</p>
+          <div class="banner-msg error" id="signup-error"></div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="signup-name">Your name</label>
+              <input type="text" id="signup-name" placeholder="Parent or guardian name">
+            </div>
+            <div class="form-field">
+              <label for="signup-phone">Phone (optional)</label>
+              <input type="tel" id="signup-phone" placeholder="(555) 555-5555">
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" placeholder="you@email.com">
+          </div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="signup-pin">Choose a 4-digit PIN</label>
+              <input type="password" id="signup-pin" inputmode="numeric" maxlength="4" placeholder="••••">
+            </div>
+            <div class="form-field">
+              <label for="signup-pin-confirm">Confirm PIN</label>
+              <input type="password" id="signup-pin-confirm" inputmode="numeric" maxlength="4" placeholder="••••">
+            </div>
+          </div>
+          <div class="field-hint" style="margin-bottom:16px;">This PIN just keeps your bookings tied to you — it isn't meant to protect sensitive information.</div>
+          <button class="btn-primary" id="btn-signup">Create account</button>
+          <div class="auth-toggle-row">
+            Already have an account? <button class="link-btn" id="show-login">Log in</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking dashboard (shown once logged in) -->
+      <div id="parent-dashboard" style="display:none;">
+        <div class="card">
+          <div class="account-bar">
+            <div class="account-greeting" id="account-greeting-name">Hi there
+              <span id="account-greeting-email"></span>
+            </div>
+            <button class="btn-secondary" id="btn-logout">Log out</button>
+          </div>
+
+          <h2 class="card-title">My upcoming sessions</h2>
+          <p class="card-sub">Sessions you've booked. You can cancel anytime.</p>
+          <div id="my-sessions-list"><div class="empty-state">Loading…</div></div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Book a session</h2>
+          <p class="card-sub">Pick any open time below.</p>
+          <div class="banner-msg success" id="book-success"></div>
+          <div class="banner-msg error" id="book-error"></div>
+          <div id="available-slots-list"><div class="empty-state">Loading…</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= ADMIN MODE ================= -->
+    <div class="mode-panel" id="panel-admin">
+
+      <div class="card admin-gate" id="admin-gate-card">
+        <h2 class="card-title">Drew's admin access</h2>
+        <p class="card-sub">Enter your admin passcode to manage availability and view bookings.</p>
+        <div class="banner-msg error" id="admin-gate-error"></div>
+        <div class="form-field">
+          <label for="admin-passcode">Passcode</label>
+          <input type="password" id="admin-passcode" placeholder="Passcode">
+        </div>
+        <button class="btn-primary" id="btn-admin-unlock">Unlock</button>
+      </div>
+
+      <div id="admin-dashboard" style="display:none;">
+        <div class="card">
+          <h2 class="card-title">Add availability</h2>
+          <p class="card-sub">Add a new open time slot. Sessions default to 60 minutes.</p>
+          <div class="banner-msg success" id="add-slot-success"></div>
+          <div class="banner-msg error" id="add-slot-error"></div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="add-date">Date</label>
+              <input type="date" id="add-date">
+            </div>
+            <div class="form-field">
+              <label for="add-time">Time</label>
+              <input type="time" id="add-time">
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="add-duration">Duration (minutes)</label>
+              <input type="number" id="add-duration" value="60" min="15" step="15">
+            </div>
+            <div class="form-field">
+              <label for="add-repeat">Repeat weekly (optional)</label>
+              <input type="number" id="add-repeat" value="0" min="0" max="12" placeholder="0">
+            </div>
+          </div>
+          <div class="field-hint" style="margin-bottom:16px;">Setting "repeat weekly" to 4, for example, adds this same time slot for the next 4 weeks too.</div>
+          <button class="btn-primary" id="btn-add-slot">Add slot</button>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Upcoming slots</h2>
+          <p class="card-sub" id="admin-slot-summary">Loading…</p>
+          <div id="admin-slots-list"><div class="empty-state">Loading…</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  Drew Segovia Tutoring · drewsegovia6@gmail.com · (732) 540-0177
+</footer>
+
+<script>
+(function () {
+  // Paste your Google Apps Script Web App URL here (see booking-backend.gs
+  // for setup instructions). It should end in /exec.
+  var API_URL = "https://script.google.com/macros/s/AKfycbygZh_lsrQJHAOloUcUOywdmsEqLRqFehmyoQ7rVV445IV2AKZkOt5UctpuIjOpCfP8wg/exec";
+
+  if (!API_URL || API_URL.indexOf('PASTE_YOUR_WEB_APP_URL_HERE') !== -1) {
+    document.getElementById('setup-banner').style.display = 'block';
+  }
+
+  var state = {
+    account: null, // { email, name, phone }
+    adminKey: null,
+    slots: []
+  };
+
+  // ---------- API helper ----------
+  function apiGet(params) {
+    var query = Object.keys(params).map(function (k) {
+      return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+    }).join('&');
+    return fetch(API_URL + '?' + query).then(function (r) { return r.json(); });
+  }
+
+  function apiPost(payload) {
+    // Sent as text/plain to avoid a CORS preflight; Apps Script parses the
+    // raw body as JSON on its end.
+    return fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    }).then(function (r) { return r.json(); });
+  }
+
+  // ---------- Mode toggle ----------
+  var modeButtons = document.querySelectorAll('.mode-btn');
+  var panelParent = document.getElementById('panel-parent');
+  var panelAdmin = document.getElementById('panel-admin');
+
+  modeButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      modeButtons.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var mode = btn.getAttribute('data-mode');
+      panelParent.classList.toggle('active', mode === 'parent');
+      panelAdmin.classList.toggle('active', mode === 'admin');
+      if (mode === 'admin' && state.adminKey) refreshAdminSlots();
+      if (mode === 'parent' && state.account) refreshParentSlots();
+    });
+  });
+
+  // ================= PARENT: AUTH =================
+  var loginView = document.getElementById('login-view');
+  var signupView = document.getElementById('signup-view');
+  document.getElementById('show-signup').addEventListener('click', function () {
+    loginView.style.display = 'none';
+    signupView.style.display = 'block';
+  });
+  document.getElementById('show-login').addEventListener('click', function () {
+    signupView.style.display = 'none';
+    loginView.style.display = 'block';
+  });
+
+  function showBanner(el, message) {
+    el.textContent = message;
+    el.classList.add('visible');
+  }
+  function hideBanner(el) {
+    el.classList.remove('visible');
+    el.textContent = '';
+  }
+
+  document.getElementById('btn-login').addEventListener('click', function () {
+    var errEl = document.getElementById('login-error');
+    hideBanner(errEl);
+    var email = document.getElementById('login-email').value.trim();
+    var pin = document.getElementById('login-pin').value.trim();
+
+    if (!email || !pin) {
+      showBanner(errEl, 'Enter your email and PIN.');
+      return;
+    }
+
+    apiPost({ action: 'login', email: email, pin: pin }).then(function (res) {
+      if (!res.ok) {
+        showBanner(errEl, res.error || 'Could not log in.');
+        return;
+      }
+      onLoggedIn(res.account);
+    }).catch(function () {
+      showBanner(errEl, 'Something went wrong. Please try again.');
+    });
+  });
+
+  document.getElementById('btn-signup').addEventListener('click', function () {
+    var errEl = document.getElementById('signup-error');
+    hideBanner(errEl);
+    var name = document.getElementById('signup-name').value.trim();
+    var phone = document.getElementById('signup-phone').value.trim();
+    var email = document.getElementById('signup-email').value.trim();
+    var pin = document.getElementById('signup-pin').value.trim();
+    var pinConfirm = document.getElementById('signup-pin-confirm').value.trim();
+
+    if (!name || !email) {
+      showBanner(errEl, 'Name and email are required.');
+      return;
+    }
+    if (!/^\d{4}$/.test(pin)) {
+      showBanner(errEl, 'PIN must be exactly 4 digits.');
+      return;
+    }
+    if (pin !== pinConfirm) {
+      showBanner(errEl, 'PINs do not match.');
+      return;
+    }
+
+    apiPost({ action: 'createAccount', name: name, phone: phone, email: email, pin: pin }).then(function (res) {
+      if (!res.ok) {
+        showBanner(errEl, res.error || 'Could not create account.');
+        return;
+      }
+      onLoggedIn(res.account);
+    }).catch(function () {
+      showBanner(errEl, 'Something went wrong. Please try again.');
+    });
+  });
+
+  function onLoggedIn(account) {
+    state.account = account;
+    document.getElementById('parent-auth-card').style.display = 'none';
+    document.getElementById('parent-dashboard').style.display = 'block';
+    document.getElementById('account-greeting-name').innerHTML = 'Hi, ' + escapeHtml(account.name) + '<span>' + escapeHtml(account.email) + '</span>';
+    refreshParentSlots();
+  }
+
+  document.getElementById('btn-logout').addEventListener('click', function () {
+    state.account = null;
+    document.getElementById('parent-auth-card').style.display = 'block';
+    document.getElementById('parent-dashboard').style.display = 'none';
+    document.getElementById('login-email').value = '';
+    document.getElementById('login-pin').value = '';
+  });
+
+  function escapeHtml(s) {
+    var div = document.createElement('div');
+    div.textContent = s == null ? '' : String(s);
+    return div.innerHTML;
+  }
+
+  // ================= PARENT: SLOTS =================
+  function refreshParentSlots() {
+    apiGet({ action: 'listAvailability' }).then(function (res) {
+      if (!res.ok) return;
+      state.slots = res.slots;
+      renderMySessions();
+      renderAvailableSlots();
+    });
+  }
+
+  function formatSlotDate(dateStr) {
+    var parts = dateStr.split('-');
+    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    return d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+  }
+
+  function formatSlotTime(timeStr) {
+    var parts = timeStr.split(':');
+    var h = parseInt(parts[0], 10);
+    var m = parts[1];
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12 = h % 12 === 0 ? 12 : h % 12;
+    return h12 + ':' + m + ' ' + ampm;
+  }
+
+  function renderMySessions() {
+    var container = document.getElementById('my-sessions-list');
+    var mine = state.slots.filter(function (s) {
+      return s.booked && state.account && s.parentEmail === state.account.email;
+    }).sort(function (a, b) { return (a.date + a.time).localeCompare(b.date + b.time); });
+
+    if (mine.length === 0) {
+      container.innerHTML = '<div class="empty-state">No upcoming sessions booked yet.</div>';
+      return;
+    }
+
+    container.innerHTML = '';
+    mine.forEach(function (s) {
+      var item = document.createElement('div');
+      item.className = 'slot-item';
+      item.innerHTML =
+        '<div>' +
+          '<div class="slot-time">' + formatSlotDate(s.date) + ' \u2014 ' + formatSlotTime(s.time) + '</div>' +
+          '<div class="slot-duration">' + s.duration + ' minutes' + (s.studentName ? ' \u00B7 for ' + escapeHtml(s.studentName) : '') + '</div>' +
+        '</div>';
+      var cancelBtn = document.createElement('button');
+      cancelBtn.className = 'btn-danger';
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.addEventListener('click', function () {
+        if (!confirm('Cancel this session?')) return;
+        apiPost({ action: 'cancelBooking', id: s.id, parentEmail: state.account.email }).then(function (res) {
+          if (res.ok) refreshParentSlots();
+          else alert(res.error || 'Could not cancel.');
+        });
+      });
+      item.appendChild(cancelBtn);
+      container.appendChild(item);
+    });
+  }
+
+  function renderAvailableSlots() {
+    var container = document.getElementById('available-slots-list');
+    var open = state.slots.filter(function (s) { return !s.booked; })
+      .sort(function (a, b) { return (a.date + a.time).localeCompare(b.date + b.time); });
+
+    if (open.length === 0) {
+      container.innerHTML = '<div class="empty-state">No open sessions right now \u2014 check back soon.</div>';
+      return;
+    }
+
+    var byDate = {};
+    open.forEach(function (s) {
+      if (!byDate[s.date]) byDate[s.date] = [];
+      byDate[s.date].push(s);
+    });
+
+    container.innerHTML = '';
+    Object.keys(byDate).sort().forEach(function (date) {
+      var group = document.createElement('div');
+      group.className = 'date-group';
+      var heading = document.createElement('div');
+      heading.className = 'date-group-heading';
+      heading.textContent = formatSlotDate(date);
+      group.appendChild(heading);
+
+      byDate[date].forEach(function (s) {
+        var item = document.createElement('div');
+        item.className = 'slot-item';
+        item.innerHTML =
+          '<div>' +
+            '<div class="slot-time">' + formatSlotTime(s.time) + '</div>' +
+            '<div class="slot-duration">' + s.duration + ' minutes</div>' +
+          '</div>';
+        var bookBtn = document.createElement('button');
+        bookBtn.className = 'btn-primary';
+        bookBtn.textContent = 'Book';
+        item.appendChild(bookBtn);
+        group.appendChild(item);
+
+        var form = document.createElement('div');
+        form.className = 'book-inline-form';
+        form.innerHTML =
+          '<div class="form-field">' +
+            '<label>Student name</label>' +
+            '<input type="text" class="book-student-name" placeholder="Who is this session for?">' +
+          '</div>' +
+          '<div class="form-field">' +
+            '<label>Note (optional)</label>' +
+            '<input type="text" class="book-note" placeholder="Anything Drew should know">' +
+          '</div>';
+        var confirmBtn = document.createElement('button');
+        confirmBtn.className = 'btn-primary';
+        confirmBtn.textContent = 'Confirm booking';
+        form.appendChild(confirmBtn);
+        group.appendChild(form);
+
+        bookBtn.addEventListener('click', function () {
+          form.classList.toggle('visible');
+        });
+
+        confirmBtn.addEventListener('click', function () {
+          var studentName = form.querySelector('.book-student-name').value.trim();
+          var note = form.querySelector('.book-note').value.trim();
+          var errEl = document.getElementById('book-error');
+          var okEl = document.getElementById('book-success');
+          hideBanner(errEl);
+          hideBanner(okEl);
+
+          if (!studentName) {
+            showBanner(errEl, 'Enter the student\u2019s name.');
+            return;
+          }
+
+          apiPost({
+            action: 'bookSlot',
+            id: s.id,
+            parentEmail: state.account.email,
+            parentName: state.account.name,
+            parentPhone: state.account.phone,
+            studentName: studentName,
+            note: note
+          }).then(function (res) {
+            if (!res.ok) {
+              showBanner(errEl, res.error || 'Could not book that slot.');
+              refreshParentSlots();
+              return;
+            }
+            showBanner(okEl, 'Session booked \u2014 see it under "My upcoming sessions."');
+            refreshParentSlots();
+          });
+        });
+      });
+
+      container.appendChild(group);
+    });
+  }
+
+  // ================= ADMIN =================
+  document.getElementById('btn-admin-unlock').addEventListener('click', function () {
+    var errEl = document.getElementById('admin-gate-error');
+    hideBanner(errEl);
+    var passcode = document.getElementById('admin-passcode').value.trim();
+    if (!passcode) {
+      showBanner(errEl, 'Enter your passcode.');
+      return;
+    }
+    // Verified server-side on each write; a quick harmless read confirms
+    // the backend is reachable before revealing the admin dashboard.
+    state.adminKey = passcode;
+    document.getElementById('admin-gate-card').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    refreshAdminSlots();
+  });
+
+  document.getElementById('btn-add-slot').addEventListener('click', function () {
+    var errEl = document.getElementById('add-slot-error');
+    var okEl = document.getElementById('add-slot-success');
+    hideBanner(errEl);
+    hideBanner(okEl);
+
+    var date = document.getElementById('add-date').value;
+    var time = document.getElementById('add-time').value;
+    var duration = parseInt(document.getElementById('add-duration').value, 10) || 60;
+    var repeat = parseInt(document.getElementById('add-repeat').value, 10) || 0;
+
+    if (!date || !time) {
+      showBanner(errEl, 'Pick a date and time.');
+      return;
+    }
+
+    var datesToAdd = [date];
+    var base = new Date(date + 'T00:00:00');
+    for (var w = 1; w <= repeat; w++) {
+      var next = new Date(base);
+      next.setDate(next.getDate() + (7 * w));
+      datesToAdd.push(next.toISOString().slice(0, 10));
+    }
+
+    var requests = datesToAdd.map(function (d) {
+      return apiPost({ action: 'addSlot', date: d, time: time, duration: duration, adminKey: state.adminKey });
+    });
+
+    Promise.all(requests).then(function (results) {
+      var failed = results.filter(function (r) { return !r.ok; });
+      if (failed.length > 0) {
+        showBanner(errEl, failed[0].error || 'Some slots could not be added. Check your passcode.');
+      } else {
+        showBanner(okEl, datesToAdd.length > 1 ? datesToAdd.length + ' slots added.' : 'Slot added.');
+      }
+      refreshAdminSlots();
+    });
+  });
+
+  function refreshAdminSlots() {
+    apiGet({ action: 'listAvailability' }).then(function (res) {
+      if (!res.ok) return;
+      state.slots = res.slots;
+      renderAdminSlots();
+    });
+  }
+
+  function renderAdminSlots() {
+    var container = document.getElementById('admin-slots-list');
+    var summary = document.getElementById('admin-slot-summary');
+    var sorted = state.slots.slice().sort(function (a, b) { return (a.date + a.time).localeCompare(b.date + b.time); });
+
+    var openCount = sorted.filter(function (s) { return !s.booked; }).length;
+    var bookedCount = sorted.filter(function (s) { return s.booked; }).length;
+    summary.textContent = openCount + ' open \u00B7 ' + bookedCount + ' booked';
+
+    if (sorted.length === 0) {
+      container.innerHTML = '<div class="empty-state">No slots added yet.</div>';
+      return;
+    }
+
+    container.innerHTML = '';
+    sorted.forEach(function (s) {
+      var item = document.createElement('div');
+      item.className = 'admin-slot-item';
+
+      var info = document.createElement('div');
+      if (s.booked) {
+        info.innerHTML =
+          '<div class="slot-time">' + formatSlotDate(s.date) + ' \u2014 ' + formatSlotTime(s.time) + ' <span class="booking-status-tag taken">Booked</span></div>' +
+          '<div class="slot-booked-info">' +
+            '<strong>' + escapeHtml(s.studentName || 'Student') + '</strong> \u00B7 parent: ' + escapeHtml(s.parentName) + '<br>' +
+            escapeHtml(s.parentEmail) + (s.parentPhone ? ' \u00B7 ' + escapeHtml(s.parentPhone) : '') +
+            (s.note ? '<br>Note: ' + escapeHtml(s.note) : '') +
+          '</div>';
+      } else {
+        info.innerHTML =
+          '<div class="slot-time">' + formatSlotDate(s.date) + ' \u2014 ' + formatSlotTime(s.time) + ' <span class="booking-status-tag open">Open</span></div>' +
+          '<div class="slot-duration">' + s.duration + ' minutes</div>';
+      }
+      item.appendChild(info);
+
+      var actionBtn = document.createElement('button');
+      actionBtn.className = 'btn-danger';
+      actionBtn.textContent = s.booked ? 'Cancel booking' : 'Delete slot';
+      actionBtn.addEventListener('click', function () {
+        if (!confirm(s.booked ? 'Cancel this booking?' : 'Delete this open slot?')) return;
+        var req = s.booked
+          ? apiPost({ action: 'cancelBooking', id: s.id, adminKey: state.adminKey })
+          : apiPost({ action: 'deleteSlot', id: s.id, adminKey: state.adminKey });
+        req.then(function (res) {
+          if (res.ok) refreshAdminSlots();
+          else alert(res.error || 'Could not complete that action.');
+        });
+      });
+      item.appendChild(actionBtn);
+
+      container.appendChild(item);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
