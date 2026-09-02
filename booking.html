@@ -434,6 +434,59 @@
           <button class="btn-primary" id="btn-add-slot">Add slot</button>
         </div>
 
+        <div class="card" id="recurring-client-card">
+          <h2 class="card-title">Book recurring sessions for a client</h2>
+          <p class="card-sub">Reserves the same weekly time slot directly for one student — these are booked immediately, not posted as open availability. Only visible here in the admin tab.</p>
+          <div class="banner-msg success" id="recurring-success"></div>
+          <div class="banner-msg error" id="recurring-error"></div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="recurring-student-name">Student name</label>
+              <input type="text" id="recurring-student-name" placeholder="Student's name">
+            </div>
+            <div class="form-field">
+              <label for="recurring-parent-name">Parent name</label>
+              <input type="text" id="recurring-parent-name" placeholder="Parent or guardian name">
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="recurring-parent-email">Parent email</label>
+              <input type="email" id="recurring-parent-email" placeholder="parent@email.com">
+            </div>
+            <div class="form-field">
+              <label for="recurring-parent-phone">Parent phone (optional)</label>
+              <input type="tel" id="recurring-parent-phone" placeholder="(555) 555-5555">
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="recurring-start-date">First session date</label>
+              <input type="date" id="recurring-start-date">
+            </div>
+            <div class="form-field">
+              <label for="recurring-time">Time</label>
+              <input type="time" id="recurring-time">
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="recurring-duration">Duration (minutes)</label>
+              <input type="number" id="recurring-duration" value="60" min="15" step="15">
+            </div>
+            <div class="form-field">
+              <label for="recurring-weeks">Number of weeks</label>
+              <input type="number" id="recurring-weeks" value="8" min="1" max="52">
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="recurring-note">Note (optional)</label>
+            <input type="text" id="recurring-note" placeholder="Anything worth remembering about this student/schedule">
+          </div>
+          <div class="field-hint" style="margin-bottom:16px;">Creates one booked session per week, same day/time, for the number of weeks above — e.g. 8 weeks starting Sept 8 books Sept 8, 15, 22... every week through the count. Each one shows up below like any other booking and can be canceled individually if a date needs to change.</div>
+          <button class="btn-primary" id="btn-add-recurring">Book weekly sessions</button>
+        </div>
+
         <div class="card">
           <h2 class="card-title">Upcoming slots</h2>
           <p class="card-sub" id="admin-slot-summary">Loading…</p>
@@ -453,7 +506,7 @@
 (function () {
   // Paste your Google Apps Script Web App URL here (see booking-backend.gs
   // for setup instructions). It should end in /exec.
-  var API_URL = "https://script.google.com/macros/s/AKfycbw5OoHCt24ruV3ROJGqD_BL8AyhONKxjQLUvPittcgpLv1bNq5HwZG9vnpFbGH7Db7lBg/exec";
+  var API_URL = "https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbw5OoHCt24ruV3ROJGqD_BL8AyhONKxjQLUvPittcgpLv1bNq5HwZG9vnpFbGH7Db7lBg/exec";
 
   if (!API_URL || API_URL.indexOf('PASTE_YOUR_WEB_APP_URL_HERE') !== -1) {
     document.getElementById('setup-banner').style.display = 'block';
@@ -817,6 +870,69 @@
       renderAdminSlots();
     });
   }
+
+  document.getElementById('btn-add-recurring').addEventListener('click', function () {
+    var errEl = document.getElementById('recurring-error');
+    var okEl = document.getElementById('recurring-success');
+    hideBanner(errEl);
+    hideBanner(okEl);
+
+    var studentName = document.getElementById('recurring-student-name').value.trim();
+    var parentName = document.getElementById('recurring-parent-name').value.trim();
+    var parentEmail = document.getElementById('recurring-parent-email').value.trim();
+    var parentPhone = document.getElementById('recurring-parent-phone').value.trim();
+    var startDate = document.getElementById('recurring-start-date').value;
+    var time = document.getElementById('recurring-time').value;
+    var duration = parseInt(document.getElementById('recurring-duration').value, 10) || 60;
+    var weeks = parseInt(document.getElementById('recurring-weeks').value, 10) || 0;
+    var note = document.getElementById('recurring-note').value.trim();
+
+    if (!studentName || !parentName || !parentEmail) {
+      showBanner(errEl, 'Student name, parent name, and parent email are required.');
+      return;
+    }
+    if (!startDate || !time) {
+      showBanner(errEl, 'Pick a first session date and time.');
+      return;
+    }
+    if (weeks < 1) {
+      showBanner(errEl, 'Number of weeks must be at least 1.');
+      return;
+    }
+
+    var addRecurringBtn = document.getElementById('btn-add-recurring');
+    addRecurringBtn.disabled = true;
+
+    apiPost({
+      action: 'addRecurringBooking',
+      studentName: studentName,
+      parentName: parentName,
+      parentEmail: parentEmail,
+      parentPhone: parentPhone,
+      startDate: startDate,
+      time: time,
+      duration: duration,
+      weeks: weeks,
+      note: note,
+      adminKey: state.adminKey
+    }).then(function (res) {
+      addRecurringBtn.disabled = false;
+      if (!res.ok) {
+        showBanner(errEl, res.error || 'Could not create recurring sessions. Check your passcode.');
+        return;
+      }
+      showBanner(okEl, (res.count || weeks) + ' weekly sessions booked for ' + studentName + '.');
+      document.getElementById('recurring-student-name').value = '';
+      document.getElementById('recurring-parent-name').value = '';
+      document.getElementById('recurring-parent-email').value = '';
+      document.getElementById('recurring-parent-phone').value = '';
+      document.getElementById('recurring-note').value = '';
+      refreshAdminSlots();
+    }).catch(function () {
+      addRecurringBtn.disabled = false;
+      showBanner(errEl, 'Something went wrong. Please try again.');
+    });
+  });
 
   function renderAdminSlots() {
     var container = document.getElementById('admin-slots-list');
