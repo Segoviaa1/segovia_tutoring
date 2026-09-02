@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Drew Segovia — Math & Physics Tutoring Flyer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F6F3EA;
+    --paper-raised: #FBF9F3;
+    --ink: #1E2B3C;
+    --ink-soft: #4A5568;
+    --ink-faint: #7A8496;
+    --ocean: #2C6E75;
+    --ocean-deep: #1F4E54;
+    --amber: #C98A2B;
+    --amber-soft: #E8D9BC;
+    --purple: #8A6BAF;
+    --line: #D8D2C0;
+    --line-soft: #E8E3D5;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page { size: letter; margin: 0; }
+
+  body {
+    background: #ccc;
+    font-family: var(--sans);
+  }
+
+  .page {
+    width: 8.5in;
+    height: 11in;
+    margin: 24px auto;
+    background: var(--paper);
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-position: -1px -1px;
+    position: relative;
+    overflow: hidden;
+    padding: 0.55in 0.6in 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  }
+
+  /* soft vignette so the grid doesn't fight the text */
+  .page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 75% 60% at 50% 8%, rgba(246,243,234,0) 0%, var(--paper) 68%);
+    pointer-events: none;
+  }
+
+  .content { position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; padding-bottom: 8px; }
+
+  /* ---------- Header ---------- */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 14px;
+  }
+
+  .brand-mark {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .brand-text-name {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+
+  .brand-text-tag {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-faint);
+    margin-top: 3px;
+  }
+
+  .header-loc {
+    margin-left: auto;
+    text-align: right;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ocean-deep);
+    line-height: 1.5;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 22px 0 18px;
+    text-align: center;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.18;
+    color: var(--ink);
+    max-width: 8in;
+    margin: 0 auto;
+  }
+
+  .hero-sub {
+    margin-top: 10px;
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    max-width: 6.1in;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    margin-top: 12px;
+    background: var(--amber-soft);
+    color: var(--ocean-deep);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Subjects ---------- */
+  .subjects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 6px;
+  }
+
+  .subject-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 16px 14px;
+  }
+
+  .subject-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .subject-name {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+  }
+
+  .subject-grades {
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-weight: 600;
+    margin: 4px 0 8px 18px;
+  }
+
+  .subject-desc {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-left: 18px;
+  }
+
+  /* ---------- Credentials strip ---------- */
+  .credentials-strip {
+    margin-top: 16px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 13px 24px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .cred-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--ocean);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+
+  .cred-text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: #E8E3D5;
+  }
+
+  .cred-text strong { color: var(--paper); }
+
+  /* ---------- Pricing + Testimonials ---------- */
+  .two-col {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 28px;
+  }
+
+  .pricing {}
+
+  .simple-price-row {
+    display: flex;
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  .simple-price-item {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    flex: 1;
+  }
+
+  .simple-price-figure {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ocean-deep);
+  }
+
+  .simple-price-figure span {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-faint);
+  }
+
+  .simple-price-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .simple-price-note {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .testimonials {}
+
+  .testimonial-item {
+    background: var(--paper-raised);
+    border-left: 3px solid var(--amber);
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-top: 8px;
+  }
+
+  .testimonial-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .testimonial-author {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ocean-deep);
+    margin-top: 5px;
+  }
+
+  .section-kicker {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+
+  table.pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .pricing-table th {
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 0 0 8px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .pricing-table td {
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  .tier-name { font-weight: 600; color: var(--ink); }
+  .tier-name span { display: block; font-weight: 400; font-size: 11.5px; color: var(--ink-faint); margin-top: 1px; }
+
+  .price-figure { font-weight: 600; color: var(--ocean-deep); white-space: nowrap; }
+  .price-sub { color: var(--ink-faint); font-weight: 400; font-size: 11.5px; }
+
+  .best-value {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--paper);
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ---------- Footer / CTA ---------- */
+  .footer-cta {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .footer-left .section-title { margin-bottom: 6px; font-size: 19px; }
+  .footer-left p { font-size: 13px; color: var(--ink-soft); max-width: 3.6in; line-height: 1.5; }
+
+  .contact-block {
+    text-align: right;
+    font-size: 14px;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+
+  .contact-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+  }
+
+  .contact-value {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 15px;
+  }
+
+  .free-call {
+    margin-top: 8px;
+    display: inline-block;
+    background: var(--amber);
+    color: var(--ink);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 4px;
+  }
+
+  /* ---------- Pull tabs ---------- */
+  .tabs {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    height: 1.5in;
+    border-top: 2px dashed var(--ink-faint);
+    flex-shrink: 0;
+  }
+
+  .tab {
+    flex: 1;
+    border-right: 1px dashed var(--ink-faint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .tab:last-child { border-right: none; }
+
+  .tab-col {
+    width: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .tab-col-phone {
+    border-left: 1px dashed var(--line);
+  }
+
+  .tab-col span {
+    display: inline-block;
+    white-space: nowrap;
+    transform: rotate(-90deg);
+  }
+
+  .tab-email {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 9px;
+    color: var(--ink);
+  }
+
+  .tab-contact {
+    font-weight: 700;
+    font-size: 10.5px;
+    color: var(--ocean-deep);
+  }
+
+  @media print {
+    body { background: none; }
+    .page { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="content">
+
+    <header>
+      <div class="brand-mark">DS</div>
+      <div>
+        <div class="brand-text-name">Drew Segovia</div>
+        <div class="brand-text-tag">Math &amp; Physics Tutoring</div>
+      </div>
+      <div class="header-loc">Falmouth &amp; Cape Cod, MA<br>— and online</div>
+    </header>
+
+    <div class="hero">
+      <h1>Struggling in math or physics? Let's fix that.</h1>
+      <p class="hero-sub">
+        Private, one-on-one tutoring for K-12 students in math and physics, plus focused SAT prep —
+        from a graduate researcher who's spent eight years turning confusion into confidence.
+      </p>
+      <div class="hero-badge">Now accepting new students</div>
+    </div>
+
+    <div class="subjects">
+      <div class="subject-card">
+        <div class="subject-name"><span class="subject-dot" style="background:#2C6E75"></span>K-12 Math</div>
+        <div class="subject-grades">Grades K–12</div>
+        <div class="subject-desc">Arithmetic through Algebra I &amp; II, Geometry, Precalculus, and Calculus.</div>
+      </div>
+      <div class="subject-card">
+        <div class="subject-name"><span class="subject-dot" style="background:#C98A2B"></span>K-12 Physics</div>
+        <div class="subject-grades">Grades 9–12</div>
+        <div class="subject-desc">Conceptual &amp; AP Physics — mechanics, waves, electricity &amp; magnetism.</div>
+      </div>
+      <div class="subject-card">
+        <div class="subject-name"><span class="subject-dot" style="background:#8A6BAF"></span>SAT Prep</div>
+        <div class="subject-grades">Grades 9–12</div>
+        <div class="subject-desc">Math and Reading &amp; Writing, built from a diagnostic of real strengths and gaps.</div>
+      </div>
+    </div>
+
+    <div class="credentials-strip">
+      <div class="cred-avatar">DS</div>
+      <div class="cred-text">
+        <strong>M.S., Physical Oceanography</strong> — MIT-WHOI Joint Program &nbsp;·&nbsp;
+        <strong>B.S., Physics &amp; Mathematics</strong> — Boston College, departmental honors &nbsp;·&nbsp;
+        <strong>8 years</strong> tutoring experience, including SAT prep
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="pricing">
+        <div class="section-kicker">Pricing</div>
+        <div class="section-title">Simple, transparent rates</div>
+        <div class="simple-price-row">
+          <div class="simple-price-item">
+            <div class="simple-price-figure">$65<span>/session</span></div>
+            <div class="simple-price-label">K-12 Math &amp; Physics</div>
+          </div>
+          <div class="simple-price-item">
+            <div class="simple-price-figure">$75<span>/session</span></div>
+            <div class="simple-price-label">SAT Prep</div>
+          </div>
+        </div>
+        <div class="simple-price-note">Bundle discounts available — save up to 15% with a 10-session package.</div>
+      </div>
+
+      <div class="testimonials">
+        <div class="section-kicker">What families say</div>
+        <div class="section-title">Real results</div>
+        <div class="testimonial-item">
+          <p class="testimonial-quote">"He answered all of my questions with ease and was able to explain them in a very accessible way."</p>
+          <div class="testimonial-author">— Matthew S., Pre-Calculus</div>
+        </div>
+        <div class="testimonial-item">
+          <p class="testimonial-quote">"Drew has a talent for explaining difficult subjects... my son passed both courses with flying colors."</p>
+          <div class="testimonial-author">— Helane Daniels, parent</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-cta">
+      <div class="footer-left">
+        <div class="section-title">Let's find a time that works.</div>
+        <p>Free, no-pressure intro call for new students. In person around Falmouth &amp; Cape Cod, or by video call anywhere.</p>
+      </div>
+      <div class="contact-block">
+        <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value">drewsegovia6@gmail.com</span></div>
+        <div class="contact-row"><span class="contact-label">Phone</span><span class="contact-value">(732) 540-0177</span></div>
+        <div class="free-call">Free intro call</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tabs">
+    <div class="tab">
+      <div class="tab-col">
+        <span class="tab-email">drewsegovia6@gmail.com</span>
+      </div>
+      <div class="tab-col tab-col-phone">
+        <span class="tab-contact">(732) 540-0177</span>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="tab-col">
+        <span class="tab-email">drewsegovia6@gmail.com</span>
+      </div>
+      <div class="tab-col tab-col-phone">
+        <span class="tab-contact">(732) 540-0177</span>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="tab-col">
+        <span class="tab-email">drewsegovia6@gmail.com</span>
+      </div>
+      <div class="tab-col tab-col-phone">
+        <span class="tab-contact">(732) 540-0177</span>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="tab-col">
+        <span class="tab-email">drewsegovia6@gmail.com</span>
+      </div>
+      <div class="tab-col tab-col-phone">
+        <span class="tab-contact">(732) 540-0177</span>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="tab-col">
+        <span class="tab-email">drewsegovia6@gmail.com</span>
+      </div>
+      <div class="tab-col tab-col-phone">
+        <span class="tab-contact">(732) 540-0177</span>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="tab-col">
+        <span class="tab-email">drewsegovia6@gmail.com</span>
+      </div>
+      <div class="tab-col tab-col-phone">
+        <span class="tab-contact">(732) 540-0177</span>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="tab-col">
+        <span class="tab-email">drewsegovia6@gmail.com</span>
+      </div>
+      <div class="tab-col tab-col-phone">
+        <span class="tab-contact">(732) 540-0177</span>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="tab-col">
+        <span class="tab-email">drewsegovia6@gmail.com</span>
+      </div>
+      <div class="tab-col tab-col-phone">
+        <span class="tab-contact">(732) 540-0177</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
