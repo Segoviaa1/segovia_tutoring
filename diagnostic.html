@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Diagnostic — Drew Segovia Tutoring</title>
+<meta name="description" content="Free 8-question diagnostic for K-12 math, physics, or SAT prep. See exactly which skills need work and get a personalized study plan.">
+<link rel="canonical" href="https://segoviaa1.github.io/segovia_tutoring/diagnostic.html">
+
+<!-- Social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Drew Segovia — Math &amp; Physics Tutoring">
+<meta property="og:title" content="Free 8-question diagnostic — math, physics, or SAT">
+<meta property="og:description" content="Six minutes. See exactly which skills are solid and which need work, then get a free personalized study plan.">
+<meta property="og:url" content="https://segoviaa1.github.io/segovia_tutoring/diagnostic.html">
+<meta property="og:image" content="https://segoviaa1.github.io/segovia_tutoring/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free 8-question diagnostic — math, physics, or SAT">
+<meta name="twitter:description" content="Six minutes. See exactly which skills need work, then get a free personalized study plan.">
+<meta name="twitter:image" content="https://segoviaa1.github.io/segovia_tutoring/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F6F3EA;
+    --paper-raised: #FBF9F3;
+    --ink: #1E2B3C;
+    --ink-soft: #4A5568;
+    --ink-faint: #7A8496;
+    --ocean: #2C6E75;
+    --ocean-deep: #1F4E54;
+    --amber: #C98A2B;
+    --amber-soft: #E8D9BC;
+    --line: #D8D2C0;
+    --line-soft: #E8E3D5;
+    --good: #2C6E75;
+    --review: #B5502E;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--ocean);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Nav ---------- */
+  header.site-nav {
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .back-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--ink); }
+
+  main {
+    padding: 56px 0 80px;
+  }
+
+  /* ---------- Shared card ---------- */
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 44px;
+  }
+
+  /* ---------- Screen visibility ---------- */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ---------- Intro screen ---------- */
+  .intro-kicker {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ocean-deep);
+    margin-bottom: 14px;
+  }
+
+  h1.intro-title {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .intro-sub {
+    font-size: 16.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 56ch;
+    margin-bottom: 8px;
+  }
+
+  .intro-facts {
+    display: flex;
+    gap: 28px;
+    margin: 30px 0 36px;
+    flex-wrap: wrap;
+  }
+
+  .intro-fact {
+    font-size: 14px;
+    color: var(--ink-faint);
+  }
+
+  .intro-fact strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .grade-select-label {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+
+  /* ---------- Category picker ---------- */
+  .category-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 820px) {
+    .category-options { grid-template-columns: 1fr 1fr; }
+  }
+
+  .category-btn {
+    text-align: left;
+    padding: 20px 20px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .category-btn:hover { border-color: var(--ocean); }
+
+  .category-btn.selected {
+    border-color: var(--ink);
+    background: var(--ink);
+  }
+
+  .category-btn-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+
+  .category-btn.selected .category-btn-title { color: var(--paper); }
+
+  .category-btn-desc {
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    line-height: 1.5;
+  }
+
+  .category-btn.selected .category-btn-desc { color: #A9B2C2; }
+
+  .subselect-wrap {
+    display: none;
+  }
+
+  .subselect-wrap.visible {
+    display: block;
+    animation: fadeInSub 0.2s ease;
+  }
+
+  @keyframes fadeInSub {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .grade-options {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 34px;
+  }
+
+  .grade-options.wide {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .grade-btn.course-btn {
+    font-size: 13px;
+  }
+
+  .grade-btn {
+    padding: 14px 8px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+
+  .grade-btn:hover { border-color: var(--ocean); color: var(--ink); }
+
+  .grade-btn.selected {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    border: none;
+    padding: 15px 28px;
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 15.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn-start:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .btn-start:not(:disabled):hover { background: var(--ocean-deep); }
+
+  .intro-note {
+    margin-top: 18px;
+    font-size: 13.5px;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- Quiz screen ---------- */
+  .quiz-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .quiz-progress-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-faint);
+  }
+
+  .quiz-domain-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ocean-deep);
+  }
+
+  .progress-track {
+    height: 4px;
+    background: var(--line-soft);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 34px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--ocean);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 12.5%;
+  }
+
+  .question-passage {
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--ocean);
+    padding: 16px 20px;
+    border-radius: 3px;
+    margin-bottom: 22px;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .question-text {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    padding: 15px 18px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 15.5px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+
+  .option-btn:hover { border-color: var(--ocean); }
+
+  .option-btn.selected {
+    border-color: var(--ocean);
+    background: #E4EEEE;
+  }
+
+  .option-letter {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    flex-shrink: 0;
+    transition: all 0.12s ease;
+  }
+
+  .option-btn.selected .option-letter {
+    border-color: var(--ocean);
+    background: var(--ocean);
+    color: white;
+  }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-next {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 13px 26px;
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn-next:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-next:not(:disabled):hover { background: var(--ocean-deep); }
+
+  /* ---------- Results screen ---------- */
+  .results-header { margin-bottom: 36px; }
+
+  .results-kicker {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ocean-deep);
+    margin-bottom: 12px;
+  }
+
+  h2.results-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3.4vw, 30px);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .results-sub {
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    max-width: 56ch;
+  }
+
+  .score-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 30px 0 36px;
+  }
+
+  .score-row.single-mode {
+    grid-template-columns: 1fr;
+  }
+
+  .score-box {
+    border: 1px solid var(--line);
+    background: var(--paper);
+    border-radius: 5px;
+    padding: 22px 24px;
+  }
+
+  .score-box-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+
+  .score-box-value {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .score-box-value span {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--ink-faint);
+  }
+
+  .skills-table {
+    margin-bottom: 36px;
+  }
+
+  .skills-table-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .skill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 15px;
+  }
+
+  .skill-row:last-child { border-bottom: none; }
+
+  .skill-name { color: var(--ink); }
+
+  .skill-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  .skill-status.correct { color: var(--good); background: #E4EEEE; }
+  .skill-status.review { color: var(--review); background: #F5E5DC; }
+
+  .focus-callout {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--amber);
+    padding: 20px 24px;
+    border-radius: 3px;
+    margin-bottom: 40px;
+  }
+
+  .focus-callout-title {
+    font-family: var(--serif);
+    font-size: 16.5px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .focus-callout p {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  .lead-form {
+    border-top: 1px solid var(--line);
+    padding-top: 34px;
+  }
+
+  .lead-form-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .lead-form-sub {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+    line-height: 1.6;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .form-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .form-field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 15px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .form-field input:focus {
+    outline: none;
+    border-color: var(--ocean);
+  }
+
+  .form-field input.invalid {
+    border-color: var(--review);
+  }
+
+  .field-error {
+    display: none;
+    font-size: 12.5px;
+    color: var(--review);
+    margin-top: 6px;
+  }
+
+  .field-error.visible { display: block; }
+
+  .lead-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+
+  .btn-send {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 14px 26px;
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  .btn-send:hover { background: var(--ocean-deep); }
+
+  .btn-skip {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--line);
+    padding: 14px 26px;
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  .btn-skip:hover { border-color: var(--ink); }
+
+  .lead-form-note {
+    font-size: 13px;
+    color: var(--ink-faint);
+    margin-top: 12px;
+  }
+
+  .send-confirmation {
+    display: none;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--ocean);
+    border-radius: 3px;
+    padding: 20px 22px;
+    margin-top: 24px;
+  }
+
+  .send-confirmation.visible { display: block; }
+
+  .send-confirmation-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .send-confirmation-text {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .results-summary-box {
+    width: 100%;
+    resize: vertical;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    background: var(--paper-raised);
+    margin-bottom: 14px;
+  }
+
+  .send-confirmation-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .btn-copy {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--line);
+    padding: 10px 18px;
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-copy:hover { border-color: var(--ink); }
+
+  .copy-confirm {
+    display: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--good);
+  }
+
+  .copy-confirm.visible { display: inline; }
+
+  .send-confirmation-alt {
+    font-size: 13.5px;
+    color: var(--ink-faint);
+  }
+
+  .restart-link {
+    display: inline-block;
+    margin-top: 22px;
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    text-decoration: underline;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 0;
+    font-size: 13px;
+    color: var(--ink-faint);
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .card { padding: 28px 22px; }
+    .grade-options { grid-template-columns: repeat(3, 1fr); }
+    .grade-options.wide { grid-template-columns: repeat(2, 1fr); }
+    .category-options { grid-template-columns: 1fr; }
+    .intro-facts { gap: 20px; }
+    .score-row { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .wrap, .nav-inner { padding-left: 18px; padding-right: 18px; }
+    .lead-actions { flex-direction: column; }
+    .btn-send, .btn-skip { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">DS</span>
+      <span class="brand-text">Drew Segovia Tutoring</span>
+    </a>
+    <a href="index.html" class="back-link">Back to site</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- INTRO SCREEN -->
+    <section class="screen active" id="screen-intro">
+      <div class="card">
+        <div class="intro-kicker">Free diagnostic</div>
+        <h1 class="intro-title" id="intro-title">Find out where to focus.</h1>
+        <p class="intro-sub" id="intro-sub">
+          8 questions, about 6 minutes. At the end, you'll see exactly which skills are solid and
+          which need work — plus the option to get a personalized study plan.
+        </p>
+
+        <div class="intro-facts">
+          <div class="intro-fact"><strong>8</strong>questions</div>
+          <div class="intro-fact"><strong>~6</strong>minutes</div>
+          <div class="intro-fact" id="intro-fact-three"><strong>&mdash;</strong>choose below</div>
+        </div>
+
+        <div class="grade-select-label">What would you like a diagnostic for?</div>
+        <div class="category-options" id="category-options">
+          <button class="category-btn" data-category="math">
+            <div class="category-btn-title">K-12 Math</div>
+            <div class="category-btn-desc">Pick your grade (5th&ndash;8th) or your current course (Algebra I through Precalculus).</div>
+          </button>
+          <button class="category-btn" data-category="physics">
+            <div class="category-btn-title">Physics</div>
+            <div class="category-btn-desc">Conceptual/Honors Physics, AP Physics 1, or AP Physics C (calculus-based).</div>
+          </button>
+          <button class="category-btn" data-category="sat">
+            <div class="category-btn-title">SAT Prep</div>
+            <div class="category-btn-desc">Math plus Reading &amp; Writing, covering every skill area tested on the SAT.</div>
+          </button>
+        </div>
+
+        <div class="subselect-wrap" id="subselect-wrap">
+          <div class="grade-select-label" id="subselect-label">Which one?</div>
+          <div class="grade-options" id="grade-options"></div>
+        </div>
+
+        <button class="btn-start" id="btn-start" disabled>Start the diagnostic</button>
+        <div class="intro-note">No account needed. Your results are only shared if you choose to send them.</div>
+      </div>
+    </section>
+
+    <!-- QUIZ SCREEN -->
+    <section class="screen" id="screen-quiz">
+      <div class="card">
+        <div class="quiz-top">
+          <div class="quiz-progress-label" id="quiz-progress-label">Question 1 of 8</div>
+          <div class="quiz-domain-label" id="quiz-domain-label">Math — Algebra</div>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+        <div id="question-passage-wrap"></div>
+        <div class="question-text" id="question-text"></div>
+        <div class="options-list" id="options-list"></div>
+
+        <div class="quiz-nav">
+          <button class="btn-next" id="btn-next" disabled>Next question</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS SCREEN -->
+    <section class="screen" id="screen-results">
+      <div class="card">
+        <div class="results-header">
+          <div class="results-kicker">Your results</div>
+          <h2 class="results-title" id="results-title">Here's how it went.</h2>
+          <p class="results-sub" id="results-sub"></p>
+        </div>
+
+        <div class="score-row" id="score-row">
+          <div class="score-box">
+            <div class="score-box-label" id="math-score-label">Math</div>
+            <div class="score-box-value" id="math-score">0 <span>/ 4</span></div>
+          </div>
+          <div class="score-box" id="rw-score-box">
+            <div class="score-box-label">Reading &amp; Writing</div>
+            <div class="score-box-value" id="rw-score">0 <span>/ 4</span></div>
+          </div>
+        </div>
+
+        <div class="skills-table">
+          <div class="skills-table-title">Skill breakdown</div>
+          <div id="skills-list"></div>
+        </div>
+
+        <div class="focus-callout" id="focus-callout" style="display:none;">
+          <div class="focus-callout-title">Where to focus first</div>
+          <p id="focus-callout-text"></p>
+        </div>
+
+        <div class="lead-form" id="lead-form">
+          <div class="lead-form-title">Want a personalized study plan built from these results?</div>
+          <p class="lead-form-sub">
+            Leave your info and I'll put together specific next steps based on what you got right
+            and wrong today — no cost, no obligation.
+          </p>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="lead-name">Student name</label>
+              <input type="text" id="lead-name" placeholder="Student's name">
+              <div class="field-error" id="lead-name-error"></div>
+            </div>
+            <div class="form-field">
+              <label for="lead-parent-email">Parent's email</label>
+              <input type="email" id="lead-parent-email" placeholder="parent@email.com" autocomplete="email">
+              <div class="field-error" id="lead-parent-email-error"></div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="lead-email">Student's email <span style="font-weight:400;">(optional)</span></label>
+            <input type="email" id="lead-email" placeholder="student@email.com">
+            <div class="field-error" id="lead-email-error"></div>
+          </div>
+          <p class="lead-form-note" style="margin-bottom:20px;">
+            A parent's email works best — that's usually who I end up sorting out scheduling with.
+            Either one on its own is fine.
+          </p>
+          <div class="lead-actions">
+            <a href="#" class="btn-send" id="btn-send">Send my results to Drew</a>
+            <a href="booking.html?from=diagnostic" class="btn-skip">Skip — book a free call instead</a>
+          </div>
+
+          <div class="send-confirmation" id="send-confirmation">
+            <div class="send-confirmation-title" id="send-confirmation-title">Sent — your results are with Drew.</div>
+            <p class="send-confirmation-text" id="send-confirmation-text">
+              A copy is on its way to your inbox, and Drew will follow up with specific next steps
+              within a day.
+            </p>
+
+            <div id="post-send-cta">
+              <p class="send-confirmation-text" style="margin-bottom:16px;">
+                Don't want to wait? A free 20-minute call is the fastest way to turn this into a plan.
+              </p>
+              <a href="booking.html?from=diagnostic" class="btn-send" id="btn-book-after">Book a free 20-min call</a>
+            </div>
+
+            <div id="send-fallback" style="display:none;">
+              <textarea class="results-summary-box" id="results-summary-box" readonly rows="6"></textarea>
+              <div class="send-confirmation-actions">
+                <button type="button" class="btn-copy" id="btn-copy">Copy results</button>
+                <span class="copy-confirm" id="copy-confirm">Copied</span>
+              </div>
+              <p class="send-confirmation-alt">
+                Or text them to (732) 540-0177, or email <a href="mailto:drewsegovia6@gmail.com">drewsegovia6@gmail.com</a> directly.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <a href="#" class="restart-link" id="restart-link">Retake the diagnostic</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  Drew Segovia Tutoring · drewsegovia6@gmail.com · (732) 540-0177
+</footer>
+
+<script>
+(function () {
+  // All questions below are original, written to mirror the topics and
+  // difficulty of a standard U.S. public school math sequence and, for the
+  // SAT set, official SAT content domains. None are reproduced from any
+  // copyrighted test or textbook.
+  //
+  // Curriculum grounding (verified against public sources):
+  //  - Grades 5-8: Common Core State Standards for Mathematics
+  //    (thecorestandards.org), grade-by-grade domains.
+  //  - Grades 9-12: standard U.S. high school course sequence
+  //    (Algebra I -> Geometry -> Algebra II -> Precalculus) and the topics
+  //    typically covered in each course.
+  //  - SAT set: the official Digital SAT content domains (Algebra, Advanced
+  //    Math, Problem-Solving & Data Analysis, Geometry & Trigonometry for
+  //    Math; Information & Ideas, Craft & Structure, Standard English
+  //    Conventions, Expression of Ideas for Reading & Writing).
+  //
+  // Each 8-question set follows the same difficulty spread: 2 easier,
+  // 4 average, 2 more difficult, calibrated to what a student at that
+  // grade/course has typically already covered.
+
+  var quizzes = {
+
+    sat: {
+      mode: "split",
+      label: "SAT Prep",
+      questions: [
+        {
+          domain: "math-algebra", skill: "Algebra", difficulty: "easy",
+          text: "If 5x \u2212 8 = 27, what is the value of x?",
+          options: ["5", "7", "19", "35"], correct: 1
+        },
+        {
+          domain: "math-data", skill: "Problem-Solving & Data Analysis", difficulty: "average",
+          text: "A furniture store's inventory dropped from 240 items to 204 items after a clearance sale. What was the percent decrease?",
+          options: ["12%", "15%", "18%", "36%"], correct: 1
+        },
+        {
+          domain: "math-advanced", skill: "Advanced Math", difficulty: "hard",
+          text: "If x\u00B2 \u2212 2x \u2212 15 = 0 and x < 0, what is the value of x?",
+          options: ["\u22125", "\u22123", "3", "5"], correct: 0
+        },
+        {
+          domain: "math-geometry", skill: "Geometry & Trigonometry", difficulty: "average",
+          text: "A 13-foot ladder leans against a wall with its base 5 feet from the wall. How many feet up the wall does the ladder reach?",
+          options: ["10", "12", "13", "18"], correct: 1
+        },
+        {
+          domain: "rw-conventions", skill: "Standard English Conventions", difficulty: "easy",
+          text: "Which choice completes the text with the most grammatically correct sentence?\n\n\"The list of ingredients ___ posted on the refrigerator.\"",
+          options: ["is", "are", "were", "have been"], correct: 0
+        },
+        {
+          domain: "rw-craft", skill: "Craft & Structure", difficulty: "average",
+          passage: "Although the new evidence seemed convincing to most of her colleagues, Dr. Alvarez remained skeptical of the study's conclusions.",
+          text: "As used in the text, \"skeptical\" most nearly means:",
+          options: ["doubtful", "supportive", "curious", "indifferent"], correct: 0
+        },
+        {
+          domain: "rw-info", skill: "Information & Ideas", difficulty: "hard",
+          passage: "For decades, urban planners assumed that adding lanes to congested highways would ease traffic by increasing road capacity. However, data collected across dozens of expanded highways reveal a persistent pattern: within a few years, traffic volumes rise to fill the new capacity, and congestion returns to earlier levels. Some researchers now argue that widening highways treats a symptom of congestion rather than its underlying cause.",
+          text: "Based on the text, which statement would the researchers mentioned in the text most likely support?",
+          options: [
+            "Highway congestion cannot be reduced by any policy change.",
+            "Expanding road capacity alone is unlikely to produce lasting reductions in congestion.",
+            "Traffic volumes are unrelated to the number of available lanes.",
+            "Urban planners have always opposed highway expansion projects."
+          ], correct: 1
+        },
+        {
+          domain: "rw-expression", skill: "Expression of Ideas", difficulty: "average",
+          text: "\"The bridge had been closed for repairs for over a month. ___, traffic on the surrounding streets increased significantly.\"\n\nWhich choice completes the text with the most logical transition?",
+          options: ["As a result,", "However,", "For instance,", "In other words,"], correct: 0
+        }
+      ]
+    },
+
+    math_g5: {
+      mode: "single", label: "5th Grade Math",
+      questions: [
+        { skill: "Order of Operations", difficulty: "easy", text: "What is the value of 3 + 4 \u00D7 2?", options: ["14", "11", "10", "20"], correct: 1 },
+        { skill: "Adding Fractions", difficulty: "average", text: "What is 1/3 + 1/4?", options: ["2/7", "7/12", "1/2", "5/12"], correct: 1 },
+        { skill: "Multiplying Fractions", difficulty: "average", text: "What is 2/5 \u00D7 10?", options: ["2", "4", "5", "20"], correct: 1 },
+        { skill: "Dividing with Fractions", difficulty: "hard", text: "A recipe uses 1/2 cup of sugar per batch. How many batches can be made with 4 cups of sugar?", options: ["2", "4", "8", "16"], correct: 2 },
+        { skill: "Decimal Operations", difficulty: "average", text: "What is 3.6 + 2.75?", options: ["5.35", "6.35", "6.11", "5.11"], correct: 1 },
+        { skill: "Volume", difficulty: "easy", text: "A rectangular box has length 4 cm, width 3 cm, and height 2 cm. What is its volume?", options: ["9 cubic cm", "24 cubic cm", "20 cubic cm", "14 cubic cm"], correct: 1 },
+        { skill: "Coordinate Plane", difficulty: "hard", text: "Point A is at (2, 5). If you move it 3 units right and 4 units down, what are its new coordinates?", options: ["(5, 1)", "(5, 9)", "(-1, 9)", "(-1, 1)"], correct: 0 },
+        { skill: "Multi-Digit Multiplication", difficulty: "average", text: "What is 34 \u00D7 26?", options: ["884", "860", "780", "910"], correct: 0 }
+      ]
+    },
+
+    math_g6: {
+      mode: "single", label: "6th Grade Math",
+      questions: [
+        { skill: "Ratio Reasoning", difficulty: "easy", text: "A recipe calls for 2 cups of flour for every 3 cups of sugar. If you use 6 cups of flour, how many cups of sugar do you need?", options: ["6", "9", "12", "4"], correct: 1 },
+        { skill: "Dividing Fractions", difficulty: "average", text: "What is 3/4 \u00F7 1/2?", options: ["3/8", "1 1/2", "2 1/4", "3/4"], correct: 1 },
+        { skill: "One-Step Equations", difficulty: "average", text: "Solve for x: x/4 = 9", options: ["5", "13", "36", "2.25"], correct: 2 },
+        { skill: "Inequalities", difficulty: "hard", text: "Which value of x makes the inequality 3x \u2212 2 > 10 true?", options: ["3", "4", "5", "2"], correct: 2 },
+        { skill: "Area", difficulty: "average", text: "A rectangle has length 8 cm and width 5 cm. What is its area?", options: ["13 sq cm", "40 sq cm", "26 sq cm", "20 sq cm"], correct: 1 },
+        { skill: "Rational Numbers", difficulty: "easy", text: "What is |\u22127|?", options: ["\u22127", "7", "0", "14"], correct: 1 },
+        { skill: "Volume with Fractions", difficulty: "hard", text: "A box has length 2 1/2 ft, width 2 ft, and height 3 ft. What is its volume?", options: ["12 cubic ft", "15 cubic ft", "17.5 cubic ft", "10 cubic ft"], correct: 1 },
+        { skill: "Statistics: Mean", difficulty: "average", text: "What is the mean of the data set: 4, 8, 6, 10, 7?", options: ["6", "7", "8", "35"], correct: 1 }
+      ]
+    },
+
+    math_g7: {
+      mode: "single", label: "7th Grade Math",
+      questions: [
+        { skill: "Unit Rate", difficulty: "easy", text: "A car travels 150 miles in 3 hours at a constant speed. How far will it travel in 5 hours?", options: ["200", "250", "300", "750"], correct: 1 },
+        { skill: "Operations with Negatives", difficulty: "average", text: "What is \u22128 + 3 \u00D7 (\u22122)?", options: ["\u221214", "\u221222", "\u22122", "14"], correct: 0 },
+        { skill: "Two-Step Equations", difficulty: "average", text: "Solve for x: 2x + 5 = \u22123", options: ["\u22124", "4", "\u22121", "1"], correct: 0 },
+        { skill: "Circumference", difficulty: "hard", text: "A circle has a radius of 7 cm. What is its circumference? (Use \u03c0 \u2248 22/7)", options: ["44 cm", "22 cm", "154 cm", "49 cm"], correct: 0 },
+        { skill: "Percent Change", difficulty: "average", text: "A jacket originally priced at $60 is marked down 25%. What is the sale price?", options: ["$45", "$15", "$35", "$55"], correct: 0 },
+        { skill: "Probability", difficulty: "easy", text: "A bag contains 4 red marbles and 6 blue marbles. What is the probability of randomly picking a red marble?", options: ["2/5", "4/6", "6/10", "1/4"], correct: 0 },
+        { skill: "Scale Drawings", difficulty: "hard", text: "A map has a scale of 1 inch = 25 miles. If two cities are 3.5 inches apart on the map, how many miles apart are they in real life?", options: ["87.5", "75", "28.5", "100"], correct: 0 },
+        { skill: "Comparing Data Sets", difficulty: "average", text: "Group A has a mean score of 82, and Group B has a mean score of 76. What is the difference between the two means?", options: ["6", "158", "82", "76"], correct: 0 }
+      ]
+    },
+
+    math_g8: {
+      mode: "single", label: "8th Grade Math",
+      questions: [
+        { skill: "Exponent Rules", difficulty: "easy", text: "What is the value of 3\u00B2 \u00D7 3\u00B3?", options: ["243", "9", "729", "81"], correct: 0 },
+        { skill: "Linear Equations", difficulty: "average", text: "Solve for x: 4x \u2212 7 = 2x + 9", options: ["8", "4", "16", "\u22128"], correct: 0 },
+        { skill: "Systems of Equations", difficulty: "average", text: "Solve the system: y = x + 2 and y = 3x \u2212 4. What is the value of x?", options: ["3", "1", "\u22123", "6"], correct: 0 },
+        { skill: "Pythagorean Theorem", difficulty: "hard", text: "A ladder reaches 12 feet up a wall. The base of the ladder is 5 feet from the wall. How long is the ladder?", options: ["13 ft", "17 ft", "7 ft", "169 ft"], correct: 0 },
+        { skill: "Functions", difficulty: "average", text: "A function is defined as f(x) = 3x \u2212 5. What is f(4)?", options: ["7", "12", "\u22127", "17"], correct: 0 },
+        { skill: "Slope as Unit Rate", difficulty: "easy", text: "A graph shows a proportional relationship passing through the point (4, 12). What is the unit rate (slope)?", options: ["3", "4", "12", "48"], correct: 0 },
+        { skill: "Volume of a Cylinder", difficulty: "hard", text: "A cylinder has a radius of 3 cm and a height of 10 cm. What is its volume? (Use \u03c0 \u2248 3.14)", options: ["282.6 cubic cm", "94.2 cubic cm", "188.4 cubic cm", "942 cubic cm"], correct: 0 },
+        { skill: "Scatter Plots", difficulty: "average", text: "A scatter plot shows that as study time increases, test scores also increase. What type of association does this describe?", options: ["Positive association", "Negative association", "No association", "Nonlinear association"], correct: 0 }
+      ]
+    },
+
+    math_alg1: {
+      mode: "single", label: "Algebra I",
+      questions: [
+        { skill: "Linear Equations", difficulty: "easy", text: "Solve for x: 2x + 9 = 21", options: ["6", "15", "10.5", "12"], correct: 0 },
+        { skill: "Slope", difficulty: "average", text: "What is the slope of the line through the points (2, 3) and (6, 11)?", options: ["2", "4", "0.5", "8"], correct: 0 },
+        { skill: "Systems of Equations", difficulty: "average", text: "Solve the system: x + y = 10 and x \u2212 y = 2. What is the value of x?", options: ["6", "4", "8", "2"], correct: 0 },
+        { skill: "Factoring Quadratics", difficulty: "hard", text: "Factor completely: x\u00B2 + 7x + 12", options: ["(x+3)(x+4)", "(x+2)(x+6)", "(x+1)(x+12)", "(x\u22123)(x\u22124)"], correct: 0 },
+        { skill: "Polynomial Operations", difficulty: "average", text: "Simplify: (3x\u00B2 + 2x) \u2212 (x\u00B2 \u2212 5x)", options: ["2x\u00B2 + 7x", "2x\u00B2 \u2212 3x", "4x\u00B2 + 7x", "2x\u00B2 + 7"], correct: 0 },
+        { skill: "Solving Inequalities", difficulty: "easy", text: "Solve for x: \u22123x > 12", options: ["x < \u22124", "x > \u22124", "x < 4", "x > 4"], correct: 0 },
+        { skill: "Quadratic Equations", difficulty: "hard", text: "What are the solutions to x\u00B2 \u2212 9 = 0?", options: ["x = 3 and x = \u22123", "x = 9 and x = \u22129", "x = 3 only", "x = 81"], correct: 0 },
+        { skill: "Exponent Rules", difficulty: "average", text: "Simplify: (2x\u00B3)(3x\u00B2)", options: ["6x\u2075", "6x\u2076", "5x\u2075", "6x"], correct: 0 }
+      ]
+    },
+
+    math_geo: {
+      mode: "single", label: "Geometry",
+      questions: [
+        { skill: "Triangle Angle Sum", difficulty: "easy", text: "In a triangle, two angles measure 50\u00B0 and 65\u00B0. What is the measure of the third angle?", options: ["65\u00B0", "55\u00B0", "75\u00B0", "50\u00B0"], correct: 0 },
+        { skill: "Pythagorean Theorem", difficulty: "average", text: "A right triangle has legs of length 9 and 12. What is the length of the hypotenuse?", options: ["15", "21", "13", "150"], correct: 0 },
+        { skill: "Similar Triangles", difficulty: "average", text: "Triangle ABC is similar to Triangle DEF. If AB = 6, DE = 9, and BC = 8, what is EF?", options: ["12", "10", "14", "9"], correct: 0 },
+        { skill: "Circles: Sector Area", difficulty: "hard", text: "A circle has a radius of 10 cm. What is the area of a sector with a central angle of 72\u00B0? (Use \u03c0 \u2248 3.14)", options: ["62.8 sq cm", "31.4 sq cm", "20 sq cm", "314 sq cm"], correct: 0 },
+        { skill: "Coordinate Geometry", difficulty: "average", text: "What is the distance between the points (1, 2) and (4, 6)?", options: ["5", "7", "25", "4.5"], correct: 0 },
+        { skill: "Quadrilateral Properties", difficulty: "easy", text: "Which quadrilateral always has four right angles?", options: ["Rectangle", "Rhombus", "Parallelogram", "Trapezoid"], correct: 0 },
+        { skill: "Basic Trigonometry", difficulty: "hard", text: "In a right triangle, the side opposite a 30\u00B0 angle is 5. What is the length of the hypotenuse? (sin 30\u00B0 = 0.5)", options: ["10", "5", "2.5", "15"], correct: 0 },
+        { skill: "Volume of a Prism", difficulty: "average", text: "A rectangular prism has length 5, width 4, and height 3. What is its volume?", options: ["60", "12", "47", "120"], correct: 0 }
+      ]
+    },
+
+    math_alg2: {
+      mode: "single", label: "Algebra II",
+      questions: [
+        { skill: "Function Composition", difficulty: "easy", text: "If f(x) = 2x + 1 and g(x) = x \u2212 3, what is f(g(5))?", options: ["5", "7", "3", "9"], correct: 0 },
+        { skill: "Quadratic Formula", difficulty: "average", text: "What are the solutions to x\u00B2 \u2212 4x \u2212 5 = 0?", options: ["x = 5 and x = \u22121", "x = 4 and x = \u22125", "x = \u22125 and x = 1", "x = 5 and x = 1"], correct: 0 },
+        { skill: "Exponential Growth", difficulty: "average", text: "A population of 500 bacteria doubles every hour. What will the population be after 3 hours?", options: ["4,000", "1,500", "3,000", "8,000"], correct: 0 },
+        { skill: "Logarithms", difficulty: "hard", text: "Solve for x: log\u2082(x) = 5", options: ["32", "10", "25", "64"], correct: 0 },
+        { skill: "Rational Expressions", difficulty: "average", text: "Simplify: (x\u00B2 \u2212 9) / (x \u2212 3)", options: ["x + 3", "x \u2212 3", "x\u00B2 \u2212 3", "x + 9"], correct: 0 },
+        { skill: "Complex Numbers", difficulty: "easy", text: "What is i\u00B2?", options: ["\u22121", "1", "i", "\u2212i"], correct: 0 },
+        { skill: "Exponential Applications", difficulty: "hard", text: "An investment of $1,000 grows according to A = 1000(1.05)^t. What is its value after 10 years, to the nearest dollar? (1.05\u00B9\u2070 \u2248 1.629)", options: ["$1,629", "$1,500", "$1,050", "$2,000"], correct: 0 },
+        { skill: "Geometric Sequences", difficulty: "average", text: "What is the 6th term of the geometric sequence 3, 6, 12, 24, ...?", options: ["96", "48", "192", "72"], correct: 0 }
+      ]
+    },
+
+    math_precalc: {
+      mode: "single", label: "Precalculus",
+      questions: [
+        { skill: "Unit Circle", difficulty: "easy", text: "What is the value of sin(30\u00B0)?", options: ["1/2", "\u221A3/2", "1", "0"], correct: 0 },
+        { skill: "Trig Identities", difficulty: "average", text: "If sin(\u03B8) = 3/5 and \u03B8 is in Quadrant I, what is cos(\u03B8)?", options: ["4/5", "3/4", "5/3", "2/5"], correct: 0 },
+        { skill: "Function Domain", difficulty: "average", text: "If f(x) = \u221A(x \u2212 2), what is the domain of f?", options: ["x \u2265 2", "x \u2264 2", "x \u2260 2", "all real numbers"], correct: 0 },
+        { skill: "Trig Equations", difficulty: "hard", text: "Solve for \u03B8 in [0\u00B0, 360\u00B0): 2sin(\u03B8) = 1", options: ["30\u00B0 and 150\u00B0", "30\u00B0 and 210\u00B0", "60\u00B0 and 120\u00B0", "90\u00B0 only"], correct: 0 },
+        { skill: "Logarithms", difficulty: "average", text: "Simplify: log(100) + log(10)", options: ["3", "2", "10", "1000"], correct: 0 },
+        { skill: "Vectors", difficulty: "easy", text: "What is the magnitude of the vector <3, 4>?", options: ["5", "7", "12", "1"], correct: 0 },
+        { skill: "Limits", difficulty: "hard", text: "What is the value of lim(x\u21922) of (x\u00B2 \u2212 4)/(x \u2212 2)?", options: ["4", "0", "2", "undefined"], correct: 0 },
+        { skill: "Geometric Series", difficulty: "average", text: "What is the sum of the first 4 terms of the geometric series 2 + 6 + 18 + 54 + ...?", options: ["80", "54", "162", "72"], correct: 0 }
+      ]
+    },
+
+    // ---------- Physics ----------
+    // Grounded in the published College Board course frameworks for AP
+    // Physics 1 (algebra-based) and AP Physics C: Mechanics
+    // (calculus-based), and in the standard first-year conceptual/honors
+    // physics sequence. All questions original.
+    physics_conceptual: {
+      mode: "single", label: "Conceptual / Honors Physics",
+      questions: [
+        { skill: "Kinematics", difficulty: "easy", text: "A car travels 150 meters in 10 seconds at constant speed. What is its speed?", options: ["15 m/s", "1.5 m/s", "150 m/s", "1500 m/s"], correct: 0 },
+        { skill: "Newton's Second Law", difficulty: "easy", text: "A net force of 20 N acts on a 4 kg object. What is its acceleration?", options: ["5 m/s²", "80 m/s²", "0.2 m/s²", "24 m/s²"], correct: 0 },
+        { skill: "Free Fall", difficulty: "average", text: "An object is dropped from rest. Ignoring air resistance, how fast is it moving after 3 seconds? (Use g = 10 m/s²)", options: ["30 m/s", "10 m/s", "45 m/s", "3 m/s"], correct: 0 },
+        { skill: "Newton's Third Law", difficulty: "average", text: "A book rests on a table. The table pushes up on the book with 12 N. What force does the book exert on the table?", options: ["12 N downward", "12 N upward", "0 N", "24 N downward"], correct: 0 },
+        { skill: "Energy Conservation", difficulty: "average", text: "A 2 kg ball is held 5 m above the ground. Using g = 10 m/s², what is its gravitational potential energy?", options: ["100 J", "10 J", "50 J", "20 J"], correct: 0 },
+        { skill: "Momentum", difficulty: "average", text: "What is the momentum of a 3 kg object moving at 4 m/s?", options: ["12 kg·m/s", "7 kg·m/s", "0.75 kg·m/s", "24 kg·m/s"], correct: 0 },
+        { skill: "Waves", difficulty: "hard", text: "A wave has a frequency of 5 Hz and a wavelength of 4 m. What is its speed?", options: ["20 m/s", "1.25 m/s", "0.8 m/s", "9 m/s"], correct: 0 },
+        { skill: "Ohm's Law", difficulty: "hard", text: "A 12 V battery is connected across a 4 Ω resistor. What current flows through it?", options: ["3 A", "48 A", "0.33 A", "16 A"], correct: 0 }
+      ]
+    },
+    physics_ap1: {
+      mode: "single", label: "AP Physics 1",
+      questions: [
+        { skill: "Kinematics", difficulty: "easy", text: "A ball is thrown straight up at 20 m/s. Using g = 10 m/s², how long until it reaches its highest point?", options: ["2 s", "4 s", "1 s", "20 s"], correct: 0 },
+        { skill: "Free-Body Diagrams", difficulty: "average", text: "A 5 kg box slides on a frictionless floor, pushed horizontally by a 15 N force. What is the normal force on the box? (g = 10 m/s²)", options: ["50 N", "15 N", "65 N", "35 N"], correct: 0 },
+        { skill: "Friction", difficulty: "average", text: "A 10 kg crate sits on a floor with coefficient of static friction 0.4. What minimum horizontal force starts it moving? (g = 10 m/s²)", options: ["40 N", "4 N", "100 N", "25 N"], correct: 0 },
+        { skill: "Work & Energy", difficulty: "average", text: "A 2 kg cart moving at 3 m/s is brought to rest. How much work did the stopping force do?", options: ["−9 J", "−6 J", "−18 J", "−3 J"], correct: 0 },
+        { skill: "Momentum & Collisions", difficulty: "hard", text: "A 2 kg cart at 4 m/s collides and sticks to a stationary 2 kg cart. What is their combined speed afterward?", options: ["2 m/s", "4 m/s", "8 m/s", "1 m/s"], correct: 0 },
+        { skill: "Circular Motion", difficulty: "hard", text: "An object moves in a circle of radius 2 m at a constant 4 m/s. What is its centripetal acceleration?", options: ["8 m/s²", "2 m/s²", "16 m/s²", "4 m/s²"], correct: 0 },
+        { skill: "Rotational Motion", difficulty: "average", text: "A force of 10 N is applied perpendicular to a wrench 0.3 m from the bolt. What torque is produced?", options: ["3 N·m", "30 N·m", "0.03 N·m", "10 N·m"], correct: 0 },
+        { skill: "Simple Harmonic Motion", difficulty: "easy", text: "For a mass on a spring, what happens to the period if the mass is quadrupled?", options: ["It doubles", "It quadruples", "It halves", "It stays the same"], correct: 0 }
+      ]
+    },
+    physics_apc: {
+      mode: "single", label: "AP Physics C",
+      questions: [
+        { skill: "Kinematics with Calculus", difficulty: "average", text: "A particle's position is x(t) = 3t² − 2t. What is its velocity at t = 2 s?", options: ["10 m/s", "8 m/s", "12 m/s", "6 m/s"], correct: 0 },
+        { skill: "Variable Acceleration", difficulty: "hard", text: "If a(t) = 6t and the particle starts from rest, what is its velocity at t = 2 s?", options: ["12 m/s", "24 m/s", "6 m/s", "3 m/s"], correct: 0 },
+        { skill: "Newton's Laws", difficulty: "average", text: "A 4 kg block on a frictionless incline of 30° slides freely. What is its acceleration along the incline? (g = 10 m/s²)", options: ["5 m/s²", "10 m/s²", "8.7 m/s²", "2.5 m/s²"], correct: 0 },
+        { skill: "Work-Energy Theorem", difficulty: "average", text: "A force F(x) = 4x N acts on an object from x = 0 to x = 3 m. How much work is done?", options: ["18 J", "12 J", "36 J", "6 J"], correct: 0 },
+        { skill: "Center of Mass", difficulty: "hard", text: "Two masses, 2 kg at x = 0 and 6 kg at x = 4 m, lie on a line. Where is the center of mass?", options: ["x = 3 m", "x = 2 m", "x = 1 m", "x = 3.5 m"], correct: 0 },
+        { skill: "Rotational Dynamics", difficulty: "hard", text: "A solid disk (I = ½MR²) of mass 4 kg and radius 0.5 m has a net torque of 2 N·m applied. What is its angular acceleration?", options: ["4 rad/s²", "1 rad/s²", "2 rad/s²", "8 rad/s²"], correct: 0 },
+        { skill: "Angular Momentum", difficulty: "average", text: "A spinning skater pulls her arms in, reducing her moment of inertia to half. What happens to her angular speed?", options: ["It doubles", "It halves", "It stays the same", "It quadruples"], correct: 0 },
+        { skill: "Gravitation", difficulty: "easy", text: "If the distance between two masses is doubled, the gravitational force between them becomes:", options: ["one quarter as large", "half as large", "twice as large", "four times as large"], correct: 0 }
+      ]
+    }
+  };
+
+  var mathGradeOptions = [
+    { value: "math_g5", label: "5th grade" },
+    { value: "math_g6", label: "6th grade" },
+    { value: "math_g7", label: "7th grade" },
+    { value: "math_g8", label: "8th grade" },
+    { value: "math_alg1", label: "Algebra I" },
+    { value: "math_geo", label: "Geometry" },
+    { value: "math_alg2", label: "Algebra II" },
+    { value: "math_precalc", label: "Precalculus" }
+  ];
+
+  var physicsCourseOptions = [
+    { value: "physics_conceptual", label: "Conceptual / Honors" },
+    { value: "physics_ap1", label: "AP Physics 1" },
+    { value: "physics_apc", label: "AP Physics C" }
+  ];
+
+  // Same Google Apps Script Web App URL as booking.html — see
+  // booking-backend.gs for setup. This is what turns a finished
+  // diagnostic into a lead that actually reaches Drew.
+  var API_URL = "https://script.google.com/macros/s/AKfycbw5OoHCt24ruV3ROJGqD_BL8AyhONKxjQLUvPittcgpLv1bNq5HwZG9vnpFbGH7Db7lBg/exec";
+
+  function apiPost(payload) {
+    // Sent as text/plain to avoid a CORS preflight; Apps Script parses
+    // the raw body as JSON on its end.
+    return fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
+      .then(function (r) { return r.json(); });
+  }
+
+  // Fire-and-forget funnel counting. Deliberately silent: tracking must
+  // never slow down or break the quiz.
+  function track(event, category, detail) {
+    try {
+      apiPost({ action: 'logEvent', event: event, category: category || '', detail: detail || '' })
+        .catch(function () {});
+    } catch (err) { /* ignore */ }
+  }
+
+  var state = {
+    category: null,
+    quizId: null,
+    gradeOrCourseLabel: null,
+    current: 0,
+    selectedOption: null,
+    optionOrder: null,
+    answers: []
+  };
+
+  var screenIntro = document.getElementById('screen-intro');
+  var screenQuiz = document.getElementById('screen-quiz');
+  var screenResults = document.getElementById('screen-results');
+
+  function showScreen(el) {
+    [screenIntro, screenQuiz, screenResults].forEach(function (s) { s.classList.remove('active'); });
+    el.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ---------- Category + grade/course selection ----------
+  var categoryOptions = document.getElementById('category-options');
+  var subselectWrap = document.getElementById('subselect-wrap');
+  var subselectLabel = document.getElementById('subselect-label');
+  var gradeOptionsEl = document.getElementById('grade-options');
+  var btnStart = document.getElementById('btn-start');
+  var introTitle = document.getElementById('intro-title');
+  var introSub = document.getElementById('intro-sub');
+  var introFactThree = document.getElementById('intro-fact-three');
+
+  categoryOptions.addEventListener('click', function (e) {
+    var btn = e.target.closest('.category-btn');
+    if (!btn) return;
+    Array.prototype.forEach.call(categoryOptions.children, function (c) { c.classList.remove('selected'); });
+    btn.classList.add('selected');
+    state.category = btn.getAttribute('data-category');
+    state.gradeOrCourseLabel = null;
+
+    if (state.category === 'sat') {
+      // SAT content is one fixed set defined by College Board — it doesn't
+      // vary by grade, so there's no grade/course sub-selection to make.
+      state.quizId = 'sat';
+      subselectWrap.classList.remove('visible');
+      gradeOptionsEl.innerHTML = '';
+      btnStart.disabled = false;
+      introTitle.textContent = 'Find out where to focus before test day.';
+      introSub.textContent = "8 questions covering every Math and Reading & Writing skill area tested on the SAT. Takes about 6 minutes. At the end, you'll see exactly which areas are solid and which need work.";
+      introFactThree.innerHTML = '<strong>8</strong>skill areas covered';
+    } else if (state.category === 'physics') {
+      state.quizId = null;
+      btnStart.disabled = true;
+      gradeOptionsEl.classList.add('wide');
+      introTitle.textContent = 'Find out where to focus in physics.';
+      introSub.textContent = "8 questions matched to your course, from conceptual physics through calculus-based AP Physics C. Takes about 6 minutes.";
+      introFactThree.innerHTML = '<strong>8</strong>skill areas covered';
+
+      subselectLabel.textContent = 'Which physics course?';
+      gradeOptionsEl.innerHTML = '';
+      physicsCourseOptions.forEach(function (opt) {
+        var b = document.createElement('button');
+        b.className = 'grade-btn course-btn';
+        b.setAttribute('data-value', opt.value);
+        b.textContent = opt.label;
+        gradeOptionsEl.appendChild(b);
+      });
+      subselectWrap.classList.add('visible');
+    } else {
+      state.quizId = null;
+      btnStart.disabled = true;
+      gradeOptionsEl.classList.add('wide');
+      introTitle.textContent = 'Find out where to focus in math.';
+      introSub.textContent = "8 questions matched to your grade or current course, covering topics from a standard public school math sequence. Takes about 6 minutes.";
+      introFactThree.innerHTML = '<strong>4</strong>skill areas covered';
+
+      subselectLabel.textContent = 'What grade or course?';
+      gradeOptionsEl.innerHTML = '';
+      mathGradeOptions.forEach(function (opt) {
+        var b = document.createElement('button');
+        b.className = 'grade-btn course-btn';
+        b.setAttribute('data-value', opt.value);
+        b.textContent = opt.label;
+        gradeOptionsEl.appendChild(b);
+      });
+      subselectWrap.classList.add('visible');
+    }
+  });
+
+  gradeOptionsEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('.grade-btn');
+    if (!btn) return;
+    Array.prototype.forEach.call(gradeOptionsEl.children, function (c) { c.classList.remove('selected'); });
+    btn.classList.add('selected');
+    state.quizId = btn.getAttribute('data-value');
+    state.gradeOrCourseLabel = btn.textContent;
+    btnStart.disabled = false;
+  });
+
+  btnStart.addEventListener('click', function () {
+    state.current = 0;
+    state.answers = [];
+    track('diagnostic_started', state.category, state.gradeOrCourseLabel || '');
+    showScreen(screenQuiz);
+    renderQuestion();
+  });
+
+  // ---------- Quiz ----------
+  var progressLabel = document.getElementById('quiz-progress-label');
+  var domainLabel = document.getElementById('quiz-domain-label');
+  var progressFill = document.getElementById('progress-fill');
+  var passageWrap = document.getElementById('question-passage-wrap');
+  var questionText = document.getElementById('question-text');
+  var optionsList = document.getElementById('options-list');
+  var btnNext = document.getElementById('btn-next');
+
+  function currentQuestions() {
+    return quizzes[state.quizId].questions;
+  }
+
+  // Fisher-Yates over [0..n-1], used to randomize answer positions.
+  function shuffledIndices(n) {
+    var arr = [];
+    for (var i = 0; i < n; i++) arr.push(i);
+    for (var j = n - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = arr[j];
+      arr[j] = arr[k];
+      arr[k] = tmp;
+    }
+    return arr;
+  }
+
+  function renderQuestion() {
+    var questions = currentQuestions();
+    var q = questions[state.current];
+    state.selectedOption = null;
+    btnNext.disabled = true;
+
+    progressLabel.textContent = 'Question ' + (state.current + 1) + ' of ' + questions.length;
+    domainLabel.textContent = q.skill;
+    progressFill.style.width = (((state.current + 1) / questions.length) * 100) + '%';
+
+    passageWrap.innerHTML = '';
+    if (q.passage) {
+      var p = document.createElement('div');
+      p.className = 'question-passage';
+      p.textContent = q.passage;
+      passageWrap.appendChild(p);
+    }
+
+    questionText.textContent = q.text;
+
+    // Options are shuffled on every render. Written as authored, the
+    // correct answer sat in position A for most questions across the
+    // whole bank — a student who spotted that could score well without
+    // reading anything, which would make the skill breakdown (and the
+    // study plan built from it) meaningless. The stored `correct` index
+    // still refers to the original order; the permutation is only how
+    // they're displayed.
+    state.optionOrder = shuffledIndices(q.options.length);
+
+    optionsList.innerHTML = '';
+    var letters = ['A', 'B', 'C', 'D'];
+    state.optionOrder.forEach(function (originalIndex, displayIndex) {
+      var btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = '<span class="option-letter">' + letters[displayIndex] + '</span><span></span>';
+      btn.querySelector('span:last-child').textContent = q.options[originalIndex];
+      btn.addEventListener('click', function () {
+        Array.prototype.forEach.call(optionsList.children, function (c) { c.classList.remove('selected'); });
+        btn.classList.add('selected');
+        state.selectedOption = originalIndex;
+        btnNext.disabled = false;
+      });
+      optionsList.appendChild(btn);
+    });
+
+    btnNext.textContent = (state.current === questions.length - 1) ? 'See my results' : 'Next question';
+  }
+
+  btnNext.addEventListener('click', function () {
+    var questions = currentQuestions();
+    var q = questions[state.current];
+    state.answers.push({
+      skill: q.skill,
+      domain: q.domain || null,
+      correct: state.selectedOption === q.correct
+    });
+
+    if (state.current < questions.length - 1) {
+      state.current++;
+      renderQuestion();
+    } else {
+      showResults();
+    }
+  });
+
+  // ---------- Results ----------
+  var scoreRow = document.getElementById('score-row');
+  var mathScoreEl = document.getElementById('math-score');
+  var mathScoreLabel = document.getElementById('math-score-label');
+  var rwScoreBox = document.getElementById('rw-score-box');
+  var rwScoreEl = document.getElementById('rw-score');
+  var skillsList = document.getElementById('skills-list');
+  var resultsSub = document.getElementById('results-sub');
+  var focusCallout = document.getElementById('focus-callout');
+  var focusCalloutText = document.getElementById('focus-callout-text');
+
+  function showResults() {
+    var quiz = quizzes[state.quizId];
+    var totalCorrect = state.answers.filter(function (a) { return a.correct; }).length;
+    var totalCount = state.answers.length;
+
+    if (quiz.mode === 'split') {
+      scoreRow.classList.remove('single-mode');
+      rwScoreBox.style.display = '';
+      mathScoreLabel.textContent = 'Math';
+      var mathCorrect = state.answers.filter(function (a) { return a.domain && a.domain.indexOf('math-') === 0 && a.correct; }).length;
+      var rwCorrect = state.answers.filter(function (a) { return a.domain && a.domain.indexOf('rw-') === 0 && a.correct; }).length;
+      mathScoreEl.innerHTML = mathCorrect + ' <span>/ 4</span>';
+      rwScoreEl.innerHTML = rwCorrect + ' <span>/ 4</span>';
+      resultsSub.textContent = "Here's how you did across every SAT skill area \u2014 use this to know exactly what to prioritize before you start prepping.";
+    } else {
+      scoreRow.classList.add('single-mode');
+      rwScoreBox.style.display = 'none';
+      mathScoreLabel.textContent = quiz.label;
+      mathScoreEl.innerHTML = totalCorrect + ' <span>/ ' + totalCount + '</span>';
+      resultsSub.textContent = "Here's how the " + quiz.label + " diagnostic went \u2014 a quick read on which skills are solid and which are worth reviewing next.";
+    }
+
+    skillsList.innerHTML = '';
+    var weakSkills = [];
+    state.answers.forEach(function (a) {
+      var row = document.createElement('div');
+      row.className = 'skill-row';
+      var name = document.createElement('span');
+      name.className = 'skill-name';
+      name.textContent = a.skill;
+      var status = document.createElement('span');
+      status.className = 'skill-status ' + (a.correct ? 'correct' : 'review');
+      status.textContent = a.correct ? 'Correct' : 'Needs review';
+      row.appendChild(name);
+      row.appendChild(status);
+      skillsList.appendChild(row);
+      if (!a.correct) weakSkills.push(a.skill);
+    });
+
+    focusCallout.style.display = 'block';
+    if (weakSkills.length > 0) {
+      var text = weakSkills.length === 1
+        ? 'Start with ' + weakSkills[0] + ' \u2014 that\'s the one area that showed room to grow today.'
+        : 'Start with ' + weakSkills.slice(0, -1).join(', ') + ' and ' + weakSkills[weakSkills.length - 1] + ' \u2014 those areas showed the most room to grow today.';
+      focusCalloutText.textContent = text;
+    } else {
+      focusCalloutText.textContent = "Strong result across the board \u2014 at this point it's more about timed practice and pacing than any single topic.";
+    }
+
+    track('diagnostic_completed', state.category, state.gradeOrCourseLabel || '');
+    showScreen(screenResults);
+  }
+
+  // ---------- Lead capture ----------
+  var leadNameInput = document.getElementById('lead-name');
+  var leadEmailInput = document.getElementById('lead-email');
+  var leadParentEmailInput = document.getElementById('lead-parent-email');
+  var leadNameError = document.getElementById('lead-name-error');
+  var leadEmailError = document.getElementById('lead-email-error');
+  var leadParentEmailError = document.getElementById('lead-parent-email-error');
+  var sendConfirmation = document.getElementById('send-confirmation');
+  var sendConfirmationTitle = document.getElementById('send-confirmation-title');
+  var sendConfirmationText = document.getElementById('send-confirmation-text');
+  var sendFallback = document.getElementById('send-fallback');
+  var postSendCta = document.getElementById('post-send-cta');
+  var resultsSummaryBox = document.getElementById('results-summary-box');
+  var btnCopy = document.getElementById('btn-copy');
+  var copyConfirm = document.getElementById('copy-confirm');
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function clearFieldError(input, errorEl) {
+    input.classList.remove('invalid');
+    errorEl.classList.remove('visible');
+    errorEl.textContent = '';
+  }
+
+  function setFieldError(input, errorEl, message) {
+    input.classList.add('invalid');
+    errorEl.textContent = message;
+    errorEl.classList.add('visible');
+  }
+
+  leadNameInput.addEventListener('input', function () { clearFieldError(leadNameInput, leadNameError); });
+  leadEmailInput.addEventListener('input', function () { clearFieldError(leadEmailInput, leadEmailError); });
+  leadParentEmailInput.addEventListener('input', function () { clearFieldError(leadParentEmailInput, leadParentEmailError); });
+
+  // Human-readable label for whichever diagnostic was taken.
+  function categoryLabel() {
+    var quiz = quizzes[state.quizId];
+    if (state.category === 'sat') return 'SAT Prep';
+    if (state.category === 'physics') return 'Physics \u2014 ' + quiz.label;
+    return 'K-12 Math \u2014 ' + quiz.label;
+  }
+
+  // Score as a short string, plus a full per-question breakdown for the
+  // notification email so Drew can write a real plan without guessing.
+  function scoreSummary() {
+    var quiz = quizzes[state.quizId];
+    if (quiz.mode === 'split') {
+      var mathCorrect = state.answers.filter(function (a) {
+        return a.domain && a.domain.indexOf('math-') === 0 && a.correct;
+      }).length;
+      var rwCorrect = state.answers.filter(function (a) {
+        return a.domain && a.domain.indexOf('rw-') === 0 && a.correct;
+      }).length;
+      return 'Math ' + mathCorrect + '/4, R&W ' + rwCorrect + '/4';
+    }
+    var totalCorrect = state.answers.filter(function (a) { return a.correct; }).length;
+    return totalCorrect + '/' + state.answers.length;
+  }
+
+  function questionDetail() {
+    return state.answers.map(function (a, i) {
+      return (i + 1) + '. ' + a.skill + ' \u2014 ' + (a.correct ? 'correct' : 'INCORRECT');
+    }).join('\n');
+  }
+
+  function weakSkillList() {
+    return state.answers
+      .filter(function (a) { return !a.correct; })
+      .map(function (a) { return a.skill; });
+  }
+
+  function buildSummaryText(name, parentEmail, studentEmail) {
+    var weak = weakSkillList();
+    var lines = [
+      'Name: ' + name,
+      'Parent email: ' + (parentEmail || '(not provided)'),
+      'Student email: ' + (studentEmail || '(not provided)'),
+      'Diagnostic: ' + categoryLabel()
+    ];
+    if (state.category !== 'sat') {
+      lines.push('Grade/course selected: ' + (state.gradeOrCourseLabel || '(not provided)'));
+    }
+    lines.push('');
+    lines.push('Score: ' + scoreSummary());
+    lines.push('');
+    lines.push('Areas needing review: ' +
+      (weak.length ? weak.join(', ') : 'none \u2014 strong across the board'));
+    lines.push('');
+    lines.push(questionDetail());
+    return lines.join('\n');
+  }
+
+  /**
+   * The lead now goes to the backend first. The old version only opened
+   * a mailto: link, which meant the lead was silently lost unless the
+   * visitor finished a second step in their own mail client \u2014 something
+   * that fails outright on school Chromebooks and many phones. The
+   * mailto/copy path is kept, but only as a fallback shown when the
+   * POST actually fails.
+   */
+  var btnSend = document.getElementById('btn-send');
+
+  btnSend.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    var name = leadNameInput.value.trim();
+    var parentEmail = leadParentEmailInput.value.trim();
+    var studentEmail = leadEmailInput.value.trim();
+    var valid = true;
+
+    if (!name) {
+      setFieldError(leadNameInput, leadNameError, 'Enter the student\u2019s name.');
+      valid = false;
+    } else {
+      clearFieldError(leadNameInput, leadNameError);
+    }
+
+    // At least one usable email, and anything typed must be valid.
+    if (parentEmail && !emailPattern.test(parentEmail)) {
+      setFieldError(leadParentEmailInput, leadParentEmailError, 'That email doesn\u2019t look right.');
+      valid = false;
+    } else {
+      clearFieldError(leadParentEmailInput, leadParentEmailError);
+    }
+
+    if (studentEmail && !emailPattern.test(studentEmail)) {
+      setFieldError(leadEmailInput, leadEmailError, 'That email doesn\u2019t look right.');
+      valid = false;
+    } else {
+      clearFieldError(leadEmailInput, leadEmailError);
+    }
+
+    if (!parentEmail && !studentEmail) {
+      setFieldError(leadParentEmailInput, leadParentEmailError,
+        'Enter at least one email so Drew can send the plan.');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    var weak = weakSkillList();
+    var summaryText = buildSummaryText(name, parentEmail, studentEmail);
+    resultsSummaryBox.value = summaryText;
+
+    btnSend.textContent = 'Sending\u2026';
+    btnSend.style.pointerEvents = 'none';
+
+    function showSuccess() {
+      sendConfirmationTitle.textContent = 'Sent \u2014 your results are with Drew.';
+      sendConfirmationText.textContent =
+        'A copy is on its way to your inbox, and Drew will follow up with specific next steps within a day.';
+      sendFallback.style.display = 'none';
+      postSendCta.style.display = 'block';
+      sendConfirmation.classList.add('visible');
+      document.getElementById('lead-form').querySelector('.lead-actions').style.display = 'none';
+      sendConfirmation.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      track('lead_submitted', state.category, state.gradeOrCourseLabel || '');
+    }
+
+    // Only reached if the backend genuinely couldn't be written to.
+    function showFallback() {
+      sendConfirmationTitle.textContent = 'Almost \u2014 one quick step';
+      sendConfirmationText.textContent =
+        'The automatic send didn\u2019t go through. Copy your results below and email or text them ' +
+        'to Drew, or just book a free call and we\u2019ll go through them together.';
+      sendFallback.style.display = 'block';
+      postSendCta.style.display = 'block';
+      sendConfirmation.classList.add('visible');
+      copyConfirm.classList.remove('visible');
+      sendConfirmation.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      var subject = 'Diagnostic Results \u2014 ' + name;
+      var mailto = 'mailto:drewsegovia6@gmail.com'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(summaryText);
+      try { window.location.href = mailto; } catch (err) {}
+    }
+
+    function restoreButton() {
+      btnSend.textContent = 'Send my results to Drew';
+      btnSend.style.pointerEvents = '';
+    }
+
+    apiPost({
+      action: 'submitLead',
+      studentName: name,
+      parentEmail: parentEmail,
+      studentEmail: studentEmail,
+      category: state.category,
+      categoryLabel: categoryLabel(),
+      gradeOrCourse: state.gradeOrCourseLabel || '',
+      score: scoreSummary(),
+      weakSkills: weak.join(', '),
+      detail: questionDetail()
+    }).then(function (res) {
+      restoreButton();
+      if (res && res.ok) showSuccess();
+      else showFallback();
+    }).catch(function () {
+      restoreButton();
+      showFallback();
+    });
+  });
+
+  btnCopy.addEventListener('click', function () {
+    resultsSummaryBox.focus();
+    resultsSummaryBox.select();
+    resultsSummaryBox.setSelectionRange(0, 999999);
+
+    function showCopied() {
+      copyConfirm.classList.add('visible');
+      setTimeout(function () { copyConfirm.classList.remove('visible'); }, 2000);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(resultsSummaryBox.value).then(showCopied, function () {
+        try { document.execCommand('copy'); showCopied(); } catch (err) {}
+      });
+    } else {
+      try { document.execCommand('copy'); showCopied(); } catch (err) {}
+    }
+  });
+
+  document.getElementById('restart-link').addEventListener('click', function (e) {
+    e.preventDefault();
+    state.category = null;
+    state.quizId = null;
+    state.gradeOrCourseLabel = null;
+    state.current = 0;
+    state.answers = [];
+    state.selectedOption = null;
+    Array.prototype.forEach.call(categoryOptions.children, function (c) { c.classList.remove('selected'); });
+    subselectWrap.classList.remove('visible');
+    gradeOptionsEl.innerHTML = '';
+    btnStart.disabled = true;
+    introTitle.textContent = 'Find out where to focus.';
+    introSub.textContent = "8 questions, about 6 minutes. At the end, you'll see exactly which skills are solid and which need work \u2014 plus the option to get a personalized study plan.";
+    introFactThree.innerHTML = '<strong>\u2014</strong>choose below';
+    leadNameInput.value = '';
+    leadEmailInput.value = '';
+    leadParentEmailInput.value = '';
+    clearFieldError(leadNameInput, leadNameError);
+    clearFieldError(leadEmailInput, leadEmailError);
+    clearFieldError(leadParentEmailInput, leadParentEmailError);
+    sendConfirmation.classList.remove('visible');
+    sendFallback.style.display = 'none';
+    document.getElementById('lead-form').querySelector('.lead-actions').style.display = '';
+    showScreen(screenIntro);
+  });
+
+  // ---------- Init ----------
+  track('diagnostic_page_view', '', '');
+})();
+</script>
+
+</body>
+</html>

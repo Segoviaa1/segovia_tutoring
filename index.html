@@ -3,11 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Drew Segovia — Math & Physics Tutoring</title>
-<meta name="description" content="Private math and physics tutoring for K-12 students, plus SAT prep, in Falmouth & Cape Cod, MA and online.">
+<title>Drew Segovia — Math & Physics Tutoring | Falmouth & Cape Cod, MA</title>
+<meta name="description" content="Private math and physics tutoring for K-12 students, plus SAT prep, in Falmouth & Cape Cod, MA and online. MIT-WHOI graduate researcher, 8 years experience. Free intro call.">
+<link rel="canonical" href="https://segoviaa1.github.io/segovia_tutoring/">
+
+<!-- Social sharing. Without these, a link shared in a text thread or a
+     local parents' Facebook group renders as a bare URL. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Drew Segovia — Math &amp; Physics Tutoring">
+<meta property="og:title" content="Math &amp; physics tutoring on Cape Cod — Drew Segovia">
+<meta property="og:description" content="Private K-12 math, physics, and SAT tutoring in Falmouth &amp; Cape Cod, or online. MIT-WHOI graduate researcher with 8 years of tutoring. Free 20-minute intro call.">
+<meta property="og:url" content="https://segoviaa1.github.io/segovia_tutoring/">
+<meta property="og:image" content="https://segoviaa1.github.io/segovia_tutoring/og-image.png">
+<meta property="og:image:alt" content="Drew Segovia — Math &amp; Physics Tutoring, Falmouth &amp; Cape Cod, MA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Math &amp; physics tutoring on Cape Cod — Drew Segovia">
+<meta name="twitter:description" content="Private K-12 math, physics, and SAT tutoring in Falmouth &amp; Cape Cod, or online. Free 20-minute intro call.">
+<meta name="twitter:image" content="https://segoviaa1.github.io/segovia_tutoring/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Local SEO. This is what lets Google understand the business as a
+     local service provider rather than a generic web page. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "EducationalOrganization"],
+  "name": "Drew Segovia — Math & Physics Tutoring",
+  "description": "Private one-on-one tutoring in K-12 math, physics (including AP Physics 1 and C), and SAT preparation. In person around Falmouth and Cape Cod, Massachusetts, or online by video call.",
+  "url": "https://segoviaa1.github.io/segovia_tutoring/",
+  "telephone": "+1-732-540-0177",
+  "email": "drewsegovia6@gmail.com",
+  "priceRange": "$55-$75",
+  "founder": {
+    "@type": "Person",
+    "name": "Drew Segovia",
+    "jobTitle": "Graduate Researcher, Physical Oceanography",
+    "alumniOf": "Boston College",
+    "affiliation": "MIT-WHOI Joint Program"
+  },
+  "areaServed": [
+    { "@type": "Place", "name": "Falmouth, MA" },
+    { "@type": "Place", "name": "Cape Cod, MA" },
+    { "@type": "Place", "name": "Barnstable County, MA" }
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Falmouth",
+    "addressRegion": "MA",
+    "addressCountry": "US"
+  },
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "K-12 Math Tutoring" }, "price": "65", "priceCurrency": "USD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Physics & AP Physics Tutoring" }, "price": "65", "priceCurrency": "USD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SAT Preparation" }, "price": "75", "priceCurrency": "USD" }
+  ]
+}
+</script>
 <style>
   :root {
     --paper: #F6F3EA;
@@ -462,6 +516,46 @@
     line-height: 1.65;
   }
 
+  /* ---------- Testimonials ---------- */
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .testimonial {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--amber);
+    border-radius: 4px;
+    padding: 30px 32px;
+  }
+
+  .testimonial blockquote {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0 0 20px;
+  }
+
+  .testimonial blockquote::before { content: "\201C"; }
+  .testimonial blockquote::after { content: "\201D"; }
+
+  .testimonial figcaption {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .testimonial figcaption span {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 400;
+    color: var(--ink-faint);
+    margin-top: 2px;
+  }
+
   /* ---------- Pricing ---------- */
   .pricing-note {
     background: var(--paper-raised);
@@ -626,7 +720,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
   }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 10px;
+  }
+
+  .footer-links a {
+    color: #B6BFCD;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .footer-links a:hover { color: var(--paper); text-decoration: underline; }
 
   /* ---------- Responsive ---------- */
   @media (max-width: 860px) {
@@ -654,6 +764,10 @@
 
     .process-list { grid-template-columns: 1fr; gap: 30px; }
 
+    .testimonial-grid { grid-template-columns: 1fr; gap: 20px; }
+    .testimonial { padding: 24px 22px; }
+    .testimonial blockquote { font-size: 17.5px; }
+
     .pricing-table { font-size: 14px; }
     .pricing-table th, .pricing-table td { padding: 12px 10px; }
 
@@ -662,7 +776,8 @@
     .wrap, .nav-inner { padding-left: 20px; padding-right: 20px; }
     section { padding: 64px 0; }
 
-    footer .wrap { flex-direction: column; gap: 8px; text-align: center; }
+    footer .wrap { flex-direction: column; gap: 14px; text-align: center; }
+    .footer-links { justify-content: center; gap: 14px; }
   }
 </style>
 </head>
@@ -677,10 +792,11 @@
     <nav class="primary-links">
       <a href="#about">About</a>
       <a href="#subjects">Subjects</a>
+      <a href="physics.html">Physics</a>
       <a href="#how-it-works">How it works</a>
       <a href="#pricing">Pricing</a>
     </nav>
-    <a href="#contact" class="nav-cta">Get in touch</a>
+    <a href="booking.html" class="nav-cta">Book a free call</a>
   </div>
 </header>
 
@@ -696,10 +812,13 @@
           graduate researcher who has spent eight years helping students go from confused to confident.
         </p>
         <div class="hero-actions">
-          <a href="booking.html" class="btn-primary">Book a session</a>
-          <a href="sat-diagnostic.html" class="btn-secondary">Take the free diagnostic</a>
+          <a href="booking.html" class="btn-primary">Book a free intro call</a>
+          <a href="diagnostic.html" class="btn-secondary">Take the free diagnostic</a>
         </div>
-        <div class="hero-meta">Currently accepting new students for the fall semester.</div>
+        <div class="hero-meta">
+          Free, 20 minutes, no commitment — it's how every new student starts.
+          Currently accepting students for the fall semester.
+        </div>
       </div>
       <div class="hero-figure" aria-hidden="true">
         <svg viewBox="0 0 320 320" fill="none">
@@ -773,10 +892,12 @@
           <div class="subject-grades">Grades K–12</div>
         </div>
         <div class="subject-item">
-          <div class="subject-name"><span class="subject-dot" style="background:#C98A2B"></span>K-12 Physics</div>
+          <div class="subject-name"><span class="subject-dot" style="background:#C98A2B"></span>Physics</div>
           <div class="subject-desc">
-            Conceptual and AP Physics — mechanics, waves, electricity &amp; magnetism — taught by
-            someone who uses this material in active research.
+            Conceptual, Honors, AP Physics 1, and calculus-based AP Physics C — mechanics, waves,
+            electricity &amp; magnetism — taught by someone who uses this material in active
+            research rather than reviewing it beforehand.
+            <a href="physics.html" style="color: var(--ocean-deep); font-weight: 600; text-decoration: underline; display: inline-block; margin-top: 6px;">More on physics tutoring &rarr;</a>
           </div>
           <div class="subject-grades">Grades 9–12</div>
         </div>
@@ -785,7 +906,7 @@
           <div class="subject-desc">
             Full Math and Reading &amp; Writing preparation, built from a diagnostic of your student's
             actual strengths and gaps rather than a generic course outline.
-            <a href="sat-diagnostic.html" style="color: var(--ocean-deep); font-weight: 600; text-decoration: underline; display: inline-block; margin-top: 6px;">Take the free 8-question diagnostic</a>
+            <a href="diagnostic.html" style="color: var(--ocean-deep); font-weight: 600; text-decoration: underline; display: inline-block; margin-top: 6px;">Take the free 8-question diagnostic</a>
           </div>
           <div class="subject-grades">Grades 9–12</div>
         </div>
@@ -828,20 +949,40 @@
     </div>
   </section>
 
+  <section id="testimonials" aria-label="What families say">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-kicker">What families say</div>
+        <h2 class="section-title">Results, in their words.</h2>
+      </div>
+      <div class="testimonial-grid">
+        <figure class="testimonial">
+          <blockquote>
+            He answered all of my questions with ease and was able to explain them in a very
+            accessible way.
+          </blockquote>
+          <figcaption>Matthew S.<span>Pre-Calculus student</span></figcaption>
+        </figure>
+        <figure class="testimonial">
+          <blockquote>
+            Drew has a talent for explaining difficult subjects… my son passed both courses with
+            flying colors.
+          </blockquote>
+          <figcaption>Helane Daniels<span>Parent</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <section id="pricing" aria-label="Pricing">
     <div class="wrap">
       <div class="section-head">
         <div class="section-kicker">Pricing</div>
-        <h2 class="section-title">Session packages.</h2>
+        <h2 class="section-title">Simple, transparent rates.</h2>
         <p class="section-desc">
           Sessions run 60 minutes. Packages are prepaid and used at your own pace — most families
-          book weekly.
+          book weekly. Nothing is due before the free intro call.
         </p>
-      </div>
-
-      <div class="pricing-note">
-        Rates below are a starting point — happy to discuss what makes sense for your student's
-        subject, grade level, and schedule on the intro call.
       </div>
 
       <table class="pricing-table">
@@ -870,6 +1011,13 @@
           </tr>
         </tbody>
       </table>
+
+      <div class="pricing-note" style="margin-top:34px; margin-bottom:0;">
+        <strong style="color:var(--ink);">Refer a family, get a free session.</strong>
+        If you send someone my way and they book a package, your next session is on me — no
+        limit, and it applies to your current bundle. Word of mouth is how most of my students
+        find me.
+      </div>
     </div>
   </section>
 
@@ -880,10 +1028,10 @@
           <div class="section-kicker">Contact</div>
           <h2 class="section-title">Let's find a time that works.</h2>
           <p class="section-desc">
-            Reach out by phone or email — I'll usually get back to you within a day. New students
-            start with a free, no-pressure intro call.
+            The fastest way to start is to grab a free intro call — pick any open time, no account
+            needed. Or reach out by phone or email and I'll usually get back to you within a day.
           </p>
-          <a href="booking.html" style="display:inline-flex; align-items:center; gap:8px; background: var(--amber); color: var(--ink); text-decoration:none; padding:13px 24px; border-radius:4px; font-size:15px; font-weight:600; margin-bottom:8px;">Book online</a>
+          <a href="booking.html" style="display:inline-flex; align-items:center; gap:8px; background: var(--amber); color: var(--ink); text-decoration:none; padding:13px 24px; border-radius:4px; font-size:15px; font-weight:600; margin-bottom:8px;">Book a free intro call</a>
           <div class="contact-methods">
             <a href="mailto:drewsegovia6@gmail.com" class="contact-link">
               <span class="contact-link-label">Email</span>
@@ -900,8 +1048,9 @@
           <p>Sessions are available in person around Falmouth &amp; Cape Cod, or by video call anywhere.</p>
           <ul>
             <li>Evening &amp; weekend availability</li>
-            <li>Free intro call before you commit</li>
+            <li>Free 20-minute intro call before you commit</li>
             <li>Materials &amp; practice sets included</li>
+            <li>Confirmation &amp; reminder emails automatically</li>
           </ul>
         </div>
       </div>
@@ -912,7 +1061,15 @@
 
 <footer>
   <div class="wrap">
-    <div>Drew Segovia — Math &amp; Physics Tutoring</div>
+    <div>
+      <div>Drew Segovia — Math &amp; Physics Tutoring</div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="booking.html">Book a free call</a>
+        <a href="diagnostic.html">Free diagnostic</a>
+        <a href="physics.html">Physics tutoring</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+    </div>
     <div>drewsegovia6@gmail.com · (732) 540-0177</div>
   </div>
 </footer>

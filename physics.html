@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Physics Tutoring — Drew Segovia</title>
+<meta name="description" content="AP Physics 1, AP Physics C, and honors physics tutoring from a working physicist — MIT-WHOI graduate researcher, B.S. Physics from Boston College. Falmouth &amp; Cape Cod, MA and online.">
+<link rel="canonical" href="https://segoviaa1.github.io/segovia_tutoring/physics.html">
+
+<!-- Social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Drew Segovia — Math &amp; Physics Tutoring">
+<meta property="og:title" content="AP Physics tutoring from a working physicist">
+<meta property="og:description" content="AP Physics 1, AP Physics C, and honors physics — taught by an MIT-WHOI graduate researcher who uses this material every day.">
+<meta property="og:url" content="https://segoviaa1.github.io/segovia_tutoring/physics.html">
+<meta property="og:image" content="https://segoviaa1.github.io/segovia_tutoring/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AP Physics tutoring from a working physicist">
+<meta name="twitter:description" content="AP Physics 1, AP Physics C, and honors physics — from an MIT-WHOI graduate researcher.">
+<meta name="twitter:image" content="https://segoviaa1.github.io/segovia_tutoring/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "AP Physics Tutoring",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Drew Segovia — Math & Physics Tutoring",
+    "telephone": "+1-732-540-0177",
+    "email": "drewsegovia6@gmail.com",
+    "url": "https://segoviaa1.github.io/segovia_tutoring/",
+    "areaServed": [
+      { "@type": "Place", "name": "Falmouth, MA" },
+      { "@type": "Place", "name": "Cape Cod, MA" }
+    ]
+  },
+  "areaServed": { "@type": "Place", "name": "Falmouth, Massachusetts" },
+  "description": "One-on-one tutoring in AP Physics 1, AP Physics C (Mechanics and E&M), and honors/conceptual physics."
+}
+</script>
+
+<style>
+  :root {
+    --paper: #F6F3EA;
+    --paper-raised: #FBF9F3;
+    --ink: #1E2B3C;
+    --ink-soft: #4A5568;
+    --ink-faint: #7A8496;
+    --ocean: #2C6E75;
+    --ocean-deep: #1F4E54;
+    --amber: #C98A2B;
+    --line: #D8D2C0;
+    --line-soft: #E8E3D5;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--sans);
+    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  img, svg { display: block; max-width: 100%; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--ocean); outline-offset: 3px; }
+
+  /* ---------- Nav ---------- */
+  header.site-nav {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(246, 243, 234, 0.92); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px; max-width: 1080px; margin: 0 auto;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand-mark {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 600; font-size: 16px; flex-shrink: 0;
+  }
+  .brand-text { font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.1; }
+  .brand-text span {
+    display: block; font-family: var(--sans); font-size: 12.5px; font-weight: 500;
+    color: var(--ink-faint); margin-top: 2px;
+  }
+  nav.primary-links { display: flex; gap: 30px; }
+  nav.primary-links a {
+    text-decoration: none; font-size: 14.5px; font-weight: 500; color: var(--ink-soft);
+  }
+  nav.primary-links a:hover { color: var(--ink); }
+  .nav-cta {
+    display: inline-block; background: var(--ink); color: var(--paper) !important;
+    text-decoration: none; padding: 10px 20px; border-radius: 4px;
+    font-size: 14.5px; font-weight: 600; white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--ocean-deep); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 34px 34px; background-position: -1px -1px;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 55% at 78% 30%, rgba(246,243,234,0) 0%, var(--paper) 72%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative; max-width: 1080px; margin: 0 auto;
+    padding: 84px 32px 92px;
+    display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center;
+  }
+  .hero-eyebrow { font-size: 15px; color: var(--ocean-deep); font-weight: 600; margin-bottom: 18px; }
+  h1.hero-headline {
+    font-family: var(--serif); font-size: clamp(32px, 4.2vw, 50px);
+    line-height: 1.12; font-weight: 600; max-width: 17ch;
+  }
+  .hero-sub { margin-top: 22px; font-size: 18px; color: var(--ink-soft); max-width: 48ch; line-height: 1.65; }
+  .hero-actions { margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn-primary, .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    padding: 13px 24px; border-radius: 4px; font-size: 15px; font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--ocean-deep); }
+  .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); }
+
+  .hero-meta { margin-top: 28px; font-size: 14px; color: var(--ink-faint); }
+
+  .hero-figure { position: relative; height: 300px; }
+  .hero-figure svg { width: 100%; height: 100%; }
+
+  .traj-path { stroke-dasharray: 700; stroke-dashoffset: 700; animation: draw 1.8s ease-out 0.3s forwards; }
+  .traj-fade { opacity: 0; animation: fadeIn 0.6s ease-out 1.9s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fadeIn { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .traj-path, .traj-fade {
+      animation: none !important; opacity: 1 !important; stroke-dashoffset: 0 !important;
+    }
+  }
+
+  /* ---------- Sections ---------- */
+  section { padding: 86px 0; border-bottom: 1px solid var(--line); }
+  .section-head { max-width: 62ch; margin-bottom: 48px; }
+  .section-kicker { font-size: 14px; font-weight: 600; color: var(--ocean-deep); margin-bottom: 12px; }
+  h2.section-title {
+    font-family: var(--serif); font-size: clamp(27px, 3.1vw, 35px);
+    font-weight: 600; line-height: 1.25;
+  }
+  .section-desc { margin-top: 14px; font-size: 16.5px; color: var(--ink-soft); line-height: 1.7; }
+
+  /* ---------- Why-me ---------- */
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .why-item { padding-top: 6px; }
+  .why-item-title {
+    font-family: var(--serif); font-size: 19px; font-weight: 600; margin-bottom: 10px;
+  }
+  .why-item-title span {
+    display: block; font-family: var(--sans); font-size: 12.5px; font-weight: 600;
+    color: var(--amber); letter-spacing: 0.05em; margin-bottom: 7px;
+  }
+  .why-item p { font-size: 15px; color: var(--ink-soft); line-height: 1.7; }
+
+  /* ---------- Course table ---------- */
+  .course-list { border-top: 1px solid var(--line); }
+  .course-item {
+    display: grid; grid-template-columns: 220px 1fr 130px; gap: 24px;
+    padding: 30px 0; border-bottom: 1px solid var(--line); align-items: start;
+  }
+  .course-name {
+    font-family: var(--serif); font-size: 21px; font-weight: 600;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .course-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; transform: translateY(-1px); }
+  .course-desc { font-size: 15.5px; color: var(--ink-soft); line-height: 1.65; max-width: 54ch; }
+  .course-desc strong { color: var(--ink); font-weight: 600; }
+  .course-tag { font-size: 13.5px; color: var(--ink-faint); text-align: right; padding-top: 3px; }
+
+  /* ---------- Exam callout ---------- */
+  .exam-callout {
+    background: var(--paper-raised); border: 1px solid var(--line);
+    border-left: 3px solid var(--amber); padding: 26px 30px; border-radius: 4px;
+    margin-top: 44px;
+  }
+  .exam-callout h3 { font-family: var(--serif); font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+  .exam-callout p { font-size: 15px; color: var(--ink-soft); line-height: 1.7; max-width: 66ch; }
+
+  /* ---------- Diagnostic CTA ---------- */
+  .diag-section { background: var(--ink); color: var(--paper); border-bottom: none; }
+  .diag-inner {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center;
+  }
+  .diag-section .section-kicker { color: var(--amber); }
+  .diag-section h2.section-title { color: var(--paper); }
+  .diag-section .section-desc { color: #C7CDD8; }
+  .diag-actions { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-amber {
+    display: inline-flex; align-items: center; gap: 8px; background: var(--amber);
+    color: var(--ink); text-decoration: none; padding: 13px 24px; border-radius: 4px;
+    font-size: 15px; font-weight: 600;
+  }
+  .btn-amber:hover { background: #DFA347; }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px; background: transparent;
+    color: var(--paper); text-decoration: none; padding: 13px 24px; border-radius: 4px;
+    font-size: 15px; font-weight: 600; border: 1.5px solid #4A5A72;
+  }
+  .btn-ghost:hover { border-color: var(--paper); }
+
+  .diag-side {
+    background: #263349; border: 1px solid #37455A; border-radius: 4px; padding: 28px;
+  }
+  .diag-side h3 { font-family: var(--serif); font-size: 17px; font-weight: 600; margin-bottom: 14px; }
+  .diag-side ul { list-style: none; }
+  .diag-side li {
+    font-size: 14.5px; color: #C7CDD8; padding: 9px 0; border-top: 1px solid #37455A;
+  }
+  .diag-side li:first-child { border-top: none; padding-top: 0; }
+
+  footer { background: var(--ink); color: #8894A8; padding: 26px 0 34px; font-size: 13.5px; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  footer a { color: #B6BFCD; }
+
+  @media (max-width: 860px) {
+    nav.primary-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; padding: 54px 24px 58px; }
+    .hero-figure { height: 200px; order: -1; }
+    h1.hero-headline { max-width: none; }
+    .why-grid { grid-template-columns: 1fr; gap: 28px; }
+    .course-item { grid-template-columns: 1fr; gap: 10px; }
+    .course-tag { text-align: left; }
+    .diag-inner { grid-template-columns: 1fr; gap: 38px; }
+    .wrap, .nav-inner { padding-left: 20px; padding-right: 20px; }
+    section { padding: 60px 0; }
+    footer .wrap { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">DS</span>
+      <span class="brand-text">Drew Segovia<span>Math &amp; Physics Tutoring</span></span>
+    </a>
+    <nav class="primary-links">
+      <a href="index.html">Home</a>
+      <a href="#courses">Courses</a>
+      <a href="#why">Why me</a>
+      <a href="index.html#pricing">Pricing</a>
+    </nav>
+    <a href="booking.html?from=physics" class="nav-cta">Book a free call</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">AP Physics 1 · AP Physics C · Honors &amp; Conceptual</div>
+        <h1 class="hero-headline">Physics, taught by someone who actually does physics.</h1>
+        <p class="hero-sub">
+          Most tutors who take on AP Physics learned it once, in a class, years ago. I use this
+          material every day as a graduate researcher — mechanics, waves, and E&amp;M are the tools
+          of my actual job, not a chapter I reviewed before our session.
+        </p>
+        <div class="hero-actions">
+          <a href="booking.html?from=physics" class="btn-primary">Book a free intro call</a>
+          <a href="diagnostic.html" class="btn-secondary">Take the free physics diagnostic</a>
+        </div>
+        <div class="hero-meta">In person around Falmouth &amp; Cape Cod, or by video call anywhere.</div>
+      </div>
+      <div class="hero-figure" aria-hidden="true">
+        <svg viewBox="0 0 320 300" fill="none">
+          <!-- projectile trajectory with velocity vectors -->
+          <line x1="24" y1="252" x2="300" y2="252" stroke="#D8D2C0" stroke-width="1" />
+          <line x1="30" y1="266" x2="30" y2="24" stroke="#D8D2C0" stroke-width="1" />
+          <path class="traj-path" d="M 34 250 Q 165 -6 292 250" stroke="#2C6E75" stroke-width="2.5" />
+          <g class="traj-fade">
+            <circle cx="163" cy="66" r="5" fill="#C98A2B" />
+            <line x1="163" y1="66" x2="215" y2="66" stroke="#4A5568" stroke-width="1.5" />
+            <path d="M 215 66 l -6 -3.5 l 0 7 z" fill="#4A5568" />
+            <text x="221" y="70" font-family="Source Serif 4, serif" font-size="14" fill="#4A5568">v</text>
+            <line x1="163" y1="66" x2="163" y2="112" stroke="#B5502E" stroke-width="1.5" />
+            <path d="M 163 112 l -3.5 -6 l 7 0 z" fill="#B5502E" />
+            <text x="170" y="112" font-family="Source Serif 4, serif" font-size="14" fill="#B5502E">g</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" aria-label="Why work with Drew">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-kicker">Why me</div>
+        <h2 class="section-title">Physics is where most tutors stop. It's where I started.</h2>
+        <p class="section-desc">
+          Plenty of people can walk a student through Algebra I. The pool gets very small once
+          you're asking for rotational dynamics or Gauss's law — and smaller still for the
+          calculus-based C sequence.
+        </p>
+      </div>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-item-title"><span>WORKING RESEARCHER</span>Not a refresher course</div>
+          <p>
+            I'm a graduate student in Physical Oceanography at MIT-WHOI, applying fluid mechanics
+            and differential equations to the physics of the ocean. When a student asks
+            <em>why</em> a derivation works, I'm not reciting — I'm explaining something I use.
+          </p>
+        </div>
+        <div class="why-item">
+          <div class="why-item-title"><span>TRAINED IN BOTH</span>Physics and the math under it</div>
+          <p>
+            A B.S. in Physics <em>and</em> Mathematics from Boston College with departmental
+            honors. Most physics struggles are really math struggles wearing a costume — an
+            unfamiliar integral, a vector decomposition nobody explained. I can teach both halves.
+          </p>
+        </div>
+        <div class="why-item">
+          <div class="why-item-title"><span>EIGHT YEARS TUTORING</span>Knows where students get stuck</div>
+          <p>
+            There are maybe six places every student gets lost in mechanics, and I've seen all of
+            them many times over. Free-body diagrams, sign conventions, and knowing which
+            conservation law to reach for account for most of it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="courses" aria-label="Physics courses covered">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-kicker">Courses</div>
+        <h2 class="section-title">Every level of high school physics.</h2>
+        <p class="section-desc">
+          Sessions follow your student's actual class — their textbook, their problem sets, their
+          exam schedule — rather than a fixed curriculum of mine.
+        </p>
+      </div>
+
+      <div class="course-list">
+        <div class="course-item">
+          <div class="course-name"><span class="course-dot" style="background:#2C6E75"></span>AP Physics 1</div>
+          <div class="course-desc">
+            <strong>Algebra-based.</strong> Kinematics, forces and Newton's laws, work and energy,
+            momentum and collisions, circular motion, torque and rotation, and simple harmonic
+            motion. Heavy emphasis on the qualitative reasoning and free-response explanations the
+            exam actually rewards.
+          </div>
+          <div class="course-tag">Grades 10–12</div>
+        </div>
+        <div class="course-item">
+          <div class="course-name"><span class="course-dot" style="background:#C98A2B"></span>AP Physics C</div>
+          <div class="course-desc">
+            <strong>Calculus-based — Mechanics and E&amp;M.</strong> The full sequence, including
+            the calculus that trips students up: variable acceleration, work as an integral,
+            moments of inertia, Gauss's law, and RC circuits. This is the course I'm most often
+            asked for and the one fewest tutors will take.
+          </div>
+          <div class="course-tag">Grades 11–12</div>
+        </div>
+        <div class="course-item">
+          <div class="course-name"><span class="course-dot" style="background:#8A6BAF"></span>Honors &amp; Conceptual</div>
+          <div class="course-desc">
+            <strong>First-year physics.</strong> Motion, forces, energy, momentum, waves and
+            sound, and introductory electricity. Good for building the intuition that makes an AP
+            course manageable a year later — or just getting through a demanding class with
+            confidence intact.
+          </div>
+          <div class="course-tag">Grades 9–12</div>
+        </div>
+      </div>
+
+      <div class="exam-callout">
+        <h3>On AP exam timing</h3>
+        <p>
+          AP exams land in the first two weeks of May. Students who start in the fall have room to
+          build real understanding; students who start in March are doing triage. Both are worth
+          doing — but if the exam matters, earlier is worth far more than more hours later. If
+          you're reading this in the fall, this is the cheap moment.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="diag-section" aria-label="Free physics diagnostic">
+    <div class="wrap">
+      <div class="diag-inner">
+        <div>
+          <div class="section-kicker">Start here</div>
+          <h2 class="section-title">Find out exactly where the gaps are — free, in six minutes.</h2>
+          <p class="section-desc">
+            Eight questions matched to your course, from conceptual physics through calculus-based
+            AP Physics C. You'll see which skills are solid and which need work, and you can have
+            a personalized study plan sent over at no cost.
+          </p>
+          <div class="diag-actions">
+            <a href="diagnostic.html" class="btn-amber">Take the free diagnostic</a>
+            <a href="booking.html?from=physics" class="btn-ghost">Or book a free intro call</a>
+          </div>
+        </div>
+        <div class="diag-side">
+          <h3>Good to know</h3>
+          <ul>
+            <li>Free 20-minute intro call before you commit</li>
+            <li>$65/session, or $55 in a 10-session bundle</li>
+            <li>Evening &amp; weekend availability</li>
+            <li>In person on Cape Cod or video call anywhere</li>
+            <li>Materials &amp; practice sets included</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Drew Segovia — Math &amp; Physics Tutoring</div>
+    <div>
+      <a href="mailto:drewsegovia6@gmail.com">drewsegovia6@gmail.com</a> ·
+      <a href="tel:+17325400177">(732) 540-0177</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

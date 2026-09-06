@@ -1,0 +1,561 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2870
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red21\green98\blue39;\red246\green247\blue249;\red46\green49\blue51;
+\red77\green80\blue85;\red20\green67\blue174;\red186\green6\blue115;\red162\green0\blue16;\red0\green0\blue0;
+\red18\green115\blue126;}
+{\*\expandedcolortbl;;\cssrgb\c7451\c45098\c20000;\cssrgb\c97255\c97647\c98039;\cssrgb\c23529\c25098\c26275;
+\cssrgb\c37255\c38824\c40784;\cssrgb\c9412\c35294\c73725;\cssrgb\c78824\c15294\c52549;\cssrgb\c70196\c7843\c7059;\cssrgb\c0\c0\c0;
+\cssrgb\c3529\c52157\c56863;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 /**\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * Drew Segovia Tutoring \'97 Booking backend\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * -----------------------------------------------------------------\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * This runs inside a Google Sheet as an Apps Script Web App. It acts\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * as the database and API for the booking page (booking.html).\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * SETUP (about 10 minutes, one time):\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 1. Go to https://sheets.google.com and create a new blank spreadsheet.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *    Name it something like "Tutoring Bookings".\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 2. Create two tabs (right-click the tab bar at the bottom):\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *      Tab 1 named exactly:  Accounts\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *        Row 1 headers: Email | Name | Phone | PIN | CreatedAt\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *      Tab 2 named exactly:  Availability\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *        Row 1 headers: ID | Date | Time | Duration | Booked | ParentEmail | ParentName | ParentPhone | StudentName | Note | ReminderSent\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 3. In the Sheet, go to Extensions > Apps Script.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 4. Delete any starter code in Code.gs and paste in this entire file.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 5. Change ADMIN_KEY below to a passcode only you know.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 6. Click Deploy > New deployment > gear icon > Web app.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *      - Execute as: Me\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *      - Who has access: Anyone\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 7. Click Deploy, authorize when prompted, then copy the Web App URL\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *    (it ends in /exec).\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 8. Open booking.html, find the line "var API_URL = ..." near the top\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *    of the <script> tag, and paste your URL in between the quotes.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * 9. NEW \'97 one-time reminder setup: in the Apps Script editor, click\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *    the clock icon (Triggers) on the left, + Add Trigger, choose\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *    function "sendSessionReminders", Event source "Time-driven",\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *    Type "Hour timer", Every hour, then Save. It'll ask to authorize\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *    Gmail/MailApp access \'97 approve it. This is what sends the\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *    24-hour-out reminder emails automatically from here on.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * If you already have this sheet deployed and are just updating the\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * code: your "Availability" tab needs an 11th column header, exactly\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * "ReminderSent", in cell K1. Existing rows can be left blank there \'97\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * blank is treated the same as "not sent yet".\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * That's it \'97 the booking page will now read and write to this sheet.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * You can always open the Sheet directly to see everything at a glance.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * UPDATING THIS SCRIPT LATER:\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * If you edit this code after your first deployment (like adding the\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * email notifications below), saving it in the Apps Script editor is\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * NOT enough by itself \'97 go to Deploy > Manage deployments, click the\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * pencil icon on your existing deployment, and choose "New version"\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * under Version, then Deploy again. The Web App URL stays the same,\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * so you won't need to update booking.html again.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * -----------------------------------------------------------------\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  */\cf4 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // CHANGE THIS to a passcode only you know before deploying.\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 var\cf4 \strokec4  \cf7 \strokec7 ADMIN_KEY\cf4 \strokec4  = \cf8 \strokec8 "Icy1311!"\cf4 \strokec4 ;\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // Used for the two notification emails sent when a session is booked.\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 var\cf4 \strokec4  \cf7 \strokec7 TUTOR_EMAIL\cf4 \strokec4  = \cf8 \strokec8 "drewsegovia6@gmail.com"\cf4 \strokec4 ;\cb1 \
+\cf6 \cb3 \strokec6 var\cf4 \strokec4  \cf7 \strokec7 TUTOR_NAME\cf4 \strokec4  = \cf8 \strokec8 "Drew Segovia"\cf4 \strokec4 ;\cb1 \
+\cf6 \cb3 \strokec6 var\cf4 \strokec4  \cf7 \strokec7 TUTOR_PHONE\cf4 \strokec4  = \cf8 \strokec8 "(732) 540-0177"\cf4 \strokec4 ;\cb1 \
+\
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 getSheet\strokec4 (\strokec9 name\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 ss\strokec4  = \cf7 \strokec7 SpreadsheetApp\cf4 \strokec4 .\strokec9 getActiveSpreadsheet\strokec4 ();\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 ss\strokec4 .\strokec9 getSheetByName\strokec4 (\strokec9 name\strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 sheet\strokec4 ) \cf6 \strokec6 throw\cf4 \strokec4  \cf6 \strokec6 new\cf4 \strokec4  \cf7 \strokec7 Error\cf4 \strokec4 (\cf8 \strokec8 'Missing sheet tab: '\cf4 \strokec4  + \strokec9 name\strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 sheet\strokec4 ;\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\strokec9 obj\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 return\cf4 \strokec4  \cf7 \strokec7 ContentService\cf4 \cb1 \strokec4 \
+\cb3     .\strokec9 createTextOutput\strokec4 (\cf7 \strokec7 JSON\cf4 \strokec4 .\strokec9 stringify\strokec4 (\strokec9 obj\strokec4 ))\cb1 \
+\cb3     .\strokec9 setMimeType\strokec4 (\cf7 \strokec7 ContentService\cf4 \strokec4 .\cf7 \strokec7 MimeType\cf4 \strokec4 .\cf7 \strokec7 JSON\cf4 \strokec4 );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // Writes a row directly into a "Debug" tab in your spreadsheet (creating\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // the tab automatically if it doesn't exist yet). This exists because the\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // Apps Script Executions panel can be confusing to navigate \'97 this way\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // you can just open the Sheet and read the log like any other tab.\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 debugLog\strokec4 (\strokec9 message\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 try\cf4 \strokec4  \{\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 ss\strokec4  = \cf7 \strokec7 SpreadsheetApp\cf4 \strokec4 .\strokec9 getActiveSpreadsheet\strokec4 ();\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 ss\strokec4 .\strokec9 getSheetByName\strokec4 (\cf8 \strokec8 'Debug'\cf4 \strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 sheet\strokec4 ) \{\cb1 \
+\cb3       \strokec9 sheet\strokec4  = \strokec9 ss\strokec4 .\strokec9 insertSheet\strokec4 (\cf8 \strokec8 'Debug'\cf4 \strokec4 );\cb1 \
+\cb3       \strokec9 sheet\strokec4 .\strokec9 appendRow\strokec4 ([\cf8 \strokec8 'Timestamp'\cf4 \strokec4 , \cf8 \strokec8 'Message'\cf4 \strokec4 ]);\cb1 \
+\cb3     \}\cb1 \
+\cb3     \strokec9 sheet\strokec4 .\strokec9 appendRow\strokec4 ([\cf6 \strokec6 new\cf4 \strokec4  \cf7 \strokec7 Date\cf4 \strokec4 (), \strokec9 message\strokec4 ]);\cb1 \
+\cb3   \} \cf6 \strokec6 catch\cf4 \strokec4  (\strokec9 err\strokec4 ) \{\cb1 \
+\cb3     \cf5 \strokec5 // If debug logging itself fails, there's nothing more we can do here \'97\cf4 \cb1 \strokec4 \
+\cb3     \cf5 \strokec5 // deliberately not throwing, so this never breaks the real request.\cf4 \cb1 \strokec4 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 doGet\strokec4 (\strokec9 e\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 action\strokec4  = \strokec9 e\strokec4 .\strokec9 parameter\strokec4 .\strokec9 action\strokec4 ;\cb1 \
+\cb3   \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 action\strokec4  === \cf8 \strokec8 'listAvailability'\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 true\cf4 \strokec4 , \strokec9 slots\strokec4 : \strokec9 readAvailability\strokec4 () \});\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Unknown action'\cf4 \strokec4  \});\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // Bump this string whenever you redeploy, so the Executions log can tell\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // you for certain whether a real booking hit the current code.\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 var\cf4 \strokec4  \cf7 \strokec7 SCRIPT_VERSION\cf4 \strokec4  = \cf8 \strokec8 "email-v5-recurring-reminders"\cf4 \strokec4 ;\cb1 \
+\
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 doPost\strokec4 (\strokec9 e\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 body\strokec4 ;\cb1 \
+\cb3   \cf6 \strokec6 try\cf4 \strokec4  \{\cb1 \
+\cb3     \strokec9 body\strokec4  = \cf7 \strokec7 JSON\cf4 \strokec4 .\strokec9 parse\strokec4 (\strokec9 e\strokec4 .\strokec9 postData\strokec4 .\strokec9 contents\strokec4 );\cb1 \
+\cb3   \} \cf6 \strokec6 catch\cf4 \strokec4  (\strokec9 err\strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Invalid request body'\cf4 \strokec4  \});\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \cf7 \strokec7 Logger\cf4 \strokec4 .\strokec9 log\strokec4 (\cf8 \strokec8 'doPost ['\cf4 \strokec4  + \cf7 \strokec7 SCRIPT_VERSION\cf4 \strokec4  + \cf8 \strokec8 '] action='\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 action\strokec4 );\cb1 \
+\cb3   \strokec9 debugLog\strokec4 (\cf8 \strokec8 'doPost ['\cf4 \strokec4  + \cf7 \strokec7 SCRIPT_VERSION\cf4 \strokec4  + \cf8 \strokec8 '] action='\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 action\strokec4 );\cb1 \
+\
+\cb3   \cf6 \strokec6 switch\cf4 \strokec4  (\strokec9 body\strokec4 .\strokec9 action\strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 case\cf4 \strokec4  \cf8 \strokec8 'createAccount'\cf4 \strokec4 : \cf6 \strokec6 return\cf4 \strokec4  \strokec9 createAccount\strokec4 (\strokec9 body\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 case\cf4 \strokec4  \cf8 \strokec8 'login'\cf4 \strokec4 : \cf6 \strokec6 return\cf4 \strokec4  \strokec9 loginAccount\strokec4 (\strokec9 body\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 case\cf4 \strokec4  \cf8 \strokec8 'addSlot'\cf4 \strokec4 : \cf6 \strokec6 return\cf4 \strokec4  \strokec9 addSlot\strokec4 (\strokec9 body\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 case\cf4 \strokec4  \cf8 \strokec8 'deleteSlot'\cf4 \strokec4 : \cf6 \strokec6 return\cf4 \strokec4  \strokec9 deleteSlot\strokec4 (\strokec9 body\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 case\cf4 \strokec4  \cf8 \strokec8 'bookSlot'\cf4 \strokec4 : \cf6 \strokec6 return\cf4 \strokec4  \strokec9 bookSlot\strokec4 (\strokec9 body\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 case\cf4 \strokec4  \cf8 \strokec8 'cancelBooking'\cf4 \strokec4 : \cf6 \strokec6 return\cf4 \strokec4  \strokec9 cancelBooking\strokec4 (\strokec9 body\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 case\cf4 \strokec4  \cf8 \strokec8 'addRecurringBooking'\cf4 \strokec4 : \cf6 \strokec6 return\cf4 \strokec4  \strokec9 addRecurringBooking\strokec4 (\strokec9 body\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 default\cf4 \strokec4 : \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Unknown action'\cf4 \strokec4  \});\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // ---------- Availability ----------\cf4 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 readAvailability\strokec4 () \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Availability'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 data\strokec4  = \strokec9 sheet\strokec4 .\strokec9 getDataRange\strokec4 ().\strokec9 getValues\strokec4 ();\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 slots\strokec4  = [];\cb1 \
+\cb3   \cf6 \strokec6 for\cf4 \strokec4  (\cf6 \strokec6 var\cf4 \strokec4  \strokec9 i\strokec4  = \cf10 \strokec10 1\cf4 \strokec4 ; \strokec9 i\strokec4  < \strokec9 data\strokec4 .\strokec9 length\strokec4 ; \strokec9 i\strokec4 ++) \{\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 row\strokec4  = \strokec9 data\strokec4 [\strokec9 i\strokec4 ];\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 row\strokec4 [\cf10 \strokec10 0\cf4 \strokec4 ]) \cf6 \strokec6 continue\cf4 \strokec4 ;\cb1 \
+\cb3     \strokec9 slots\strokec4 .\strokec9 push\strokec4 (\{\cb1 \
+\cb3       \strokec9 id\strokec4 : \strokec9 row\strokec4 [\cf10 \strokec10 0\cf4 \strokec4 ],\cb1 \
+\cb3       \strokec9 date\strokec4 : \strokec9 formatDate\strokec4 (\strokec9 row\strokec4 [\cf10 \strokec10 1\cf4 \strokec4 ]),\cb1 \
+\cb3       \strokec9 time\strokec4 : \strokec9 formatTime\strokec4 (\strokec9 row\strokec4 [\cf10 \strokec10 2\cf4 \strokec4 ]),\cb1 \
+\cb3       \strokec9 duration\strokec4 : \strokec9 row\strokec4 [\cf10 \strokec10 3\cf4 \strokec4 ],\cb1 \
+\cb3       \strokec9 booked\strokec4 : \strokec9 row\strokec4 [\cf10 \strokec10 4\cf4 \strokec4 ] === \cf6 \strokec6 true\cf4 \strokec4  || \strokec9 row\strokec4 [\cf10 \strokec10 4\cf4 \strokec4 ] === \cf8 \strokec8 'TRUE'\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 parentEmail\strokec4 : \strokec9 row\strokec4 [\cf10 \strokec10 5\cf4 \strokec4 ],\cb1 \
+\cb3       \strokec9 parentName\strokec4 : \strokec9 row\strokec4 [\cf10 \strokec10 6\cf4 \strokec4 ],\cb1 \
+\cb3       \strokec9 parentPhone\strokec4 : \strokec9 row\strokec4 [\cf10 \strokec10 7\cf4 \strokec4 ],\cb1 \
+\cb3       \strokec9 studentName\strokec4 : \strokec9 row\strokec4 [\cf10 \strokec10 8\cf4 \strokec4 ],\cb1 \
+\cb3       \strokec9 note\strokec4 : \strokec9 row\strokec4 [\cf10 \strokec10 9\cf4 \strokec4 ]\cb1 \
+\cb3     \});\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 slots\strokec4 ;\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 formatDate\strokec4 (\strokec9 val\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 if\cf4 \strokec4  (\cf7 \strokec7 Object\cf4 \strokec4 .\strokec9 prototype\strokec4 .\strokec9 toString\strokec4 .\strokec9 call\strokec4 (\strokec9 val\strokec4 ) === \cf8 \strokec8 '[object Date]'\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \cf7 \strokec7 Utilities\cf4 \strokec4 .\strokec9 formatDate\strokec4 (\strokec9 val\strokec4 , \cf7 \strokec7 Session\cf4 \strokec4 .\strokec9 getScriptTimeZone\strokec4 (), \cf8 \strokec8 'yyyy-MM-dd'\cf4 \strokec4 );\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 val\strokec4 ;\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // Google Sheets silently converts a plain "15:00" string into a real time\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // value when it's entered into a cell \'97 same auto-conversion behavior as\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // dates. This normalizes it back to a plain 24-hour "HH:mm" string so the\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // rest of the code (and the front-end) can always rely on getting a string.\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 formatTime\strokec4 (\strokec9 val\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 if\cf4 \strokec4  (\cf7 \strokec7 Object\cf4 \strokec4 .\strokec9 prototype\strokec4 .\strokec9 toString\strokec4 .\strokec9 call\strokec4 (\strokec9 val\strokec4 ) === \cf8 \strokec8 '[object Date]'\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \cf7 \strokec7 Utilities\cf4 \strokec4 .\strokec9 formatDate\strokec4 (\strokec9 val\strokec4 , \cf7 \strokec7 Session\cf4 \strokec4 .\strokec9 getScriptTimeZone\strokec4 (), \cf8 \strokec8 'HH:mm'\cf4 \strokec4 );\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 val\strokec4 ;\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 addSlot\strokec4 (\strokec9 body\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 body\strokec4 .\strokec9 adminKey\strokec4  !== \cf7 \strokec7 ADMIN_KEY\cf4 \strokec4 ) \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Not authorized'\cf4 \strokec4  \});\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Availability'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 id\strokec4  = \cf7 \strokec7 Utilities\cf4 \strokec4 .\strokec9 getUuid\strokec4 ();\cb1 \
+\cb3   \strokec9 sheet\strokec4 .\strokec9 appendRow\strokec4 ([\strokec9 id\strokec4 , \strokec9 body\strokec4 .\strokec9 date\strokec4 , \strokec9 body\strokec4 .\strokec9 time\strokec4 , \strokec9 body\strokec4 .\strokec9 duration\strokec4  || \cf10 \strokec10 60\cf4 \strokec4 , \cf6 \strokec6 false\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 ]);\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 true\cf4 \strokec4 , \strokec9 id\strokec4 : \strokec9 id\strokec4  \});\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 deleteSlot\strokec4 (\strokec9 body\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 body\strokec4 .\strokec9 adminKey\strokec4  !== \cf7 \strokec7 ADMIN_KEY\cf4 \strokec4 ) \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Not authorized'\cf4 \strokec4  \});\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Availability'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 data\strokec4  = \strokec9 sheet\strokec4 .\strokec9 getDataRange\strokec4 ().\strokec9 getValues\strokec4 ();\cb1 \
+\cb3   \cf6 \strokec6 for\cf4 \strokec4  (\cf6 \strokec6 var\cf4 \strokec4  \strokec9 i\strokec4  = \cf10 \strokec10 1\cf4 \strokec4 ; \strokec9 i\strokec4  < \strokec9 data\strokec4 .\strokec9 length\strokec4 ; \strokec9 i\strokec4 ++) \{\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 0\cf4 \strokec4 ] === \strokec9 body\strokec4 .\strokec9 id\strokec4 ) \{\cb1 \
+\cb3       \strokec9 sheet\strokec4 .\strokec9 deleteRow\strokec4 (\strokec9 i\strokec4  + \cf10 \strokec10 1\cf4 \strokec4 );\cb1 \
+\cb3       \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 true\cf4 \strokec4  \});\cb1 \
+\cb3     \}\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Slot not found'\cf4 \strokec4  \});\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 bookSlot\strokec4 (\strokec9 body\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 lock\strokec4  = \cf7 \strokec7 LockService\cf4 \strokec4 .\strokec9 getScriptLock\strokec4 ();\cb1 \
+\cb3   \strokec9 lock\strokec4 .\strokec9 waitLock\strokec4 (\cf10 \strokec10 10000\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 bookedSlotInfo\strokec4  = \cf6 \strokec6 null\cf4 \strokec4 ;\cb1 \
+\cb3   \cf6 \strokec6 try\cf4 \strokec4  \{\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Availability'\cf4 \strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 data\strokec4  = \strokec9 sheet\strokec4 .\strokec9 getDataRange\strokec4 ().\strokec9 getValues\strokec4 ();\cb1 \
+\cb3     \cf6 \strokec6 for\cf4 \strokec4  (\cf6 \strokec6 var\cf4 \strokec4  \strokec9 i\strokec4  = \cf10 \strokec10 1\cf4 \strokec4 ; \strokec9 i\strokec4  < \strokec9 data\strokec4 .\strokec9 length\strokec4 ; \strokec9 i\strokec4 ++) \{\cb1 \
+\cb3       \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 0\cf4 \strokec4 ] === \strokec9 body\strokec4 .\strokec9 id\strokec4 ) \{\cb1 \
+\cb3         \cf6 \strokec6 var\cf4 \strokec4  \strokec9 alreadyBooked\strokec4  = \strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 4\cf4 \strokec4 ] === \cf6 \strokec6 true\cf4 \strokec4  || \strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 4\cf4 \strokec4 ] === \cf8 \strokec8 'TRUE'\cf4 \strokec4 ;\cb1 \
+\cb3         \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 alreadyBooked\strokec4 ) \{\cb1 \
+\cb3           \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'That slot was just booked by someone else. Please pick another.'\cf4 \strokec4  \});\cb1 \
+\cb3         \}\cb1 \
+\cb3         \strokec9 sheet\strokec4 .\strokec9 getRange\strokec4 (\strokec9 i\strokec4  + \cf10 \strokec10 1\cf4 \strokec4 , \cf10 \strokec10 5\cf4 \strokec4 , \cf10 \strokec10 1\cf4 \strokec4 , \cf10 \strokec10 6\cf4 \strokec4 ).\strokec9 setValues\strokec4 ([[\cb1 \
+\cb3           \cf6 \strokec6 true\cf4 \strokec4 , \strokec9 body\strokec4 .\strokec9 parentEmail\strokec4 , \strokec9 body\strokec4 .\strokec9 parentName\strokec4 , \strokec9 body\strokec4 .\strokec9 parentPhone\strokec4  || \cf8 \strokec8 ''\cf4 \strokec4 , \strokec9 body\strokec4 .\strokec9 studentName\strokec4 , \strokec9 body\strokec4 .\strokec9 note\strokec4  || \cf8 \strokec8 ''\cf4 \cb1 \strokec4 \
+\cb3         ]]);\cb1 \
+\cb3         \strokec9 bookedSlotInfo\strokec4  = \{\cb1 \
+\cb3           \strokec9 date\strokec4 : \strokec9 formatDate\strokec4 (\strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 1\cf4 \strokec4 ]),\cb1 \
+\cb3           \strokec9 time\strokec4 : \strokec9 formatTime\strokec4 (\strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 2\cf4 \strokec4 ]),\cb1 \
+\cb3           \strokec9 duration\strokec4 : \strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 3\cf4 \strokec4 ] || \cf10 \strokec10 60\cf4 \cb1 \strokec4 \
+\cb3         \};\cb1 \
+\cb3         \cf6 \strokec6 break\cf4 \strokec4 ;\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3   \} \cf6 \strokec6 finally\cf4 \strokec4  \{\cb1 \
+\cb3     \strokec9 lock\strokec4 .\strokec9 releaseLock\strokec4 ();\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 bookedSlotInfo\strokec4 ) \{\cb1 \
+\cb3     \cf7 \strokec7 Logger\cf4 \strokec4 .\strokec9 log\strokec4 (\cf8 \strokec8 'bookSlot: no matching slot found for id='\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 id\strokec4 );\cb1 \
+\cb3     \strokec9 debugLog\strokec4 (\cf8 \strokec8 'bookSlot: no matching slot found for id='\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 id\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Slot not found'\cf4 \strokec4  \});\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \cf7 \strokec7 Logger\cf4 \strokec4 .\strokec9 log\strokec4 (\cf8 \strokec8 'bookSlot: slot booked in sheet, now attempting sendBookingEmails()'\cf4 \strokec4 );\cb1 \
+\cb3   \strokec9 debugLog\strokec4 (\cf8 \strokec8 'bookSlot: slot booked in sheet, now attempting sendBookingEmails()'\cf4 \strokec4 );\cb1 \
+\
+\cb3   \cf5 \strokec5 // Email sending happens outside the lock so it can't hold up other\cf4 \cb1 \strokec4 \
+\cb3   \cf5 \strokec5 // parents trying to book at the same time. If it fails for any reason\cf4 \cb1 \strokec4 \
+\cb3   \cf5 \strokec5 // (e.g. a transient Gmail error), the booking itself has already\cf4 \cb1 \strokec4 \
+\cb3   \cf5 \strokec5 // succeeded \'97 we just log it rather than showing the parent an error.\cf4 \cb1 \strokec4 \
+\cb3   \cf6 \strokec6 try\cf4 \strokec4  \{\cb1 \
+\cb3     \strokec9 sendBookingEmails\strokec4 (\strokec9 body\strokec4 , \strokec9 bookedSlotInfo\strokec4 );\cb1 \
+\cb3     \cf7 \strokec7 Logger\cf4 \strokec4 .\strokec9 log\strokec4 (\cf8 \strokec8 'bookSlot: sendBookingEmails() completed with no error.'\cf4 \strokec4 );\cb1 \
+\cb3     \strokec9 debugLog\strokec4 (\cf8 \strokec8 'bookSlot: sendBookingEmails() completed with no error.'\cf4 \strokec4 );\cb1 \
+\cb3   \} \cf6 \strokec6 catch\cf4 \strokec4  (\strokec9 err\strokec4 ) \{\cb1 \
+\cb3     \cf7 \strokec7 Logger\cf4 \strokec4 .\strokec9 log\strokec4 (\cf8 \strokec8 'bookSlot: sendBookingEmails() THREW an error: '\cf4 \strokec4  + \strokec9 err\strokec4 );\cb1 \
+\cb3     \strokec9 debugLog\strokec4 (\cf8 \strokec8 'bookSlot: sendBookingEmails() THREW an error: '\cf4 \strokec4  + \strokec9 err\strokec4 );\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 true\cf4 \strokec4  \});\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 sendBookingEmails\strokec4 (\strokec9 body\strokec4 , \strokec9 slot\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 dateLabel\strokec4  = \strokec9 formatDateForEmail\strokec4 (\strokec9 slot\strokec4 .\strokec9 date\strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 timeLabel\strokec4  = \strokec9 formatTimeForEmail\strokec4 (\strokec9 slot\strokec4 .\strokec9 time\strokec4 );\cb1 \
+\
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 tutorSubject\strokec4  = \cf8 \strokec8 'New booking: '\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 studentName\strokec4  + \cf8 \strokec8 ' \\u2014 '\cf4 \strokec4  + \strokec9 dateLabel\strokec4  + \cf8 \strokec8 ' at '\cf4 \strokec4  + \strokec9 timeLabel\strokec4 ;\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 tutorBody\strokec4  =\cb1 \
+\cb3     \cf8 \strokec8 'A new session was booked.\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Student: '\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 studentName\strokec4  + \cf8 \strokec8 '\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Parent: '\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 parentName\strokec4  + \cf8 \strokec8 '\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Email: '\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 parentEmail\strokec4  + \cf8 \strokec8 '\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Phone: '\cf4 \strokec4  + (\strokec9 body\strokec4 .\strokec9 parentPhone\strokec4  || \cf8 \strokec8 '(not provided)'\cf4 \strokec4 ) + \cf8 \strokec8 '\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Date: '\cf4 \strokec4  + \strokec9 dateLabel\strokec4  + \cf8 \strokec8 '\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Time: '\cf4 \strokec4  + \strokec9 timeLabel\strokec4  + \cf8 \strokec8 '\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Duration: '\cf4 \strokec4  + \strokec9 slot\strokec4 .\strokec9 duration\strokec4  + \cf8 \strokec8 ' minutes\\n'\cf4 \strokec4  +\cb1 \
+\cb3     (\strokec9 body\strokec4 .\strokec9 note\strokec4  ? \cf8 \strokec8 'Note: '\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 note\strokec4  + \cf8 \strokec8 '\\n'\cf4 \strokec4  : \cf8 \strokec8 ''\cf4 \strokec4 );\cb1 \
+\cb3   \cf7 \strokec7 MailApp\cf4 \strokec4 .\strokec9 sendEmail\strokec4 (\cf7 \strokec7 TUTOR_EMAIL\cf4 \strokec4 , \strokec9 tutorSubject\strokec4 , \strokec9 tutorBody\strokec4 );\cb1 \
+\
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 parentSubject\strokec4  = \cf8 \strokec8 'Session confirmed \\u2014 '\cf4 \strokec4  + \strokec9 dateLabel\strokec4  + \cf8 \strokec8 ' at '\cf4 \strokec4  + \strokec9 timeLabel\strokec4 ;\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 parentBody\strokec4  =\cb1 \
+\cb3     \cf8 \strokec8 'Hi '\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 parentName\strokec4  + \cf8 \strokec8 ',\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'This confirms '\cf4 \strokec4  + \strokec9 body\strokec4 .\strokec9 studentName\strokec4  + \cf8 \strokec8 '\\u2019s tutoring session with '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_NAME\cf4 \strokec4  + \cf8 \strokec8 ':\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Date: '\cf4 \strokec4  + \strokec9 dateLabel\strokec4  + \cf8 \strokec8 '\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Time: '\cf4 \strokec4  + \strokec9 timeLabel\strokec4  + \cf8 \strokec8 '\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Duration: '\cf4 \strokec4  + \strokec9 slot\strokec4 .\strokec9 duration\strokec4  + \cf8 \strokec8 ' minutes\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Need to reschedule or cancel? Log back in to the booking page and cancel it from "My upcoming sessions" \\u2014 that\\u2019ll open the slot back up for someone else.\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 'Questions in the meantime? Reach '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_NAME\cf4 \strokec4  + \cf8 \strokec8 ' at '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_EMAIL\cf4 \strokec4  + \cf8 \strokec8 ' or '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_PHONE\cf4 \strokec4  + \cf8 \strokec8 '.\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3     \cf8 \strokec8 '\\u2014 '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_NAME\cf4 \strokec4 ;\cb1 \
+\cb3   \cf7 \strokec7 MailApp\cf4 \strokec4 .\strokec9 sendEmail\strokec4 (\strokec9 body\strokec4 .\strokec9 parentEmail\strokec4 , \strokec9 parentSubject\strokec4 , \strokec9 parentBody\strokec4 );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /**\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * DEBUG HELPER \'97 not used by the web app, just for you to run manually.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * Select this function in the dropdown at the top of the Apps Script\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * editor and click Run. It calls the exact same sendBookingEmails()\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * function that a real booking uses, with fake data, and sends both\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * emails to your own address so you can see them arrive.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  *\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * If this run succeeds and you get two emails, the email code itself is\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * fine \'97 the real booking flow just needs a fresh deployment (see step\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * below). If this run throws an error instead, the error will show\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * directly in the editor (unlike a real booking, this bypasses the\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * try/catch that normally hides email errors from the parent) \'97 copy\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * that error message, that tells us exactly what's wrong.\cf4 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  */\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 debugSendBookingEmails\strokec4 () \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \strokec9 sendBookingEmails\strokec4 (\cb1 \
+\cb3     \{\cb1 \
+\cb3       \strokec9 studentName\strokec4 : \cf8 \strokec8 "Test Student"\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 parentName\strokec4 : \cf8 \strokec8 "Test Parent"\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 parentEmail\strokec4 : \cf7 \strokec7 TUTOR_EMAIL\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 parentPhone\strokec4 : \cf8 \strokec8 ""\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 note\strokec4 : \cf8 \strokec8 "This is a debug test, not a real booking."\cf4 \cb1 \strokec4 \
+\cb3     \},\cb1 \
+\cb3     \{\cb1 \
+\cb3       \strokec9 date\strokec4 : \cf8 \strokec8 "2026-09-15"\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 time\strokec4 : \cf8 \strokec8 "15:00"\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 duration\strokec4 : \cf10 \strokec10 60\cf4 \cb1 \strokec4 \
+\cb3     \}\cb1 \
+\cb3   );\cb1 \
+\cb3   \cf7 \strokec7 Logger\cf4 \strokec4 .\strokec9 log\strokec4 (\cf8 \strokec8 "Debug emails sent successfully \'97 check your inbox for two emails."\cf4 \strokec4 );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 formatDateForEmail\strokec4 (\strokec9 dateStr\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 parts\strokec4  = \strokec9 dateStr\strokec4 .\strokec9 split\strokec4 (\cf8 \strokec8 '-'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 d\strokec4  = \cf6 \strokec6 new\cf4 \strokec4  \cf7 \strokec7 Date\cf4 \strokec4 (\strokec9 parseInt\strokec4 (\strokec9 parts\strokec4 [\cf10 \strokec10 0\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ), \strokec9 parseInt\strokec4 (\strokec9 parts\strokec4 [\cf10 \strokec10 1\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ) - \cf10 \strokec10 1\cf4 \strokec4 , \strokec9 parseInt\strokec4 (\strokec9 parts\strokec4 [\cf10 \strokec10 2\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ));\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 days\strokec4  = [\cf8 \strokec8 'Sunday'\cf4 \strokec4 , \cf8 \strokec8 'Monday'\cf4 \strokec4 , \cf8 \strokec8 'Tuesday'\cf4 \strokec4 , \cf8 \strokec8 'Wednesday'\cf4 \strokec4 , \cf8 \strokec8 'Thursday'\cf4 \strokec4 , \cf8 \strokec8 'Friday'\cf4 \strokec4 , \cf8 \strokec8 'Saturday'\cf4 \strokec4 ];\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 months\strokec4  = [\cf8 \strokec8 'January'\cf4 \strokec4 , \cf8 \strokec8 'February'\cf4 \strokec4 , \cf8 \strokec8 'March'\cf4 \strokec4 , \cf8 \strokec8 'April'\cf4 \strokec4 , \cf8 \strokec8 'May'\cf4 \strokec4 , \cf8 \strokec8 'June'\cf4 \strokec4 , \cf8 \strokec8 'July'\cf4 \strokec4 , \cf8 \strokec8 'August'\cf4 \strokec4 , \cf8 \strokec8 'September'\cf4 \strokec4 , \cf8 \strokec8 'October'\cf4 \strokec4 , \cf8 \strokec8 'November'\cf4 \strokec4 , \cf8 \strokec8 'December'\cf4 \strokec4 ];\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 days\strokec4 [\strokec9 d\strokec4 .\strokec9 getDay\strokec4 ()] + \cf8 \strokec8 ', '\cf4 \strokec4  + \strokec9 months\strokec4 [\strokec9 d\strokec4 .\strokec9 getMonth\strokec4 ()] + \cf8 \strokec8 ' '\cf4 \strokec4  + \strokec9 d\strokec4 .\strokec9 getDate\strokec4 ();\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 formatTimeForEmail\strokec4 (\strokec9 timeStr\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 parts\strokec4  = \strokec9 timeStr\strokec4 .\strokec9 split\strokec4 (\cf8 \strokec8 ':'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 h\strokec4  = \strokec9 parseInt\strokec4 (\strokec9 parts\strokec4 [\cf10 \strokec10 0\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 m\strokec4  = \strokec9 parts\strokec4 [\cf10 \strokec10 1\cf4 \strokec4 ];\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 ampm\strokec4  = \strokec9 h\strokec4  >= \cf10 \strokec10 12\cf4 \strokec4  ? \cf8 \strokec8 'PM'\cf4 \strokec4  : \cf8 \strokec8 'AM'\cf4 \strokec4 ;\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 h12\strokec4  = \strokec9 h\strokec4  % \cf10 \strokec10 12\cf4 \strokec4  === \cf10 \strokec10 0\cf4 \strokec4  ? \cf10 \strokec10 12\cf4 \strokec4  : \strokec9 h\strokec4  % \cf10 \strokec10 12\cf4 \strokec4 ;\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 h12\strokec4  + \cf8 \strokec8 ':'\cf4 \strokec4  + \strokec9 m\strokec4  + \cf8 \strokec8 ' '\cf4 \strokec4  + \strokec9 ampm\strokec4 ;\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 cancelBooking\strokec4 (\strokec9 body\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Availability'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 data\strokec4  = \strokec9 sheet\strokec4 .\strokec9 getDataRange\strokec4 ().\strokec9 getValues\strokec4 ();\cb1 \
+\cb3   \cf6 \strokec6 for\cf4 \strokec4  (\cf6 \strokec6 var\cf4 \strokec4  \strokec9 i\strokec4  = \cf10 \strokec10 1\cf4 \strokec4 ; \strokec9 i\strokec4  < \strokec9 data\strokec4 .\strokec9 length\strokec4 ; \strokec9 i\strokec4 ++) \{\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 0\cf4 \strokec4 ] === \strokec9 body\strokec4 .\strokec9 id\strokec4 ) \{\cb1 \
+\cb3       \cf6 \strokec6 var\cf4 \strokec4  \strokec9 isOwner\strokec4  = \strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 5\cf4 \strokec4 ] === \strokec9 body\strokec4 .\strokec9 parentEmail\strokec4 ;\cb1 \
+\cb3       \cf6 \strokec6 var\cf4 \strokec4  \strokec9 isAdmin\strokec4  = \strokec9 body\strokec4 .\strokec9 adminKey\strokec4  === \cf7 \strokec7 ADMIN_KEY\cf4 \strokec4 ;\cb1 \
+\cb3       \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 isOwner\strokec4  && !\strokec9 isAdmin\strokec4 ) \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Not authorized'\cf4 \strokec4  \});\cb1 \
+\cb3       \strokec9 sheet\strokec4 .\strokec9 getRange\strokec4 (\strokec9 i\strokec4  + \cf10 \strokec10 1\cf4 \strokec4 , \cf10 \strokec10 5\cf4 \strokec4 , \cf10 \strokec10 1\cf4 \strokec4 , \cf10 \strokec10 6\cf4 \strokec4 ).\strokec9 setValues\strokec4 ([[\cf6 \strokec6 false\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 ]]);\cb1 \
+\cb3       \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 true\cf4 \strokec4  \});\cb1 \
+\cb3     \}\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Booking not found'\cf4 \strokec4  \});\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // ---------- Recurring client bookings ----------\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // Used only by the "Book recurring sessions for a client" card in the\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // admin tab of booking.html. Unlike addSlot (which posts an OPEN slot\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // for any parent to claim), this books the same weekly time directly\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // for one specific client, immediately, for a chosen number of weeks.\cf4 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 addRecurringBooking\strokec4 (\strokec9 body\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 body\strokec4 .\strokec9 adminKey\strokec4  !== \cf7 \strokec7 ADMIN_KEY\cf4 \strokec4 ) \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Not authorized'\cf4 \strokec4  \});\cb1 \
+\
+\cb3   \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 body\strokec4 .\strokec9 studentName\strokec4  || !\strokec9 body\strokec4 .\strokec9 parentName\strokec4  || !\strokec9 body\strokec4 .\strokec9 parentEmail\strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Student name, parent name, and parent email are required.'\cf4 \strokec4  \});\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 body\strokec4 .\strokec9 startDate\strokec4  || !\strokec9 body\strokec4 .\strokec9 time\strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Start date and time are required.'\cf4 \strokec4  \});\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 weeks\strokec4  = \strokec9 parseInt\strokec4 (\strokec9 body\strokec4 .\strokec9 weeks\strokec4 , \cf10 \strokec10 10\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 weeks\strokec4  || \strokec9 weeks\strokec4  < \cf10 \strokec10 1\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Number of weeks must be at least 1.'\cf4 \strokec4  \});\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 duration\strokec4  = \strokec9 parseInt\strokec4 (\strokec9 body\strokec4 .\strokec9 duration\strokec4 , \cf10 \strokec10 10\cf4 \strokec4 ) || \cf10 \strokec10 60\cf4 \strokec4 ;\cb1 \
+\
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Availability'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 startParts\strokec4  = \cf7 \strokec7 String\cf4 \strokec4 (\strokec9 body\strokec4 .\strokec9 startDate\strokec4 ).\strokec9 split\strokec4 (\cf8 \strokec8 '-'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 startDate\strokec4  = \cf6 \strokec6 new\cf4 \strokec4  \cf7 \strokec7 Date\cf4 \strokec4 (\cb1 \
+\cb3     \strokec9 parseInt\strokec4 (\strokec9 startParts\strokec4 [\cf10 \strokec10 0\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ),\cb1 \
+\cb3     \strokec9 parseInt\strokec4 (\strokec9 startParts\strokec4 [\cf10 \strokec10 1\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ) - \cf10 \strokec10 1\cf4 \strokec4 ,\cb1 \
+\cb3     \strokec9 parseInt\strokec4 (\strokec9 startParts\strokec4 [\cf10 \strokec10 2\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 )\cb1 \
+\cb3   );\cb1 \
+\
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 created\strokec4  = \cf10 \strokec10 0\cf4 \strokec4 ;\cb1 \
+\cb3   \cf6 \strokec6 for\cf4 \strokec4  (\cf6 \strokec6 var\cf4 \strokec4  \strokec9 w\strokec4  = \cf10 \strokec10 0\cf4 \strokec4 ; \strokec9 w\strokec4  < \strokec9 weeks\strokec4 ; \strokec9 w\strokec4 ++) \{\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 thisDate\strokec4  = \cf6 \strokec6 new\cf4 \strokec4  \cf7 \strokec7 Date\cf4 \strokec4 (\strokec9 startDate\strokec4 .\strokec9 getTime\strokec4 ());\cb1 \
+\cb3     \strokec9 thisDate\strokec4 .\strokec9 setDate\strokec4 (\strokec9 thisDate\strokec4 .\strokec9 getDate\strokec4 () + (\cf10 \strokec10 7\cf4 \strokec4  * \strokec9 w\strokec4 ));\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 y\strokec4  = \strokec9 thisDate\strokec4 .\strokec9 getFullYear\strokec4 ();\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 m\strokec4  = (\cf8 \strokec8 '0'\cf4 \strokec4  + (\strokec9 thisDate\strokec4 .\strokec9 getMonth\strokec4 () + \cf10 \strokec10 1\cf4 \strokec4 )).\strokec9 slice\strokec4 (-\cf10 \strokec10 2\cf4 \strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 d\strokec4  = (\cf8 \strokec8 '0'\cf4 \strokec4  + \strokec9 thisDate\strokec4 .\strokec9 getDate\strokec4 ()).\strokec9 slice\strokec4 (-\cf10 \strokec10 2\cf4 \strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 dateStr\strokec4  = \strokec9 y\strokec4  + \cf8 \strokec8 '-'\cf4 \strokec4  + \strokec9 m\strokec4  + \cf8 \strokec8 '-'\cf4 \strokec4  + \strokec9 d\strokec4 ;\cb1 \
+\
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 id\strokec4  = \cf7 \strokec7 Utilities\cf4 \strokec4 .\strokec9 getUuid\strokec4 ();\cb1 \
+\cb3     \strokec9 sheet\strokec4 .\strokec9 appendRow\strokec4 ([\cb1 \
+\cb3       \strokec9 id\strokec4 , \strokec9 dateStr\strokec4 , \strokec9 body\strokec4 .\strokec9 time\strokec4 , \strokec9 duration\strokec4 , \cf6 \strokec6 true\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 body\strokec4 .\strokec9 parentEmail\strokec4 , \strokec9 body\strokec4 .\strokec9 parentName\strokec4 , \strokec9 body\strokec4 .\strokec9 parentPhone\strokec4  || \cf8 \strokec8 ''\cf4 \strokec4 ,\cb1 \
+\cb3       \strokec9 body\strokec4 .\strokec9 studentName\strokec4 , \strokec9 body\strokec4 .\strokec9 note\strokec4  || \cf8 \strokec8 ''\cf4 \strokec4 , \cf6 \strokec6 false\cf4 \cb1 \strokec4 \
+\cb3     ]);\cb1 \
+\cb3     \strokec9 created\strokec4 ++;\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 true\cf4 \strokec4 , \strokec9 count\strokec4 : \strokec9 created\strokec4  \});\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // ---------- 24-hour reminder emails ----------\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // Not called by the web app directly \'97 set this to run on an hourly\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // time-driven trigger (see setup step 9 at the top of this file). It\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // finds every booked session that's roughly 24 hours out and hasn't\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // had a reminder sent yet, emails the parent, then marks it sent so\cf4 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 // it never goes out twice.\cf4 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 sendSessionReminders\strokec4 () \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Availability'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 data\strokec4  = \strokec9 sheet\strokec4 .\strokec9 getDataRange\strokec4 ().\strokec9 getValues\strokec4 ();\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 now\strokec4  = \cf6 \strokec6 new\cf4 \strokec4  \cf7 \strokec7 Date\cf4 \strokec4 ();\cb1 \
+\
+\cb3   \cf6 \strokec6 for\cf4 \strokec4  (\cf6 \strokec6 var\cf4 \strokec4  \strokec9 i\strokec4  = \cf10 \strokec10 1\cf4 \strokec4 ; \strokec9 i\strokec4  < \strokec9 data\strokec4 .\strokec9 length\strokec4 ; \strokec9 i\strokec4 ++) \{\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 row\strokec4  = \strokec9 data\strokec4 [\strokec9 i\strokec4 ];\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 row\strokec4 [\cf10 \strokec10 0\cf4 \strokec4 ]) \cf6 \strokec6 continue\cf4 \strokec4 ;\cb1 \
+\
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 booked\strokec4  = \strokec9 row\strokec4 [\cf10 \strokec10 4\cf4 \strokec4 ] === \cf6 \strokec6 true\cf4 \strokec4  || \strokec9 row\strokec4 [\cf10 \strokec10 4\cf4 \strokec4 ] === \cf8 \strokec8 'TRUE'\cf4 \strokec4 ;\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 booked\strokec4 ) \cf6 \strokec6 continue\cf4 \strokec4 ;\cb1 \
+\
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 reminderSent\strokec4  = \strokec9 row\strokec4 [\cf10 \strokec10 10\cf4 \strokec4 ] === \cf6 \strokec6 true\cf4 \strokec4  || \strokec9 row\strokec4 [\cf10 \strokec10 10\cf4 \strokec4 ] === \cf8 \strokec8 'TRUE'\cf4 \strokec4 ;\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 reminderSent\strokec4 ) \cf6 \strokec6 continue\cf4 \strokec4 ;\cb1 \
+\
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 dateStr\strokec4  = \strokec9 formatDate\strokec4 (\strokec9 row\strokec4 [\cf10 \strokec10 1\cf4 \strokec4 ]);\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 timeStr\strokec4  = \strokec9 formatTime\strokec4 (\strokec9 row\strokec4 [\cf10 \strokec10 2\cf4 \strokec4 ]);\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 dateStr\strokec4  || !\strokec9 timeStr\strokec4 ) \cf6 \strokec6 continue\cf4 \strokec4 ;\cb1 \
+\
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sessionStart\strokec4  = \strokec9 combineDateTime\strokec4 (\strokec9 dateStr\strokec4 , \strokec9 timeStr\strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 var\cf4 \strokec4  \strokec9 hoursUntil\strokec4  = (\strokec9 sessionStart\strokec4 .\strokec9 getTime\strokec4 () - \strokec9 now\strokec4 .\strokec9 getTime\strokec4 ()) / (\cf10 \strokec10 1000\cf4 \strokec4  * \cf10 \strokec10 60\cf4 \strokec4  * \cf10 \strokec10 60\cf4 \strokec4 );\cb1 \
+\
+\cb3     \cf5 \strokec5 // With an hourly trigger, this ~2-hour window guarantees one (and\cf4 \cb1 \strokec4 \
+\cb3     \cf5 \strokec5 // only one) check lands inside it per session, so reminders go\cf4 \cb1 \strokec4 \
+\cb3     \cf5 \strokec5 // out once, right around the 24-hour mark, never duplicated.\cf4 \cb1 \strokec4 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 hoursUntil\strokec4  <= \cf10 \strokec10 25\cf4 \strokec4  && \strokec9 hoursUntil\strokec4  >= \cf10 \strokec10 23\cf4 \strokec4 ) \{\cb1 \
+\cb3       \cf6 \strokec6 var\cf4 \strokec4  \strokec9 parentEmail\strokec4  = \strokec9 row\strokec4 [\cf10 \strokec10 5\cf4 \strokec4 ];\cb1 \
+\cb3       \cf6 \strokec6 var\cf4 \strokec4  \strokec9 parentName\strokec4  = \strokec9 row\strokec4 [\cf10 \strokec10 6\cf4 \strokec4 ];\cb1 \
+\cb3       \cf6 \strokec6 var\cf4 \strokec4  \strokec9 studentName\strokec4  = \strokec9 row\strokec4 [\cf10 \strokec10 8\cf4 \strokec4 ];\cb1 \
+\cb3       \cf6 \strokec6 var\cf4 \strokec4  \strokec9 duration\strokec4  = \strokec9 row\strokec4 [\cf10 \strokec10 3\cf4 \strokec4 ] || \cf10 \strokec10 60\cf4 \strokec4 ;\cb1 \
+\
+\cb3       \cf6 \strokec6 if\cf4 \strokec4  (\strokec9 parentEmail\strokec4 ) \{\cb1 \
+\cb3         \cf6 \strokec6 var\cf4 \strokec4  \strokec9 dateLabel\strokec4  = \strokec9 formatDateForEmail\strokec4 (\strokec9 dateStr\strokec4 );\cb1 \
+\cb3         \cf6 \strokec6 var\cf4 \strokec4  \strokec9 timeLabel\strokec4  = \strokec9 formatTimeForEmail\strokec4 (\strokec9 timeStr\strokec4 );\cb1 \
+\
+\cb3         \cf6 \strokec6 var\cf4 \strokec4  \strokec9 subject\strokec4  = \cf8 \strokec8 'Reminder: tutoring session tomorrow at '\cf4 \strokec4  + \strokec9 timeLabel\strokec4 ;\cb1 \
+\cb3         \cf6 \strokec6 var\cf4 \strokec4  \strokec9 emailBody\strokec4  =\cb1 \
+\cb3           \cf8 \strokec8 'Hi '\cf4 \strokec4  + (\strokec9 parentName\strokec4  || \cf8 \strokec8 'there'\cf4 \strokec4 ) + \cf8 \strokec8 ',\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3           \cf8 \strokec8 'Just a reminder that '\cf4 \strokec4  + (\strokec9 studentName\strokec4  || \cf8 \strokec8 'your student'\cf4 \strokec4 ) +\cb1 \
+\cb3           \cf8 \strokec8 '\\u2019s tutoring session with '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_NAME\cf4 \strokec4  + \cf8 \strokec8 ' is coming up:\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3           \strokec9 dateLabel\strokec4  + \cf8 \strokec8 ' at '\cf4 \strokec4  + \strokec9 timeLabel\strokec4  + \cf8 \strokec8 ' ('\cf4 \strokec4  + \strokec9 duration\strokec4  + \cf8 \strokec8 ' minutes)\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3           \cf8 \strokec8 'Need to reschedule or cancel? Log back in to the booking page and cancel it from "My upcoming sessions" \\u2014 that\\u2019ll open the slot back up for someone else.\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3           \cf8 \strokec8 'Questions in the meantime? Reach '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_NAME\cf4 \strokec4  + \cf8 \strokec8 ' at '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_EMAIL\cf4 \strokec4  + \cf8 \strokec8 ' or '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_PHONE\cf4 \strokec4  + \cf8 \strokec8 '.\\n\\n'\cf4 \strokec4  +\cb1 \
+\cb3           \cf8 \strokec8 '\\u2014 '\cf4 \strokec4  + \cf7 \strokec7 TUTOR_NAME\cf4 \strokec4 ;\cb1 \
+\
+\cb3         \cf7 \strokec7 MailApp\cf4 \strokec4 .\strokec9 sendEmail\strokec4 (\strokec9 parentEmail\strokec4 , \strokec9 subject\strokec4 , \strokec9 emailBody\strokec4 );\cb1 \
+\cb3       \}\cb1 \
+\
+\cb3       \strokec9 sheet\strokec4 .\strokec9 getRange\strokec4 (\strokec9 i\strokec4  + \cf10 \strokec10 1\cf4 \strokec4 , \cf10 \strokec10 11\cf4 \strokec4 ).\strokec9 setValue\strokec4 (\cf6 \strokec6 true\cf4 \strokec4 ); \cf5 \strokec5 // column K = ReminderSent\cf4 \cb1 \strokec4 \
+\cb3     \}\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 combineDateTime\strokec4 (\strokec9 dateStr\strokec4 , \strokec9 timeStr\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 dParts\strokec4  = \cf7 \strokec7 String\cf4 \strokec4 (\strokec9 dateStr\strokec4 ).\strokec9 split\strokec4 (\cf8 \strokec8 '-'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 tParts\strokec4  = \cf7 \strokec7 String\cf4 \strokec4 (\strokec9 timeStr\strokec4 ).\strokec9 split\strokec4 (\cf8 \strokec8 ':'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \cf6 \strokec6 new\cf4 \strokec4  \cf7 \strokec7 Date\cf4 \strokec4 (\cb1 \
+\cb3     \strokec9 parseInt\strokec4 (\strokec9 dParts\strokec4 [\cf10 \strokec10 0\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ),\cb1 \
+\cb3     \strokec9 parseInt\strokec4 (\strokec9 dParts\strokec4 [\cf10 \strokec10 1\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ) - \cf10 \strokec10 1\cf4 \strokec4 ,\cb1 \
+\cb3     \strokec9 parseInt\strokec4 (\strokec9 dParts\strokec4 [\cf10 \strokec10 2\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ),\cb1 \
+\cb3     \strokec9 parseInt\strokec4 (\strokec9 tParts\strokec4 [\cf10 \strokec10 0\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 ),\cb1 \
+\cb3     \strokec9 parseInt\strokec4 (\strokec9 tParts\strokec4 [\cf10 \strokec10 1\cf4 \strokec4 ], \cf10 \strokec10 10\cf4 \strokec4 )\cb1 \
+\cb3   );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 // ---------- Accounts ----------\cf4 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 createAccount\strokec4 (\strokec9 body\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Accounts'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 data\strokec4  = \strokec9 sheet\strokec4 .\strokec9 getDataRange\strokec4 ().\strokec9 getValues\strokec4 ();\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 email\strokec4  = \cf7 \strokec7 String\cf4 \strokec4 (\strokec9 body\strokec4 .\strokec9 email\strokec4  || \cf8 \strokec8 ''\cf4 \strokec4 ).\strokec9 trim\strokec4 ().\strokec9 toLowerCase\strokec4 ();\cb1 \
+\
+\cb3   \cf6 \strokec6 if\cf4 \strokec4  (!\strokec9 email\strokec4  || !\strokec9 body\strokec4 .\strokec9 name\strokec4  || !\strokec9 body\strokec4 .\strokec9 pin\strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Missing required fields'\cf4 \strokec4  \});\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \cf6 \strokec6 for\cf4 \strokec4  (\cf6 \strokec6 var\cf4 \strokec4  \strokec9 i\strokec4  = \cf10 \strokec10 1\cf4 \strokec4 ; \strokec9 i\strokec4  < \strokec9 data\strokec4 .\strokec9 length\strokec4 ; \strokec9 i\strokec4 ++) \{\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (\cf7 \strokec7 String\cf4 \strokec4 (\strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 0\cf4 \strokec4 ]).\strokec9 toLowerCase\strokec4 () === \strokec9 email\strokec4 ) \{\cb1 \
+\cb3       \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'An account with this email already exists. Try logging in instead.'\cf4 \strokec4  \});\cb1 \
+\cb3     \}\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \strokec9 sheet\strokec4 .\strokec9 appendRow\strokec4 ([\strokec9 email\strokec4 , \strokec9 body\strokec4 .\strokec9 name\strokec4 , \strokec9 body\strokec4 .\strokec9 phone\strokec4  || \cf8 \strokec8 ''\cf4 \strokec4 , \strokec9 body\strokec4 .\strokec9 pin\strokec4 , \cf6 \strokec6 new\cf4 \strokec4  \cf7 \strokec7 Date\cf4 \strokec4 ()]);\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 true\cf4 \strokec4 , \strokec9 account\strokec4 : \{ \strokec9 email\strokec4 : \strokec9 email\strokec4 , \strokec9 name\strokec4 : \strokec9 body\strokec4 .\strokec9 name\strokec4 , \strokec9 phone\strokec4 : \strokec9 body\strokec4 .\strokec9 phone\strokec4  || \cf8 \strokec8 ''\cf4 \strokec4  \} \});\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 function\cf4 \strokec4  \strokec9 loginAccount\strokec4 (\strokec9 body\strokec4 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 sheet\strokec4  = \strokec9 getSheet\strokec4 (\cf8 \strokec8 'Accounts'\cf4 \strokec4 );\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 data\strokec4  = \strokec9 sheet\strokec4 .\strokec9 getDataRange\strokec4 ().\strokec9 getValues\strokec4 ();\cb1 \
+\cb3   \cf6 \strokec6 var\cf4 \strokec4  \strokec9 email\strokec4  = \cf7 \strokec7 String\cf4 \strokec4 (\strokec9 body\strokec4 .\strokec9 email\strokec4  || \cf8 \strokec8 ''\cf4 \strokec4 ).\strokec9 trim\strokec4 ().\strokec9 toLowerCase\strokec4 ();\cb1 \
+\
+\cb3   \cf6 \strokec6 for\cf4 \strokec4  (\cf6 \strokec6 var\cf4 \strokec4  \strokec9 i\strokec4  = \cf10 \strokec10 1\cf4 \strokec4 ; \strokec9 i\strokec4  < \strokec9 data\strokec4 .\strokec9 length\strokec4 ; \strokec9 i\strokec4 ++) \{\cb1 \
+\cb3     \cf6 \strokec6 if\cf4 \strokec4  (\cf7 \strokec7 String\cf4 \strokec4 (\strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 0\cf4 \strokec4 ]).\strokec9 toLowerCase\strokec4 () === \strokec9 email\strokec4 ) \{\cb1 \
+\cb3       \cf6 \strokec6 if\cf4 \strokec4  (\cf7 \strokec7 String\cf4 \strokec4 (\strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 3\cf4 \strokec4 ]) === \cf7 \strokec7 String\cf4 \strokec4 (\strokec9 body\strokec4 .\strokec9 pin\strokec4 )) \{\cb1 \
+\cb3         \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 true\cf4 \strokec4 , \strokec9 account\strokec4 : \{ \strokec9 email\strokec4 : \strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 0\cf4 \strokec4 ], \strokec9 name\strokec4 : \strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 1\cf4 \strokec4 ], \strokec9 phone\strokec4 : \strokec9 data\strokec4 [\strokec9 i\strokec4 ][\cf10 \strokec10 2\cf4 \strokec4 ] \} \});\cb1 \
+\cb3       \}\cb1 \
+\cb3       \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'Incorrect PIN'\cf4 \strokec4  \});\cb1 \
+\cb3     \}\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf6 \strokec6 return\cf4 \strokec4  \strokec9 jsonOut\strokec4 (\{ \strokec9 ok\strokec4 : \cf6 \strokec6 false\cf4 \strokec4 , \strokec9 error\strokec4 : \cf8 \strokec8 'No account found with that email'\cf4 \strokec4  \});\cb1 \
+\cb3 \}\cb1 \
+}

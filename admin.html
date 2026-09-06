@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Drew Segovia Tutoring</title>
+
+<!-- This page is deliberately not linked from anywhere public and is
+     kept out of search results. Bookmark it for yourself. -->
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F6F3EA;
+    --paper-raised: #FBF9F3;
+    --ink: #1E2B3C;
+    --ink-soft: #4A5568;
+    --ink-faint: #7A8496;
+    --ocean: #2C6E75;
+    --ocean-deep: #1F4E54;
+    --amber: #C98A2B;
+    --line: #D8D2C0;
+    --line-soft: #E8E3D5;
+    --warn: #B5502E;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--sans);
+    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;
+  }
+
+  a { color: inherit; }
+  button { font-family: var(--sans); }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 28px; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--ocean); outline-offset: 3px;
+  }
+
+  header.site-nav { border-bottom: 1px solid var(--line); background: var(--paper); }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 28px; max-width: 820px; margin: 0 auto;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 600; font-size: 14px; flex-shrink: 0;
+  }
+  .brand-text { font-family: var(--serif); font-size: 17px; font-weight: 600; }
+  .brand-text span {
+    display: block; font-family: var(--sans); font-size: 11.5px; font-weight: 600;
+    color: var(--amber); letter-spacing: 0.06em; margin-top: 1px;
+  }
+  .back-link { font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; }
+
+  main { padding: 44px 0 80px; }
+
+  .card {
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 6px;
+    padding: 32px; margin-bottom: 22px;
+  }
+
+  h1.page-title { font-family: var(--serif); font-size: 30px; font-weight: 600; margin-bottom: 8px; }
+  .page-sub { font-size: 15.5px; color: var(--ink-soft); margin-bottom: 30px; max-width: 60ch; }
+
+  h2.card-title { font-family: var(--serif); font-size: 19px; font-weight: 600; margin-bottom: 6px; }
+  .card-sub { font-size: 14px; color: var(--ink-faint); margin-bottom: 22px; }
+
+  .form-field { margin-bottom: 16px; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-field label {
+    display: block; font-size: 13px; font-weight: 600; color: var(--ink-soft); margin-bottom: 6px;
+  }
+  .form-field input {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 5px;
+    font-family: var(--sans); font-size: 15px; background: var(--paper); color: var(--ink);
+  }
+  .form-field input:focus { outline: none; border-color: var(--ocean); }
+  .field-hint { font-size: 12.5px; color: var(--ink-faint); margin-top: 5px; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px; background: var(--ink);
+    color: var(--paper); border: none; padding: 13px 24px; border-radius: 5px;
+    font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s ease;
+  }
+  .btn-primary:hover { background: var(--ocean-deep); }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .btn-secondary {
+    background: transparent; color: var(--ink); border: 1.5px solid var(--line);
+    padding: 8px 16px; border-radius: 5px; font-size: 13.5px; font-weight: 600; cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--ink); }
+
+  .btn-danger {
+    background: transparent; color: var(--warn); border: 1.5px solid #E0B79A;
+    padding: 8px 16px; border-radius: 5px; font-size: 13.5px; font-weight: 600; cursor: pointer;
+  }
+  .btn-danger:hover { background: #F5E5DC; }
+
+  .banner-msg { padding: 12px 16px; border-radius: 5px; font-size: 14px; margin-bottom: 18px; display: none; }
+  .banner-msg.visible { display: block; }
+  .banner-msg.error { background: #F5E5DC; color: var(--warn); border: 1px solid #E0B79A; }
+  .banner-msg.success { background: #E4EEEE; color: var(--ocean-deep); border: 1px solid #BBD8D9; }
+
+  .admin-gate { max-width: 400px; }
+
+  .slot-time { font-family: var(--serif); font-size: 16px; font-weight: 600; }
+  .slot-duration { font-size: 13px; color: var(--ink-faint); margin-top: 2px; }
+  .slot-booked-info { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; margin-top: 4px; }
+  .slot-booked-info strong { color: var(--ink); }
+
+  .admin-slot-item {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+    padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 5px;
+    background: var(--paper); margin-bottom: 8px;
+  }
+
+  .booking-status-tag {
+    display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 3px;
+  }
+  .booking-status-tag.open { color: var(--ocean-deep); background: #E4EEEE; }
+  .booking-status-tag.taken { color: var(--warn); background: #F5E5DC; }
+
+  .empty-state { font-size: 14.5px; color: var(--ink-faint); padding: 20px 0; text-align: center; }
+
+  /* ---------- Leads inbox ---------- */
+  .lead-item {
+    padding: 16px; border: 1.5px solid var(--line); border-radius: 5px;
+    background: var(--paper); margin-bottom: 8px;
+  }
+  .lead-item.new { border-left: 3px solid var(--amber); }
+  .lead-item.done { opacity: 0.55; }
+
+  .lead-top {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    margin-bottom: 8px;
+  }
+  .lead-name { font-family: var(--serif); font-size: 16.5px; font-weight: 600; }
+  .lead-meta { font-size: 13px; color: var(--ink-faint); margin-top: 1px; }
+  .lead-detail { font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; }
+  .lead-detail strong { color: var(--ink); }
+  .lead-weak { color: var(--warn); font-weight: 500; }
+  .lead-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 4px; }
+  .stat-box {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+    padding: 16px; text-align: center;
+  }
+  .stat-value { font-family: var(--serif); font-size: 26px; font-weight: 600; color: var(--ink); }
+  .stat-label { font-size: 12px; color: var(--ink-faint); font-weight: 600; margin-top: 2px; }
+
+  footer {
+    border-top: 1px solid var(--line); padding: 24px 0; font-size: 13px;
+    color: var(--ink-faint); text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .card { padding: 22px 18px; }
+    .form-row-2 { grid-template-columns: 1fr; }
+    .wrap, .nav-inner { padding-left: 18px; padding-right: 18px; }
+    .admin-slot-item, .lead-top { flex-direction: column; align-items: flex-start; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">DS</span>
+      <span class="brand-text">Drew Segovia Tutoring<span>ADMIN</span></span>
+    </a>
+    <a href="booking.html" class="back-link">View public booking page</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="card admin-gate" id="admin-gate-card">
+      <h1 class="page-title">Admin</h1>
+      <p class="card-sub">Enter your passcode to manage availability, see bookings, and work your leads.</p>
+      <div class="banner-msg error" id="admin-gate-error"></div>
+      <div class="form-field">
+        <label for="admin-passcode">Passcode</label>
+        <input type="password" id="admin-passcode" placeholder="Passcode" autocomplete="current-password">
+      </div>
+      <button class="btn-primary" id="btn-admin-unlock">Unlock</button>
+    </div>
+
+    <div id="admin-dashboard" style="display:none;">
+
+      <h1 class="page-title">Admin</h1>
+      <p class="page-sub">
+        Everything below writes straight to your Tutoring Bookings sheet. Parents never see this page.
+      </p>
+
+      <!-- Leads inbox, first because it's the thing that decays -->
+      <div class="card">
+        <h2 class="card-title">Diagnostic leads</h2>
+        <p class="card-sub" id="leads-summary">Loading…</p>
+        <div class="banner-msg error" id="leads-error"></div>
+        <div id="leads-list"><div class="empty-state">Loading…</div></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Add availability</h2>
+        <p class="card-sub">Post an open time any parent can claim. Sessions default to 60 minutes.</p>
+        <div class="banner-msg success" id="add-slot-success"></div>
+        <div class="banner-msg error" id="add-slot-error"></div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label for="add-date">Date</label>
+            <input type="date" id="add-date">
+          </div>
+          <div class="form-field">
+            <label for="add-time">Time</label>
+            <input type="time" id="add-time">
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label for="add-duration">Duration (minutes)</label>
+            <input type="number" id="add-duration" value="60" min="15" step="15">
+          </div>
+          <div class="form-field">
+            <label for="add-repeat">Repeat weekly (optional)</label>
+            <input type="number" id="add-repeat" value="0" min="0" max="12" placeholder="0">
+          </div>
+        </div>
+        <div class="field-hint" style="margin-bottom:16px;">Setting "repeat weekly" to 4, for example, adds this same time slot for the next 4 weeks too.</div>
+        <button class="btn-primary" id="btn-add-slot">Add slot</button>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Book recurring sessions for a client</h2>
+        <p class="card-sub">Reserves the same weekly time directly for one student — booked immediately, not posted as open availability.</p>
+        <div class="banner-msg success" id="recurring-success"></div>
+        <div class="banner-msg error" id="recurring-error"></div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label for="recurring-student-name">Student name</label>
+            <input type="text" id="recurring-student-name" placeholder="Student's name">
+          </div>
+          <div class="form-field">
+            <label for="recurring-parent-name">Parent name</label>
+            <input type="text" id="recurring-parent-name" placeholder="Parent or guardian name">
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label for="recurring-parent-email">Parent email</label>
+            <input type="email" id="recurring-parent-email" placeholder="parent@email.com">
+          </div>
+          <div class="form-field">
+            <label for="recurring-parent-phone">Parent phone (optional)</label>
+            <input type="tel" id="recurring-parent-phone" placeholder="(555) 555-5555">
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label for="recurring-start-date">First session date</label>
+            <input type="date" id="recurring-start-date">
+          </div>
+          <div class="form-field">
+            <label for="recurring-time">Time</label>
+            <input type="time" id="recurring-time">
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label for="recurring-duration">Duration (minutes)</label>
+            <input type="number" id="recurring-duration" value="60" min="15" step="15">
+          </div>
+          <div class="form-field">
+            <label for="recurring-weeks">Number of weeks</label>
+            <input type="number" id="recurring-weeks" value="8" min="1" max="52">
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="recurring-note">Note (optional)</label>
+          <input type="text" id="recurring-note" placeholder="Anything worth remembering about this student/schedule">
+        </div>
+        <div class="field-hint" style="margin-bottom:16px;">Creates one booked session per week, same day/time, for the number of weeks above — e.g. 8 weeks starting Sept 8 books Sept 8, 15, 22... Each shows up below like any other booking and can be canceled individually.</div>
+        <button class="btn-primary" id="btn-add-recurring">Book weekly sessions</button>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Upcoming slots</h2>
+        <p class="card-sub" id="admin-slot-summary">Loading…</p>
+        <div id="admin-slots-list"><div class="empty-state">Loading…</div></div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  Admin · Drew Segovia Tutoring
+</footer>
+
+<script>
+(function () {
+  // Same Web App URL as booking.html — see booking-backend.gs.
+  var API_URL = "https://script.google.com/macros/s/AKfycbw5OoHCt24ruV3ROJGqD_BL8AyhONKxjQLUvPittcgpLv1bNq5HwZG9vnpFbGH7Db7lBg/exec";
+
+  var state = { adminKey: null, slots: [], leads: [] };
+
+  function apiPost(payload) {
+    return fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
+      .then(function (r) { return r.json(); });
+  }
+
+  function showBanner(el, message) { el.textContent = message; el.classList.add('visible'); }
+  function hideBanner(el) { el.classList.remove('visible'); el.textContent = ''; }
+
+  function escapeHtml(s) {
+    var div = document.createElement('div');
+    div.textContent = s == null ? '' : String(s);
+    return div.innerHTML;
+  }
+
+  function formatSlotDate(dateStr) {
+    var parts = String(dateStr).split('-');
+    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  function formatSlotTime(timeStr) {
+    var parts = String(timeStr).split(':');
+    var h = parseInt(parts[0], 10);
+    var m = parts[1];
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12 = h % 12 === 0 ? 12 : h % 12;
+    return h12 + ':' + m + ' ' + ampm;
+  }
+
+  // ---------- Gate ----------
+  document.getElementById('btn-admin-unlock').addEventListener('click', unlock);
+  document.getElementById('admin-passcode').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') unlock();
+  });
+
+  function unlock() {
+    var errEl = document.getElementById('admin-gate-error');
+    hideBanner(errEl);
+    var passcode = document.getElementById('admin-passcode').value.trim();
+    if (!passcode) {
+      showBanner(errEl, 'Enter your passcode.');
+      return;
+    }
+
+    // The passcode is verified server-side. adminList is an
+    // authenticated read, so a wrong passcode fails here rather than
+    // revealing the dashboard and failing later on a write.
+    apiPost({ action: 'adminList', adminKey: passcode }).then(function (res) {
+      if (!res.ok) {
+        showBanner(errEl, res.error === 'Not authorized' ? 'Wrong passcode.' : (res.error || 'Could not unlock.'));
+        return;
+      }
+      state.adminKey = passcode;
+      state.slots = res.slots || [];
+      state.leads = res.leads || [];
+      document.getElementById('admin-gate-card').style.display = 'none';
+      document.getElementById('admin-dashboard').style.display = 'block';
+      renderAdminSlots();
+      renderLeads();
+    }).catch(function () {
+      showBanner(errEl, 'Could not reach the backend. Check your internet connection.');
+    });
+  }
+
+  function refreshAll() {
+    return apiPost({ action: 'adminList', adminKey: state.adminKey }).then(function (res) {
+      if (!res.ok) return;
+      state.slots = res.slots || [];
+      state.leads = res.leads || [];
+      renderAdminSlots();
+      renderLeads();
+    });
+  }
+
+  // ---------- Leads ----------
+  function renderLeads() {
+    var container = document.getElementById('leads-list');
+    var summary = document.getElementById('leads-summary');
+    var leads = state.leads;
+
+    var uncontacted = leads.filter(function (l) { return !l.contacted; });
+    summary.textContent = leads.length === 0
+      ? 'No diagnostic leads yet.'
+      : uncontacted.length + ' waiting on you · ' + leads.length + ' total. Newest first.';
+
+    if (leads.length === 0) {
+      container.innerHTML =
+        '<div class="empty-state">Nothing yet. Leads land here when someone finishes the ' +
+        'diagnostic and asks for a study plan.</div>';
+      return;
+    }
+
+    container.innerHTML = '';
+    leads.forEach(function (lead) {
+      var item = document.createElement('div');
+      item.className = 'lead-item ' + (lead.contacted ? 'done' : 'new');
+
+      var email = lead.parentEmail || lead.studentEmail || '';
+      var top = document.createElement('div');
+      top.className = 'lead-top';
+      top.innerHTML =
+        '<div>' +
+          '<div class="lead-name">' + escapeHtml(lead.studentName) + '</div>' +
+          '<div class="lead-meta">' + escapeHtml(lead.category || '') +
+            (lead.gradeOrCourse ? ' · ' + escapeHtml(lead.gradeOrCourse) : '') +
+            ' · ' + escapeHtml(lead.timestamp || '') + '</div>' +
+        '</div>';
+
+      var actions = document.createElement('div');
+      actions.className = 'lead-actions';
+
+      if (email) {
+        var mailBtn = document.createElement('a');
+        mailBtn.className = 'btn-secondary';
+        mailBtn.textContent = 'Email';
+        mailBtn.href = buildFollowUpMailto(lead, email);
+        actions.appendChild(mailBtn);
+      }
+
+      var doneBtn = document.createElement('button');
+      doneBtn.className = 'btn-secondary';
+      doneBtn.textContent = lead.contacted ? 'Mark unhandled' : 'Mark contacted';
+      doneBtn.addEventListener('click', function () {
+        doneBtn.disabled = true;
+        apiPost({
+          action: 'markLeadContacted',
+          rowIndex: lead.rowIndex,
+          contacted: !lead.contacted,
+          adminKey: state.adminKey
+        }).then(function (res) {
+          if (res.ok) refreshAll();
+          else { doneBtn.disabled = false; alert(res.error || 'Could not update.'); }
+        }).catch(function () {
+          doneBtn.disabled = false;
+          alert('Could not reach the backend.');
+        });
+      });
+      actions.appendChild(doneBtn);
+      top.appendChild(actions);
+      item.appendChild(top);
+
+      var detail = document.createElement('div');
+      detail.className = 'lead-detail';
+      detail.innerHTML =
+        (email ? '<strong>' + escapeHtml(email) + '</strong>' : '<em>no email</em>') +
+        (lead.phone ? ' · ' + escapeHtml(lead.phone) : '') + '<br>' +
+        'Score: <strong>' + escapeHtml(lead.score || 'n/a') + '</strong><br>' +
+        'Needs work: <span class="lead-weak">' +
+          escapeHtml(lead.weakSkills || 'none — strong across the board') + '</span>';
+      item.appendChild(detail);
+
+      container.appendChild(item);
+    });
+  }
+
+  /**
+   * Pre-writes the follow-up email so replying to a fresh lead is one
+   * click and a quick edit rather than a blank page. Speed of reply is
+   * the single biggest factor in whether a diagnostic lead converts.
+   */
+  function buildFollowUpMailto(lead, email) {
+    var weak = lead.weakSkills || '';
+    var subject = 'Your ' + (lead.category || 'diagnostic') + ' results — next steps';
+    var body =
+      'Hi ' + (lead.studentName || 'there') + ',\n\n' +
+      'Thanks again for taking the diagnostic. I looked through your answers — here\'s what I\'d focus on first.\n\n' +
+      (weak ? 'Where the gaps are: ' + weak + '\n\n' : '') +
+      'What I\'d suggest:\n' +
+      '  1. \n' +
+      '  2. \n' +
+      '  3. \n\n' +
+      'If it\'d help to work through these together, you can grab a free 20-minute intro call here — ' +
+      'no cost, no commitment:\n' +
+      'https://segoviaa1.github.io/segovia_tutoring/booking.html\n\n' +
+      'Either way, happy to answer questions by email.\n\n' +
+      'Best,\n' +
+      'Drew Segovia\n' +
+      'Math & Physics Tutoring\n' +
+      '(732) 540-0177';
+    return 'mailto:' + email + '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+  }
+
+  // ---------- Availability ----------
+  document.getElementById('btn-add-slot').addEventListener('click', function () {
+    var errEl = document.getElementById('add-slot-error');
+    var okEl = document.getElementById('add-slot-success');
+    hideBanner(errEl);
+    hideBanner(okEl);
+
+    var date = document.getElementById('add-date').value;
+    var time = document.getElementById('add-time').value;
+    var duration = parseInt(document.getElementById('add-duration').value, 10) || 60;
+    var repeat = parseInt(document.getElementById('add-repeat').value, 10) || 0;
+
+    if (!date || !time) {
+      showBanner(errEl, 'Pick a date and time.');
+      return;
+    }
+
+    var datesToAdd = [date];
+    var base = new Date(date + 'T00:00:00');
+    for (var w = 1; w <= repeat; w++) {
+      var next = new Date(base);
+      next.setDate(next.getDate() + (7 * w));
+      var y = next.getFullYear();
+      var mo = ('0' + (next.getMonth() + 1)).slice(-2);
+      var da = ('0' + next.getDate()).slice(-2);
+      datesToAdd.push(y + '-' + mo + '-' + da);
+    }
+
+    var requests = datesToAdd.map(function (d) {
+      return apiPost({ action: 'addSlot', date: d, time: time, duration: duration, adminKey: state.adminKey });
+    });
+
+    Promise.all(requests).then(function (results) {
+      var failed = results.filter(function (r) { return !r.ok; });
+      if (failed.length > 0) {
+        showBanner(errEl, failed[0].error || 'Some slots could not be added. Check your passcode.');
+      } else {
+        showBanner(okEl, datesToAdd.length > 1 ? datesToAdd.length + ' slots added.' : 'Slot added.');
+      }
+      refreshAll();
+    });
+  });
+
+  document.getElementById('btn-add-recurring').addEventListener('click', function () {
+    var errEl = document.getElementById('recurring-error');
+    var okEl = document.getElementById('recurring-success');
+    hideBanner(errEl);
+    hideBanner(okEl);
+
+    var studentName = document.getElementById('recurring-student-name').value.trim();
+    var parentName = document.getElementById('recurring-parent-name').value.trim();
+    var parentEmail = document.getElementById('recurring-parent-email').value.trim();
+    var parentPhone = document.getElementById('recurring-parent-phone').value.trim();
+    var startDate = document.getElementById('recurring-start-date').value;
+    var time = document.getElementById('recurring-time').value;
+    var duration = parseInt(document.getElementById('recurring-duration').value, 10) || 60;
+    var weeks = parseInt(document.getElementById('recurring-weeks').value, 10) || 0;
+    var note = document.getElementById('recurring-note').value.trim();
+
+    if (!studentName || !parentName || !parentEmail) {
+      showBanner(errEl, 'Student name, parent name, and parent email are required.');
+      return;
+    }
+    if (!startDate || !time) {
+      showBanner(errEl, 'Pick a first session date and time.');
+      return;
+    }
+    if (weeks < 1) {
+      showBanner(errEl, 'Number of weeks must be at least 1.');
+      return;
+    }
+
+    var btn = document.getElementById('btn-add-recurring');
+    btn.disabled = true;
+
+    apiPost({
+      action: 'addRecurringBooking',
+      studentName: studentName, parentName: parentName, parentEmail: parentEmail,
+      parentPhone: parentPhone, startDate: startDate, time: time,
+      duration: duration, weeks: weeks, note: note, adminKey: state.adminKey
+    }).then(function (res) {
+      btn.disabled = false;
+      if (!res.ok) {
+        showBanner(errEl, res.error || 'Could not create recurring sessions. Check your passcode.');
+        return;
+      }
+      showBanner(okEl, (res.count || weeks) + ' weekly sessions booked for ' + studentName + '.');
+      ['recurring-student-name', 'recurring-parent-name', 'recurring-parent-email',
+       'recurring-parent-phone', 'recurring-note'].forEach(function (id) {
+        document.getElementById(id).value = '';
+      });
+      refreshAll();
+    }).catch(function () {
+      btn.disabled = false;
+      showBanner(errEl, 'Something went wrong. Please try again.');
+    });
+  });
+
+  function renderAdminSlots() {
+    var container = document.getElementById('admin-slots-list');
+    var summary = document.getElementById('admin-slot-summary');
+    var sorted = state.slots.slice().sort(function (a, b) {
+      return String(a.date + a.time).localeCompare(String(b.date + b.time));
+    });
+
+    var openCount = sorted.filter(function (s) { return !s.booked; }).length;
+    var bookedCount = sorted.filter(function (s) { return s.booked; }).length;
+    summary.textContent = openCount + ' open · ' + bookedCount + ' booked';
+
+    if (sorted.length === 0) {
+      container.innerHTML = '<div class="empty-state">No slots added yet.</div>';
+      return;
+    }
+
+    container.innerHTML = '';
+    sorted.forEach(function (s) {
+      var item = document.createElement('div');
+      item.className = 'admin-slot-item';
+
+      var info = document.createElement('div');
+      if (s.booked) {
+        info.innerHTML =
+          '<div class="slot-time">' + formatSlotDate(s.date) + ' — ' + formatSlotTime(s.time) +
+            ' <span class="booking-status-tag taken">Booked</span></div>' +
+          '<div class="slot-booked-info">' +
+            '<strong>' + escapeHtml(s.studentName || 'Student') + '</strong> · parent: ' +
+              escapeHtml(s.parentName) + '<br>' +
+            escapeHtml(s.parentEmail) + (s.parentPhone ? ' · ' + escapeHtml(s.parentPhone) : '') +
+            (s.note ? '<br>Note: ' + escapeHtml(s.note) : '') +
+          '</div>';
+      } else {
+        info.innerHTML =
+          '<div class="slot-time">' + formatSlotDate(s.date) + ' — ' + formatSlotTime(s.time) +
+            ' <span class="booking-status-tag open">Open</span></div>' +
+          '<div class="slot-duration">' + s.duration + ' minutes</div>';
+      }
+      item.appendChild(info);
+
+      var actionBtn = document.createElement('button');
+      actionBtn.className = 'btn-danger';
+      actionBtn.textContent = s.booked ? 'Cancel booking' : 'Delete slot';
+      actionBtn.addEventListener('click', function () {
+        if (!confirm(s.booked ? 'Cancel this booking?' : 'Delete this open slot?')) return;
+        var req = s.booked
+          ? apiPost({ action: 'cancelBooking', id: s.id, adminKey: state.adminKey })
+          : apiPost({ action: 'deleteSlot', id: s.id, adminKey: state.adminKey });
+        req.then(function (res) {
+          if (res.ok) refreshAll();
+          else alert(res.error || 'Could not complete that action.');
+        });
+      });
+      item.appendChild(actionBtn);
+
+      container.appendChild(item);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
